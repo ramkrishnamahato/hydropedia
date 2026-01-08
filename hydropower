@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hydropower Projects of Nepal</title>
+
+<!-- Leaflet Map -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- CSV Parser -->
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<style>
+body {font-family: Arial, sans-serif;}
+input, select {padding:6px; margin:5px;}
+table {border-collapse: collapse; width:100%;}
+th, td {border:1px solid #ccc; padding:6px; text-align:left;}
+tr:hover {background:#f2f2f2; cursor:pointer;}
+#map {height:420px; margin:10px 0;}
+#summary {margin:10px 0; font-weight:bold;}
+</style>
+</head>
+
+<body>
+
+<h2>Hydropower Projects of Nepal (DOED Format)</h2>
+
+<input type="text" id="search" placeholder="Search project, river, district">
+
+<select id="status">
+  <option value="">All Status</option>
+  <option value="Survey Licensed">Survey Licensed</option>
+  <option value="Under Construction">Under Construction</option>
+  <option value="Operational">Operational</option>
+</select>
+
+<select id="province">
+  <option value="">All Provinces</option>
+  <option>Bagmati</option>
+  <option>Gandaki</option>
+  <option>Koshi</option>
+  <option>Lumbini</option>
+  <option>Karnali</option>
+  <option>Sudurpashchim</option>
+</select>
+
+<div id="summary"></div>
+
+<div id="map"></div>
+
+<table>
+<thead>
+<tr>
+<th>Project Name</th>
+<th>Capacity (MW)</th>
+<th>River</th>
+<th>District</th>
+<th>Province</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody id="table"></tbody>
+</table>
+
+<script>
+let data=[], map, markers=[];
+
+map = L.map("map").setView([28.3949,84.1240],7);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+
+Papa.parse("/data/hydropower_nepal.csv", {
+ download:true,
+ header:true,
+ complete:r=>{
+  data=r.data.filter(d=>d.name);
+  render();
+ }
+});
+
+function render(){
+ let s=document.getElementById("search").value.toLowerCase();
+ let f=document.getElementById("status").value;
+ let p=document.getElementById("province").value;
+ let body=document.getElementById("table");
+ body.innerHTML="";
+ markers.forEach(m=>map.removeLayer(m));
+ markers=[];
+
+ let totals={};
+
+ data.filter(d=>
+  (!f || d.status===f) &&
+  (!p || d.province===p) &&
+  Object.values(d).join(" ").toLowerCase().includes(s)
+ ).forEach(d=>{
+  body.innerHTML+=`
+  <tr onclick="zoom(${d.latitude},${d.longitude})">
+   <td>${d.name}</td>
+   <td>${d.capacity_mw}</td>
+   <td>${d.river}</td>
+   <td>${d.district}</td>
+   <td>${d.province}</td>
+   <td>${d.status}</td>
+  </tr>`;
+
+  if(d.latitude && d.longitude){
+   let m=L.marker([+d.latitude,+d.longitude])
+    .addTo(map)
+    .bindPopup(`<b>${d.name}</b><br>${d.capacity_mw} MW`);
+   markers.push(m);
+  }
+
+  totals[d.status]=(totals[d.status]||0)+(+d.capacity_mw||0);
+ });
+
+ document.getElementById("summary").innerHTML=
+  Object.entries(totals)
+   .map(([k,v])=>`${k}: ${v.toFixed(1)} MW`)
+   .join(" | ");
+}
+
+function zoom(lat,lng){
+ if(!lat || !lng) return;
+ map.setView([+lat,+lng],12);
+}
+
+document.getElementById("search").oninput=render;
+document.getElementById("status").onchange=render;
+document.getElementById("province").onchange=render;
+</script>
+
+</body>
+</html>
