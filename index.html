@@ -1,320 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ramkrishna Mahato | Civil Engineer Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #1a3a5f; /* Professional Navy */
-            --secondary-color: #2a9d8f; /* Engineering Green/Teal */
-            --text-dark: #333;
-            --text-light: #f4f4f4;
-            --bg-light: #ffffff;
-            --bg-alt: #f8f9fa;
-        }
+<meta charset="UTF-8">
+<title>Hydropower Projects of Nepal</title>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<!-- Leaflet Map -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-        body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            color: var(--text-dark);
-            background-color: var(--bg-light);
-        }
+<!-- CSV Parser -->
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
-        /* Navigation */
-        nav {
-            background: var(--primary-color);
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        nav .logo { color: white; font-weight: 700; font-size: 1.2rem; }
-
-        nav ul { display: flex; list-style: none; }
-
-        nav ul li { margin-left: 20px; }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover { color: var(--secondary-color); }
-
-        /* Hero Section */
-        #home {
-            height: 100vh;
-            background: linear-gradient(rgba(26, 58, 95, 0.8), rgba(26, 58, 95, 0.8)), 
-                        url('https://via.placeholder.com/1920x1080') no-repeat center center/cover;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        #home h1 { font-size: 3.5rem; margin-bottom: 0.5rem; }
-        #home h2 { font-weight: 300; font-size: 1.5rem; margin-bottom: 1.5rem; }
-
-        .btn {
-            background: var(--secondary-color);
-            color: white;
-            padding: 12px 30px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-
-        .btn:hover { background: #21867a; }
-
-        /* Section Styling */
-        section { padding: 80px 10%; }
-        h3.section-title {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 40px;
-            color: var(--primary-color);
-            position: relative;
-        }
-
-        /* About Section */
-        .about-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .about-info ul { list-style: none; margin-top: 20px; }
-        .about-info ul li { margin-bottom: 10px; }
-        .about-info b { color: var(--primary-color); }
-
-        /* Resume/Experience */
-        .resume-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .resume-card {
-            background: var(--bg-alt);
-            padding: 25px;
-            border-left: 5px solid var(--secondary-color);
-            margin-bottom: 20px;
-        }
-        .date { font-weight: 700; color: var(--secondary-color); font-size: 0.9rem; }
-
-        /* Skills */
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-        .skill-category { background: white; border: 1px solid #ddd; padding: 20px; border-radius: 8px; }
-        .skill-category h4 { margin-bottom: 15px; color: var(--primary-color); }
-
-        /* Projects */
-        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-        .project-card {
-            border: 1px solid #eee;
-            border-radius: 8px;
-            overflow: hidden;
-            background: white;
-            transition: transform 0.3s;
-        }
-        .project-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .project-content { padding: 20px; }
-        .project-content h5 { margin-bottom: 10px; color: var(--primary-color); font-size: 1.1rem; }
-
-        /* Contact */
-        #contact { background: var(--bg-alt); text-align: center; }
-        .contact-details { display: flex; justify-content: center; gap: 50px; flex-wrap: wrap; margin-top: 30px; }
-        .contact-item h5 { color: var(--primary-color); margin-bottom: 5px; }
-
-        footer {
-            background: var(--primary-color);
-            color: white;
-            text-align: center;
-            padding: 20px;
-            font-size: 0.8rem;
-        }
-
-        @media (max-width: 768px) {
-            .about-container, .resume-grid { grid-template-columns: 1fr; }
-            #home h1 { font-size: 2.5rem; }
-            nav ul { display: none; }
-        }
-    </style>
+<style>
+body {font-family: Arial, sans-serif;}
+input, select {padding:6px; margin:5px;}
+table {border-collapse: collapse; width:100%;}
+th, td {border:1px solid #ccc; padding:6px; text-align:left;}
+tr:hover {background:#f2f2f2; cursor:pointer;}
+#map {height:420px; margin:10px 0;}
+#summary {margin:10px 0; font-weight:bold;}
+</style>
 </head>
+
 <body>
 
-    <nav>
-        <div class="logo">RM PORTFOLIO</div>
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#resume">Resume</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
+<h2>Hydropower Projects of Nepal (DOED Format)</h2>
 
-    <!-- Home Section -->
-    <header id="home">
-        <h2>NAMASTE!</h2>
-        <h1>I'm Ramkrishna Mahato</h1>
-        <h2>Civil Engineer | Hydropower Specialist</h2>
-        <a href="#" class="btn">Download CV</a>
-    </header>
+<input type="text" id="search" placeholder="Search project, river, district">
 
-    <!-- About Section -->
-    <section id="about">
-        <h3 class="section-title">About Me</h3>
-        <div class="about-container">
-            <div>
-                <p>I am a dedicated <b>Civil Engineer</b> with a strong foundation in hydropower and infrastructure development, specializing in site supervision, construction monitoring, and quality assurance [1]. I have hands-on experience coordinating with contractors, local stakeholders, and government authorities to ensure timely and sustainable project delivery [1].</p>
-                <p style="margin-top: 15px;">Driven by a passion for resilient infrastructure, I value teamwork, accountability, and integrity in every project I contribute to [1].</p>
-            </div>
-            <div class="about-info">
-                <ul>
-                    <li><b>Industry:</b> Hydropower [1]</li>
-                    <li><b>Domain:</b> Structure, Highway, Hydropower & Disaster Management [2]</li>
-                    <li><b>Education:</b> Bachelor of Engineering [2]</li>
-                    <li><b>Languages:</b> English, Nepali, Maithili, Hindi [2]</li>
-                    <li><b>Location:</b> Kathmandu, Nepal [1]</li>
-                </ul>
-            </div>
-        </div>
-    </section>
+<select id="status">
+  <option value="">All Status</option>
+  <option value="Survey Licensed">Survey Licensed</option>
+  <option value="Under Construction">Under Construction</option>
+  <option value="Operational">Operational</option>
+</select>
 
-    <!-- Resume Section -->
-    <section id="resume" style="background-color: var(--bg-alt);">
-        <h3 class="section-title">Professional Journey</h3>
-        <div class="resume-grid">
-            <div>
-                <h4>Work Experience</h4>
-                <div class="resume-card">
-                    <span class="date">Jun 2025 - Present</span>
-                    <h5>Civil Engineer</h5>
-                    <p>Green Gorkha Energy Limited | Upper Daraundi HPP [3]</p>
-                </div>
-                <div class="resume-card">
-                    <span class="date">2022 - 2023</span>
-                    <h5>Civil Intern Engineer</h5>
-                    <p>MV Dugar Hydro Division | Likhu-1 HEP [3]</p>
-                    <ul style="font-size: 0.85rem; margin-top: 10px; padding-left: 15px;">
-                        <li>Supervision of trench weir construction [3]</li>
-                        <li>Seepage control for tunnels and collection pools [3]</li>
-                        <li>Quality control for shotcreting and cement grouting [3]</li>
-                    </ul>
-                </div>
-            </div>
-            <div>
-                <h4>Education</h4>
-                <div class="resume-card">
-                    <span class="date">2018 - 2022</span>
-                    <h5>Bachelor in Civil Engineering</h5>
-                    <p>Kathmandu University | First Class [4]</p>
-                </div>
-                <div class="resume-card">
-                    <span class="date">2015 - 2017</span>
-                    <h5>Higher Secondary School</h5>
-                    <p>Prasadi Academy | First Class Distinction [5]</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<select id="province">
+  <option value="">All Provinces</option>
+  <option>Bagmati</option>
+  <option>Gandaki</option>
+  <option>Koshi</option>
+  <option>Lumbini</option>
+  <option>Karnali</option>
+  <option>Sudurpashchim</option>
+</select>
 
-    <!-- Skills Section -->
-    <section id="skills">
-        <h3 class="section-title">Technical Expertise</h3>
-        <div class="skills-grid">
-            <div class="skill-category">
-                <h4>Software Skills</h4>
-                <p>Revit, SW Road, Smart Road, MS Project, InfraWorks [2]</p>
-            </div>
-            <div class="skill-category">
-                <h4>Technical Skills</h4>
-                <p>MS Office, Project Management, BBS, Estimation & Costing [2]</p>
-            </div>
-        </div>
-    </section>
+<div id="summary"></div>
 
-    <!-- Projects Section -->
-    <section id="projects" style="background-color: var(--bg-alt);">
-        <h3 class="section-title">Featured Projects</h3>
-        <div class="project-grid">
-            <div class="project-card">
-                <div class="project-content">
-                    <h5>Hydroelectric Potential of Chepe River</h5>
-                    <p style="font-size: 0.85rem;">Designed headworks, tunnels, penstocks, and performed feasibility and costing analysis [5].</p>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-content">
-                    <h5>Concrete Performance Research</h5>
-                    <p style="font-size: 0.85rem;">Experimental study on fine aggregate replacement by glass powder [5, 6].</p>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-content">
-                    <h5>Baneshwor Flyover Model</h5>
-                    <p style="font-size: 0.85rem;">Designed a demonstrative model to reduce traffic congestion at New Baneshwor [6].</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<div id="map"></div>
 
-    <!-- Works Section -->
-    <section id="works">
-        <h3 class="section-title">Field Work & Surveying</h3>
-        <div class="project-grid">
-            <div class="project-card">
-                <div class="project-content">
-                    <h5>Municipal Drawings</h5>
-                    <p style="font-size: 0.85rem;">Location plans, elevations, and structural detailing [7].</p>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-content">
-                    <h5>Alignment Surveying</h5>
-                    <p style="font-size: 0.85rem;">Road and bridge alignment survey in Panauti using differential leveling [7].</p>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-content">
-                    <h5>Topography Mapping</h5>
-                    <p style="font-size: 0.85rem;">Survey of Kathmandu University premises including International Girls Hostel area [7].</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<table>
+<thead>
+<tr>
+<th>Project Name</th>
+<th>Capacity (MW)</th>
+<th>River</th>
+<th>District</th>
+<th>Province</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody id="table"></tbody>
+</table>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <h3 class="section-title">Get In Touch</h3>
-        <p>I am always open to exploring impactful opportunities in civil engineering [2].</p>
-        <div class="contact-details">
-            <div class="contact-item">
-                <h5>Address</h5>
-                <p>Kathmandu, Nepal [1, 8]</p>
-            </div>
-            <div class="contact-item">
-                <h5>Phone</h5>
-                <p>+977 9862935904 [8]</p>
-            </div>
-            <div class="contact-item">
-                <h5>Email</h5>
-                <p>ramkrishnamahato@example.com</p> <!-- Used as a professional placeholder from sources [8] -->
-            </div>
-        </div>
-        <div style="margin-top: 40px;">
-            <a href="https://linkedin.com" class="btn">Connect on LinkedIn</a>
-        </div>
-    </section>
+<script>
+let data=[], map, markers=[];
 
-    <footer>
-        <p>&copy; 2023 Ramkrishna Mahato. Civil Engineer Portfolio. [1, 2]</p>
-    </footer>
+map = L.map("map").setView([28.3949,84.1240],7);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+
+Papa.parse("/data/hydropower_nepal.csv", {
+ download:true,
+ header:true,
+ complete:r=>{
+  data=r.data.filter(d=>d.name);
+  render();
+ }
+});
+
+function render(){
+ let s=document.getElementById("search").value.toLowerCase();
+ let f=document.getElementById("status").value;
+ let p=document.getElementById("province").value;
+ let body=document.getElementById("table");
+ body.innerHTML="";
+ markers.forEach(m=>map.removeLayer(m));
+ markers=[];
+
+ let totals={};
+
+ data.filter(d=>
+  (!f || d.status===f) &&
+  (!p || d.province===p) &&
+  Object.values(d).join(" ").toLowerCase().includes(s)
+ ).forEach(d=>{
+  body.innerHTML+=`
+  <tr onclick="zoom(${d.latitude},${d.longitude})">
+   <td>${d.name}</td>
+   <td>${d.capacity_mw}</td>
+   <td>${d.river}</td>
+   <td>${d.district}</td>
+   <td>${d.province}</td>
+   <td>${d.status}</td>
+  </tr>`;
+
+  if(d.latitude && d.longitude){
+   let m=L.marker([+d.latitude,+d.longitude])
+    .addTo(map)
+    .bindPopup(`<b>${d.name}</b><br>${d.capacity_mw} MW`);
+   markers.push(m);
+  }
+
+  totals[d.status]=(totals[d.status]||0)+(+d.capacity_mw||0);
+ });
+
+ document.getElementById("summary").innerHTML=
+  Object.entries(totals)
+   .map(([k,v])=>`${k}: ${v.toFixed(1)} MW`)
+   .join(" | ");
+}
+
+function zoom(lat,lng){
+ if(!lat || !lng) return;
+ map.setView([+lat,+lng],12);
+}
+
+document.getElementById("search").oninput=render;
+document.getElementById("status").onchange=render;
+document.getElementById("province").onchange=render;
+</script>
 
 </body>
 </html>
