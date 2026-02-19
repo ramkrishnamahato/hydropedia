@@ -1,186 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Civilopedia</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Leaflet & CSV Parser -->
+    <title>Ramkrishna Mahato | Nepal Hydropower Knowledge Hub</title>
+    <!-- CSS and Libraries -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root { --primary: #1a3a5f; --accent: #2a9d8f; --bg: #f4f7f6; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; }
-        header { background: var(--primary); color: white; padding: 20px 5%; text-align: center; }
-        
-        .controls { 
-            background: white; margin: 20px 5%; padding: 20px; border-radius: 8px; 
-            display: flex; flex-wrap: wrap; gap: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-        input, select { padding: 12px; border: 1px solid #ddd; border-radius: 5px; flex: 1; min-width: 200px; }
-
-        #map { height: 500px; margin: 0 5% 20px; border-radius: 8px; border: 1px solid #ddd; z-index: 1; }
-
-        .table-container { margin: 0 5% 40px; background: white; border-radius: 8px; overflow-x: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        table { width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 1300px; }
-        th { background: var(--primary); color: white; padding: 12px; text-align: left; position: sticky; top: 0; }
-        td { padding: 10px; border-bottom: 1px solid #eee; }
-        tr:hover { background: #f1f7f6; cursor: pointer; }
-        
-        .status-badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; }
+        :root { --navy: #1a3a5f; --teal: #2a9d8f; --light: #f4f7f6; }
+        body { font-family: 'Inter', sans-serif; margin: 0; background: var(--light); color: #333; line-height: 1.6; }
+        nav { background: var(--navy); padding: 1rem 5%; display: flex; justify-content: space-between; position: fixed; width: 90%; top: 0; z-index: 1000; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; font-weight: 600; font-size: 0.9rem; }
+        .hero { height: 80vh; background: linear-gradient(rgba(26,58,95,0.8), rgba(26,58,95,0.8)), url('hydro-bg.jpg'); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        section { padding: 80px 10%; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .badge { background: var(--teal); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Hydropower Projects of Nepal</h1>
-    <!-- <p>DOED Format Dashboard | Developed by Ramkrishna Mahato, Civil Engineer</p> -->
+<nav>
+    <div style="color: white; font-weight: bold;">ENGINEERING GYAN</div>
+    <div>
+        <a href="#about">About</a>
+        <a href="#dashboard">Live Dashboard</a>
+        <a href="#site-guides">Site Resources</a>
+        <a href="#research">Research</a>
+        <a href="#contact">Contact</a>
+    </div>
+</nav>
+
+<!-- Hero Section [1] -->
+<header class="hero">
+    <h2>NAMASTE!</h2>
+    <h1>I'm Ramkrishna Mahato</h1>
+    <p>Civil Engineer | Hydropower Specialist | Research Analyst</p>
+    <a href="#dashboard" style="background: var(--teal); color: white; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: bold;">Explore Nepal's Hydropower</a>
 </header>
 
-<div class="controls">
-    <select id="workbook-filter">
-        <option value="">Select Workbook (All Sheets)</option>
-        <option value="Survey Licensed">Survey Licensed</option>
-        <option value="Under Construction">Under Construction</option>
-        <option value="Operational">Operational</option>
-    </select>
-    <input type="text" id="search-input" placeholder="Search Project, River, Promoter, or District...">
-</div>
+<!-- Interactive Dashboard Section (The "Thing") -->
+<section id="dashboard">
+    <h2 style="text-align: center; color: var(--navy);">Nepal Hydropower Analytics</h2>
+    <p style="text-align: center;">Real-time visualization of DOED project data and financial insights.</p>
+    <div id="map" style="height: 400px; border-radius: 10px; margin-bottom: 20px;"></div>
+    <!-- Analytical Data Cards [2] -->
+    <div class="grid">
+        <div class="card"><h3>Total Projects</h3><div id="count">0+</div></div>
+        <div class="card"><h3>Current Role</h3><p>Civil Engineer at <strong>Upper Daraundi HPP</strong> [3]</p></div>
+        <div class="card"><h3>Key Sector</h3><p>Hydropower & Disaster Management [4]</p></div>
+    </div>
+</section>
 
-<div id="map"></div>
+<!-- Field Experience & Site Supervision [3][5] -->
+<section id="site-guides" style="background: white;">
+    <h2 style="color: var(--navy);">Site Supervision & Practical Guides</h2>
+    <p>Lessons from the field: Trench weirs, Tunneling, and Quality Control.</p>
+    <div class="grid">
+        <div class="card">
+            <span class="badge">Technical Guide</span>
+            <h3>Tunneling & Grouting</h3>
+            <p>Practical insights into shotcreting and cement grouting from <strong>Likhu-1 HEP</strong> site supervision [3].</p>
+        </div>
+        <div class="card">
+            <span class="badge">Documentation</span>
+            <h3>Bar Bending Schedules (BBS)</h3>
+            <p>Standardized BBS for residential and industrial structures [5].</p>
+        </div>
+        <div class="card">
+            <span class="badge">Field Work</span>
+            <h3>Alignment & Topography</h3>
+            <p>Surveying methodologies used in Panauti and KU Premises [5].</p>
+        </div>
+    </div>
+</section>
 
-<div class="table-container">
-    <table>
-        <thead>
-            <tr>
-                <th>S No</th>
-                <th>Project</th>
-                <th>Capacity (MW)</th>
-                <th>River</th>
-                <th>Lic No</th>
-                <th>Issue Date</th>
-                <th>Validity</th>
-                <th>Promoter</th>
-                <th>Address</th>
-                <th>Latitude N</th>
-                <th>Longitude E</th>
-                <th>VDC/District</th>
-            </tr>
-        </thead>
-        <tbody id="table-body"></tbody>
-    </table>
-</div>
+<!-- Research & Innovation [6][7][2] -->
+<section id="research">
+    <h2 style="color: var(--navy);">Engineering Gyan: Research & Articles</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>Chepe River Study</h3>
+            <p>Feasibility and design of headworks, tunnels, and penstocks [6].</p>
+        </div>
+        <div class="card">
+            <h3>Concrete Innovation</h3>
+            <p>Study on glass powder as a partial replacement for fine aggregate in concrete [6, 7].</p>
+        </div>
+        <div class="card">
+            <h3>Flyover Demonstrative Model</h3>
+            <p>Design solution for traffic congestion at New Baneshwor intersection [7].</p>
+        </div>
+    </div>
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="https://www.researchgate.net" style="color: var(--navy); font-weight: bold;">View more on ResearchGate [2]</a>
+    </div>
+</section>
 
-<script>
-let rawData = [], map, markers = [], boundaryLayer;
+<!-- Leadership & Community Impact [8][9] -->
+<section id="leadership" style="background: #e9ecef;">
+    <h2 style="color: var(--navy);">Leadership & Impact</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>KU Youth Red Cross Circle</h3>
+            <p>Former President: Led blood donation, PFA training, and emergency response initiatives [3, 8].</p>
+        </div>
+        <div class="card">
+            <h3>Sankalpa Engineering Expo</h3>
+            <p>Administrator: Coordinated panel discussions and innovative project demonstrations [8, 9].</p>
+        </div>
+    </div>
+</section>
 
-// Initialize Map
-map = L.map("map").setView([28.3949, 84.1240], 7);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: '© OpenStreetMap contributors'
-}).addTo(map);
+<!-- Contact Section [2] -->
+<section id="contact">
+    <h2 style="text-align: center; color: var(--navy);">Get In Touch</h2>
+    <div class="grid" style="max-width: 800px; margin: auto;">
+        <div class="card">
+            <p><strong>Location:</strong> Kathmandu, Nepal [1]</p>
+            <p><strong>Phone:</strong> +977 9862935904 [2]</p>
+            <p><strong>Email:</strong> [email protected] [2]</p>
+        </div>
+    </div>
+</section>
 
-// Fetch CSV Data
-const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTvwf-HpJkJ55xmAU623qEZPc6rzudFF9IuuLym_sFt6Dh1Xs4mTqeCo9e1BQdCCSa2NACgPbD3SBdv/pub?output=csv";
-
-Papa.parse(csvUrl, {
-    download: true,
-    header: true,
-    skipEmptyLines: true,
-    complete: results => {
-        rawData = results.data;
-        renderDashboard();
-    }
-});
-
-function renderDashboard() {
-    const searchTerm = document.getElementById("search-input").value.toLowerCase();
-    const workbookFilter = document.getElementById("workbook-filter").value;
-    const tableBody = document.getElementById("table-body");
-    
-    tableBody.innerHTML = "";
-    markers.forEach(m => map.removeLayer(m));
-    markers = [];
-
-    const filtered = rawData.filter(d => {
-        // Robust filtering logic
-        const pName = (d.Project || d.name || "").toLowerCase();
-        const river = (d.River || "").toLowerCase();
-        const dist = (d["VDC/District"] || d.District || "").toLowerCase();
-        const prom = (d.Promoter || "").toLowerCase();
-        const status = (d.Status || "").toLowerCase();
-
-        const matchesSearch = pName.includes(searchTerm) || river.includes(searchTerm) || dist.includes(searchTerm) || prom.includes(searchTerm);
-        const matchesWorkbook = !workbookFilter || status === workbookFilter.toLowerCase();
-
-        return matchesSearch && matchesWorkbook;
-    });
-
-    filtered.forEach((d, index) => {
-        const row = document.createElement("tr");
-        const lat = parseFloat(d["Latitude N"] || d.Latitude || d.latitude);
-        const lng = parseFloat(d["Longitude E"] || d.Longitude || d.longitude);
-
-        row.innerHTML = `
-            <td>${index + 1}</td>
-            <td style="color:var(--primary); font-weight:bold;">${d.Project || d.name || "-"}</td>
-            <td>${d["Capacity (MW)"] || d.capacity_mw || "-"}</td>
-            <td>${d.River || d.river || "-"}</td>
-            <td>${d["Lic No"] || "-"}</td>
-            <td>${d["Issue Date"] || "-"}</td>
-            <td>${d.Validity || "-"}</td>
-            <td>${d.Promoter || "-"}</td>
-            <td>${d.Address || "-"}</td>
-            <td>${lat || "-"}</td>
-            <td>${lng || "-"}</td>
-            <td>${d["VDC/District"] || d.district || "-"}</td>
-        `;
-
-        row.onclick = () => focusProject(lat, lng, d.Project || d.name, d["Capacity (MW)"]);
-        tableBody.appendChild(row);
-
-        if (lat && lng) {
-            const m = L.marker([lat, lng]).addTo(map)
-                .bindPopup(`<b>${d.Project || d.name}</b><br>${d["Capacity (MW)"]} MW`);
-            markers.push(m);
-        }
-    });
-}
-
-function focusProject(lat, lng, name, capacity) {
-    if (!lat || !lng) return;
-
-    // 1. Navigate to Coordinates
-    map.setView([lat, lng], 14);
-
-    // 2. Remove existing boundary
-    if (boundaryLayer) map.removeLayer(boundaryLayer);
-
-    // 3. Draw Project Boundary (Simulated Polygon based on capacity)
-    // In professional civil engineering, boundaries are polygons. 
-    // Here we simulate a catchment/concession area using a circle relative to MW.
-    const radius = Math.sqrt(parseFloat(capacity || 1)) * 500; // Radius in meters
-    boundaryLayer = L.circle([lat, lng], {
-        color: '#2a9d8f',
-        fillColor: '#2a9d8f',
-        fillOpacity: 0.2,
-        radius: radius
-    }).addTo(map);
-
-    L.popup()
-        .setLatLng([lat, lng])
-        .setContent(`<strong>Project Site: ${name}</strong><br>Simulated Boundary Area`)
-        .openOn(map);
-}
-
-// Event Listeners
-document.getElementById("search-input").oninput = renderDashboard;
-document.getElementById("workbook-filter").onchange = renderDashboard;
-</script>
+<footer style="background: var(--navy); color: white; text-align: center; padding: 20px;">
+    <p>&copy; 2023 Ramkrishna Mahato | Civil Engineer & Research Analyst [2]</p>
+</footer>
 
 </body>
 </html>
-
-
