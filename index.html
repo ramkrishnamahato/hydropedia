@@ -5,86 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Engineering Gyan | Hydropower Analytics</title>
     
-    <!-- External Libraries -->
+    <!-- Leaflet & CSV Parser -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         :root { --primary: #1a3a5f; --accent: #2a9d8f; --bg: #f4f7f6; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; color: #333; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; }
+        header { background: var(--primary); color: white; padding: 20px 5%; text-align: center; }
         
-        header { background: var(--primary); color: white; padding: 30px 5%; text-align: center; }
-        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; padding: 20px 5%; }
+        .controls { 
+            background: white; margin: 20px 5%; padding: 20px; border-radius: 8px; 
+            display: flex; flex-wrap: wrap; gap: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        input, select { padding: 12px; border: 1px solid #ddd; border-radius: 5px; flex: 1; min-width: 200px; }
+
+        #map { height: 500px; margin: 0 5% 20px; border-radius: 8px; border: 1px solid #ddd; z-index: 1; }
+
+        .table-container { margin: 0 5% 40px; background: white; border-radius: 8px; overflow-x: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 1300px; }
+        th { background: var(--primary); color: white; padding: 12px; text-align: left; position: sticky; top: 0; }
+        td { padding: 10px; border-bottom: 1px solid #eee; }
+        tr:hover { background: #f1f7f6; cursor: pointer; }
         
-        /* Analytics Cards */
-        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; }
-        .card h3 { margin: 0; color: var(--primary); font-size: 0.9rem; text-transform: uppercase; }
-        .card .value { font-size: 1.8rem; font-weight: 700; color: var(--accent); margin: 10px 0; }
-
-        /* Controls & Workbook Filter */
-        .controls-bar { background: white; margin: 0 5% 20px; padding: 20px; border-radius: 10px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        select, input { padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
-
-        /* Layout Main */
-        .main-content { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; padding: 0 5% 40px; }
-        #map { height: 500px; border-radius: 10px; z-index: 1; }
-        .chart-container { background: white; padding: 20px; border-radius: 10px; height: 500px; }
-
-        .table-section { margin: 0 5% 40px; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        th { background: var(--primary); color: white; padding: 15px; text-align: left; }
-        td { padding: 12px; border-bottom: 1px solid #eee; }
-        tr:hover { background: #f9f9f9; cursor: pointer; }
-
-        @media (max-width: 900px) { .main-content { grid-template-columns: 1fr; } }
+        .status-badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Hydropower Dashboard & Analytics</h1>
-    <p>Curated by Ramkrishna Mahato | Civil Engineer & Research Analyst</p>
+    <h1>Hydropower Projects of Nepal</h1>
+    <p>DOED Format Dashboard | Developed by Ramkrishna Mahato, Civil Engineer</p>
 </header>
 
-<!-- Summary Analytics Cards -->
-<div class="dashboard-grid">
-    <div class="card"><h3>Total Projects</h3><div id="total-projects" class="value">0</div></div>
-    <div class="card"><h3>Total Capacity (MW)</h3><div id="total-mw" class="value">0</div></div>
-    <div class="card"><h3>Under Construction</h3><div id="const-mw" class="value">0 MW</div></div>
-    <div class="card"><h3>Operational</h3><div id="op-mw" class="value">0 MW</div></div>
-</div>
-
-<!-- Filters -->
-<div class="controls-bar">
-    <div style="font-weight: bold;">Workbook View:</div>
+<div class="controls">
     <select id="workbook-filter">
-        <option value="all">Main Project Database</option>
-        <option value="survey">Survey Licenses</option>
-        <option value="construction">Construction Licenses</option>
+        <option value="">Select Workbook (All Sheets)</option>
+        <option value="Survey Licensed">Survey Licensed</option>
+        <option value="Under Construction">Under Construction</option>
+        <option value="Operational">Operational</option>
     </select>
-    <input type="text" id="search" placeholder="Search by Project, River, or District..." style="flex-grow: 1;">
+    <input type="text" id="search-input" placeholder="Search Project, River, Promoter, or District...">
 </div>
 
-<div class="main-content">
-    <div id="map"></div>
-    <div class="chart-container">
-        <h4 style="text-align:center; margin-top:0;">Capacity by Status (MW)</h4>
-        <canvas id="capacityChart"></canvas>
-    </div>
-</div>
+<div id="map"></div>
 
-<div class="table-section">
+<div class="table-container">
     <table>
         <thead>
             <tr>
-                <th>S.N.</th>
-                <th>Project Name</th>
+                <th>S No</th>
+                <th>Project</th>
                 <th>Capacity (MW)</th>
                 <th>River</th>
+                <th>Lic No</th>
+                <th>Issue Date</th>
+                <th>Validity</th>
                 <th>Promoter</th>
-                <th>Status</th>
+                <th>Address</th>
+                <th>Latitude N</th>
+                <th>Longitude E</th>
+                <th>VDC/District</th>
             </tr>
         </thead>
         <tbody id="table-body"></tbody>
@@ -92,110 +74,110 @@
 </div>
 
 <script>
-let rawData = [], map, markers = [], capacityChart;
+let rawData = [], map, markers = [], boundaryLayer;
 
-// 1. Initialize Map
+// Initialize Map
 map = L.map("map").setView([28.3949, 84.1240], 7);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: '© OpenStreetMap contributors'
+}).addTo(map);
 
-// 2. Fetch Data (Your Google Sheet CSV)
+// Fetch CSV Data
 const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTvwf-HpJkJ55xmAU623qEZPc6rzudFF9IuuLym_sFt6Dh1Xs4mTqeCo9e1BQdCCSa2NACgPbD3SBdv/pub?output=csv";
 
 Papa.parse(csvUrl, {
     download: true,
     header: true,
+    skipEmptyLines: true,
     complete: results => {
-        rawData = results.data.filter(d => d.Project || d.name);
-        updateDashboard();
+        rawData = results.data;
+        renderDashboard();
     }
 });
 
-function updateDashboard() {
-    const searchTerm = document.getElementById("search").value.toLowerCase();
-    const workbook = document.getElementById("workbook-filter").value;
+function renderDashboard() {
+    const searchTerm = document.getElementById("search-input").value.toLowerCase();
+    const workbookFilter = document.getElementById("workbook-filter").value;
+    const tableBody = document.getElementById("table-body");
     
-    // Filter logic
+    tableBody.innerHTML = "";
+    markers.forEach(m => map.removeLayer(m));
+    markers = [];
+
     const filtered = rawData.filter(d => {
-        const matchesSearch = Object.values(d).some(v => String(v).toLowerCase().includes(searchTerm));
-        const status = (d.Status || d.status || "").toLowerCase();
-        
-        // Mock Workbook Filtering based on Status
-        let matchesWorkbook = true;
-        if(workbook === "survey") matchesWorkbook = status.includes("survey");
-        if(workbook === "construction") matchesWorkbook = status.includes("construction");
-        
+        // Robust filtering logic
+        const pName = (d.Project || d.name || "").toLowerCase();
+        const river = (d.River || "").toLowerCase();
+        const dist = (d["VDC/District"] || d.District || "").toLowerCase();
+        const prom = (d.Promoter || "").toLowerCase();
+        const status = (d.Status || "").toLowerCase();
+
+        const matchesSearch = pName.includes(searchTerm) || river.includes(searchTerm) || dist.includes(searchTerm) || prom.includes(searchTerm);
+        const matchesWorkbook = !workbookFilter || status === workbookFilter.toLowerCase();
+
         return matchesSearch && matchesWorkbook;
     });
 
-    renderStats(filtered);
-    renderMap(filtered);
-    renderTable(filtered);
-    renderChart(filtered);
-}
+    filtered.forEach((d, index) => {
+        const row = document.createElement("tr");
+        const lat = parseFloat(d["Latitude N"] || d.Latitude || d.latitude);
+        const lng = parseFloat(d["Longitude E"] || d.Longitude || d.longitude);
 
-function renderStats(data) {
-    const totalMw = data.reduce((sum, d) => sum + parseFloat(d["Capacity (MW)"] || d.capacity_mw || 0), 0);
-    const constMw = data.filter(d => (d.Status || "").includes("Construction")).reduce((sum, d) => sum + parseFloat(d["Capacity (MW)"] || 0), 0);
-    const opMw = data.filter(d => (d.Status || "").includes("Operational")).reduce((sum, d) => sum + parseFloat(d["Capacity (MW)"] || 0), 0);
-    
-    document.getElementById("total-projects").innerText = data.length;
-    document.getElementById("total-mw").innerText = totalMw.toFixed(1);
-    document.getElementById("const-mw").innerText = constMw.toFixed(1) + " MW";
-    document.getElementById("op-mw").innerText = opMw.toFixed(1) + " MW";
-}
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td style="color:var(--primary); font-weight:bold;">${d.Project || d.name || "-"}</td>
+            <td>${d["Capacity (MW)"] || d.capacity_mw || "-"}</td>
+            <td>${d.River || d.river || "-"}</td>
+            <td>${d["Lic No"] || "-"}</td>
+            <td>${d["Issue Date"] || "-"}</td>
+            <td>${d.Validity || "-"}</td>
+            <td>${d.Promoter || "-"}</td>
+            <td>${d.Address || "-"}</td>
+            <td>${lat || "-"}</td>
+            <td>${lng || "-"}</td>
+            <td>${d["VDC/District"] || d.district || "-"}</td>
+        `;
 
-function renderMap(data) {
-    markers.forEach(m => map.removeLayer(m));
-    markers = [];
-    data.forEach(d => {
-        const lat = d.Latitude || d.latitude;
-        const lng = d.Longitude || d.longitude;
-        if(lat && lng) {
-            const m = L.marker([+lat, +lng]).addTo(map)
+        row.onclick = () => focusProject(lat, lng, d.Project || d.name, d["Capacity (MW)"]);
+        tableBody.appendChild(row);
+
+        if (lat && lng) {
+            const m = L.marker([lat, lng]).addTo(map)
                 .bindPopup(`<b>${d.Project || d.name}</b><br>${d["Capacity (MW)"]} MW`);
             markers.push(m);
         }
     });
 }
 
-function renderTable(data) {
-    const body = document.getElementById("table-body");
-    body.innerHTML = data.slice(0, 50).map((d, i) => `
-        <tr onclick="map.setView([${d.Latitude}, ${d.Longitude}], 12)">
-            <td>${i+1}</td>
-            <td style="font-weight:bold">${d.Project || d.name}</td>
-            <td>${d["Capacity (MW)"] || d.capacity_mw}</td>
-            <td>${d.River || d.river}</td>
-            <td>${d.Promoter || "-"}</td>
-            <td><span style="background:#e0f2f1; padding:3px 8px; border-radius:4px;">${d.Status || d.status}</span></td>
-        </tr>
-    `).join("");
+function focusProject(lat, lng, name, capacity) {
+    if (!lat || !lng) return;
+
+    // 1. Navigate to Coordinates
+    map.setView([lat, lng], 14);
+
+    // 2. Remove existing boundary
+    if (boundaryLayer) map.removeLayer(boundaryLayer);
+
+    // 3. Draw Project Boundary (Simulated Polygon based on capacity)
+    // In professional civil engineering, boundaries are polygons. 
+    // Here we simulate a catchment/concession area using a circle relative to MW.
+    const radius = Math.sqrt(parseFloat(capacity || 1)) * 500; // Radius in meters
+    boundaryLayer = L.circle([lat, lng], {
+        color: '#2a9d8f',
+        fillColor: '#2a9d8f',
+        fillOpacity: 0.2,
+        radius: radius
+    }).addTo(map);
+
+    L.popup()
+        .setLatLng([lat, lng])
+        .setContent(`<strong>Project Site: ${name}</strong><br>Simulated Boundary Area`)
+        .openOn(map);
 }
 
-function renderChart(data) {
-    const ctx = document.getElementById('capacityChart').getContext('2d');
-    const statusCounts = {};
-    data.forEach(d => {
-        const s = d.Status || d.status || "Unknown";
-        statusCounts[s] = (statusCounts[s] || 0) + parseFloat(d["Capacity (MW)"] || 0);
-    });
-
-    if(capacityChart) capacityChart.destroy();
-    capacityChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: Object.keys(statusCounts),
-            datasets: [{
-                data: Object.values(statusCounts),
-                backgroundColor: ['#1a3a5f', '#2a9d8f', '#e76f51', '#f4a261']
-            }]
-        },
-        options: { responsive: true, maintainAspectRatio: false }
-    });
-}
-
-document.getElementById("search").oninput = updateDashboard;
-document.getElementById("workbook-filter").onchange = updateDashboard;
+// Event Listeners
+document.getElementById("search-input").oninput = renderDashboard;
+document.getElementById("workbook-filter").onchange = renderDashboard;
 </script>
 
 </body>
