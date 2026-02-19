@@ -3,206 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Engineering Gyan | Hydropower Projects of Nepal</title>
+    <title>Engineering Gyan | Hydropower Analytics</title>
     
-    <!-- Leaflet Map & CSV Parser -->
+    <!-- External Libraries -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        :root {
-            --primary: #1a3a5f; /* Professional Navy */
-            --accent: #2a9d8f;  /* Engineering Teal */
-            --bg-light: #f8f9fa;
-        }
-
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: var(--bg-light); color: #333; }
+        :root { --primary: #1a3a5f; --accent: #2a9d8f; --bg: #f4f7f6; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; color: #333; }
         
-        header { background: var(--primary); color: white; padding: 2rem 5%; text-align: center; }
-        header h1 { margin: 0; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 1px; }
-        header p { margin: 5px 0 0; opacity: 0.8; font-weight: 300; }
+        header { background: var(--primary); color: white; padding: 30px 5%; text-align: center; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; padding: 20px 5%; }
+        
+        /* Analytics Cards */
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; }
+        .card h3 { margin: 0; color: var(--primary); font-size: 0.9rem; text-transform: uppercase; }
+        .card .value { font-size: 1.8rem; font-weight: 700; color: var(--accent); margin: 10px 0; }
 
-        .container { padding: 20px 5%; }
+        /* Controls & Workbook Filter */
+        .controls-bar { background: white; margin: 0 5% 20px; padding: 20px; border-radius: 10px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        select, input { padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
 
-        /* Controls Area */
-        .controls { 
-            display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; 
-            background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-        }
-        input, select { padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem; }
-        #search { width: 300px; }
+        /* Layout Main */
+        .main-content { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; padding: 0 5% 40px; }
+        #map { height: 500px; border-radius: 10px; z-index: 1; }
+        .chart-container { background: white; padding: 20px; border-radius: 10px; height: 500px; }
 
-        #summary { 
-            text-align: center; margin: 15px 0; font-weight: 600; color: var(--accent); 
-            background: #e9f5f4; padding: 10px; border-radius: 5px;
-        }
+        .table-section { margin: 0 5% 40px; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th { background: var(--primary); color: white; padding: 15px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
+        tr:hover { background: #f9f9f9; cursor: pointer; }
 
-        #map { height: 450px; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; z-index: 1; }
-
-        /* DOED Table Format */
-        .table-wrapper { overflow-x: auto; background: white; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        table { border-collapse: collapse; width: 100%; min-width: 1200px; font-size: 0.85rem; }
-        th { background: var(--primary); color: white; padding: 12px; text-align: left; position: sticky; top: 0; }
-        td { border-bottom: 1px solid #eee; padding: 10px; }
-        tr:hover { background: #f1f7f6; cursor: pointer; }
-
-        footer { text-align: center; padding: 20px; color: #777; font-size: 0.8rem; }
+        @media (max-width: 900px) { .main-content { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Hydropower Projects of Nepal</h1>
-    <p>DOED Format Dashboard | Curated by Ramkrishna Mahato, Civil Engineer</p>
+    <h1>Hydropower Dashboard & Analytics</h1>
+    <p>Curated by Ramkrishna Mahato | Civil Engineer & Research Analyst</p>
 </header>
 
-<div class="container">
-    <div class="controls">
-        <input type="text" id="search" placeholder="Search Project, River, Promoter, or District...">
-        
-        <select id="status">
-            <option value="">All Status</option>
-            <option value="Survey Licensed">Survey Licensed</option>
-            <option value="Under Construction">Under Construction</option>
-            <option value="Operational">Operational</option>
-        </select>
+<!-- Summary Analytics Cards -->
+<div class="dashboard-grid">
+    <div class="card"><h3>Total Projects</h3><div id="total-projects" class="value">0</div></div>
+    <div class="card"><h3>Total Capacity (MW)</h3><div id="total-mw" class="value">0</div></div>
+    <div class="card"><h3>Under Construction</h3><div id="const-mw" class="value">0 MW</div></div>
+    <div class="card"><h3>Operational</h3><div id="op-mw" class="value">0 MW</div></div>
+</div>
 
-        <select id="province">
-            <option value="">All Provinces</option>
-            <option>Bagmati</option><option>Gandaki</option><option>Koshi</option>
-            <option>Lumbini</option><option>Karnali</option><option>Sudurpashchim</option>
-        </select>
-    </div>
+<!-- Filters -->
+<div class="controls-bar">
+    <div style="font-weight: bold;">Workbook View:</div>
+    <select id="workbook-filter">
+        <option value="all">Main Project Database</option>
+        <option value="survey">Survey Licenses</option>
+        <option value="construction">Construction Licenses</option>
+    </select>
+    <input type="text" id="search" placeholder="Search by Project, River, or District..." style="flex-grow: 1;">
+</div>
 
-    <div id="summary">Loading Hydro Data...</div>
-
+<div class="main-content">
     <div id="map"></div>
-
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>S No</th>
-                    <th>Project</th>
-                    <th>Capacity (MW)</th>
-                    <th>River</th>
-                    <th>Lic No</th>
-                    <th>Issue Date</th>
-                    <th>Validity</th>
-                    <th>Promoter</th>
-                    <th>Address</th>
-                    <th>Latitude</th>
-                    <th>Longitude</th>
-                    <th>VDC/District</th>
-                </tr>
-            </thead>
-            <tbody id="table"></tbody>
-        </table>
+    <div class="chart-container">
+        <h4 style="text-align:center; margin-top:0;">Capacity by Status (MW)</h4>
+        <canvas id="capacityChart"></canvas>
     </div>
 </div>
 
-<footer>
-    &copy; 2023 Engineering Gyan | Research Enthusiast & Analyst: Ramkrishna Mahato
-</footer>
+<div class="table-section">
+    <table>
+        <thead>
+            <tr>
+                <th>S.N.</th>
+                <th>Project Name</th>
+                <th>Capacity (MW)</th>
+                <th>River</th>
+                <th>Promoter</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+    </table>
+</div>
 
 <script>
-let data=[], map, markers=[];
+let rawData = [], map, markers = [], capacityChart;
 
-// Initialize map centered on Nepal
+// 1. Initialize Map
 map = L.map("map").setView([28.3949, 84.1240], 7);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: '© OpenStreetMap contributors'
-}).addTo(map);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
 
-// Fetch CSV data from your Google Sheets link
-Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vTvwf-HpJkJ55xmAU623qEZPc6rzudFF9IuuLym_sFt6Dh1Xs4mTqeCo9e1BQdCCSa2NACgPbD3SBdv/pub?gid=0&single=true&output=csv", {
+// 2. Fetch Data (Your Google Sheet CSV)
+const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTvwf-HpJkJ55xmAU623qEZPc6rzudFF9IuuLym_sFt6Dh1Xs4mTqeCo9e1BQdCCSa2NACgPbD3SBdv/pub?output=csv";
+
+Papa.parse(csvUrl, {
     download: true,
     header: true,
-    complete: r => {
-        data = r.data.filter(d => d.Project || d.name); // Handles both "Project" and "name" column headers
-        render();
+    complete: results => {
+        rawData = results.data.filter(d => d.Project || d.name);
+        updateDashboard();
     }
 });
 
-function render() {
-    let s = document.getElementById("search").value.toLowerCase();
-    let f = document.getElementById("status").value;
-    let p = document.getElementById("province").value;
-    let body = document.getElementById("table");
+function updateDashboard() {
+    const searchTerm = document.getElementById("search").value.toLowerCase();
+    const workbook = document.getElementById("workbook-filter").value;
     
-    body.innerHTML = "";
-    markers.forEach(m => map.removeLayer(m));
-    markers = [];
-
-    let totals = {};
-    let count = 1;
-
-    data.filter(d => {
-        // Ensure column names match your CSV (e.g., d.Project or d.name)
-        let projectName = (d.Project || d.name || "").toLowerCase();
-        let river = (d.River || "").toLowerCase();
-        let district = (d.District || d["VDC/District"] || "").toLowerCase();
-        let promoter = (d.Promoter || "").toLowerCase();
+    // Filter logic
+    const filtered = rawData.filter(d => {
+        const matchesSearch = Object.values(d).some(v => String(v).toLowerCase().includes(searchTerm));
+        const status = (d.Status || d.status || "").toLowerCase();
         
-        let matchesSearch = projectName.includes(s) || river.includes(s) || district.includes(s) || promoter.includes(s);
-        let matchesStatus = !f || d.Status === f || d.status === f;
-        let matchesProvince = !p || d.Province === p || d.province === p;
-
-        return matchesSearch && matchesStatus && matchesProvince;
-    }).forEach(d => {
-        // Create table row using DOED columns
-        let row = document.createElement("tr");
-        row.onclick = () => zoom(d.Latitude || d.latitude, d.Longitude || d.longitude);
-        row.innerHTML = `
-            <td>${count++}</td>
-            <td style="font-weight:bold; color:var(--primary)">${d.Project || d.name}</td>
-            <td>${d["Capacity (MW)"] || d.capacity_mw}</td>
-            <td>${d.River || d.river}</td>
-            <td>${d["Lic No"] || "-"}</td>
-            <td>${d["Issue Date"] || "-"}</td>
-            <td>${d.Validity || "-"}</td>
-            <td>${d.Promoter || "-"}</td>
-            <td>${d.Address || "-"}</td>
-            <td>${d.Latitude || d.latitude || "-"}</td>
-            <td>${d.Longitude || d.longitude || "-"}</td>
-            <td>${d["VDC/District"] || d.district || "-"}</td>
-        `;
-        body.appendChild(row);
-
-        // Map Marker
-        let lat = d.Latitude || d.latitude;
-        let lng = d.Longitude || d.longitude;
-        if (lat && lng) {
-            let m = L.marker([+lat, +lng])
-                .addTo(map)
-                .bindPopup(`<b>${d.Project || d.name}</b><br>${d["Capacity (MW)"] || d.capacity_mw} MW<br>${d.Promoter || ""}`);
-            markers.push(m);
-        }
-
-        // Calculate Totals for Summary
-        let statusKey = d.Status || d.status || "Unknown";
-        let capacity = parseFloat(d["Capacity (MW)"] || d.capacity_mw || 0);
-        totals[statusKey] = (totals[statusKey] || 0) + capacity;
+        // Mock Workbook Filtering based on Status
+        let matchesWorkbook = true;
+        if(workbook === "survey") matchesWorkbook = status.includes("survey");
+        if(workbook === "construction") matchesWorkbook = status.includes("construction");
+        
+        return matchesSearch && matchesWorkbook;
     });
 
-    // Update Summary Text
-    document.getElementById("summary").innerHTML = "Summary Analytics: " +
-        Object.entries(totals)
-            .map(([k, v]) => `${k}: ${v.toFixed(1)} MW`)
-            .join(" | ");
+    renderStats(filtered);
+    renderMap(filtered);
+    renderTable(filtered);
+    renderChart(filtered);
 }
 
-function zoom(lat, lng) {
-    if (!lat || !lng) return;
-    map.setView([+lat, +lng], 12);
+function renderStats(data) {
+    const totalMw = data.reduce((sum, d) => sum + parseFloat(d["Capacity (MW)"] || d.capacity_mw || 0), 0);
+    const constMw = data.filter(d => (d.Status || "").includes("Construction")).reduce((sum, d) => sum + parseFloat(d["Capacity (MW)"] || 0), 0);
+    const opMw = data.filter(d => (d.Status || "").includes("Operational")).reduce((sum, d) => sum + parseFloat(d["Capacity (MW)"] || 0), 0);
+    
+    document.getElementById("total-projects").innerText = data.length;
+    document.getElementById("total-mw").innerText = totalMw.toFixed(1);
+    document.getElementById("const-mw").innerText = constMw.toFixed(1) + " MW";
+    document.getElementById("op-mw").innerText = opMw.toFixed(1) + " MW";
 }
 
-// Event Listeners for Filters
-document.getElementById("search").oninput = render;
-document.getElementById("status").onchange = render;
-document.getElementById("province").onchange = render;
+function renderMap(data) {
+    markers.forEach(m => map.removeLayer(m));
+    markers = [];
+    data.forEach(d => {
+        const lat = d.Latitude || d.latitude;
+        const lng = d.Longitude || d.longitude;
+        if(lat && lng) {
+            const m = L.marker([+lat, +lng]).addTo(map)
+                .bindPopup(`<b>${d.Project || d.name}</b><br>${d["Capacity (MW)"]} MW`);
+            markers.push(m);
+        }
+    });
+}
+
+function renderTable(data) {
+    const body = document.getElementById("table-body");
+    body.innerHTML = data.slice(0, 50).map((d, i) => `
+        <tr onclick="map.setView([${d.Latitude}, ${d.Longitude}], 12)">
+            <td>${i+1}</td>
+            <td style="font-weight:bold">${d.Project || d.name}</td>
+            <td>${d["Capacity (MW)"] || d.capacity_mw}</td>
+            <td>${d.River || d.river}</td>
+            <td>${d.Promoter || "-"}</td>
+            <td><span style="background:#e0f2f1; padding:3px 8px; border-radius:4px;">${d.Status || d.status}</span></td>
+        </tr>
+    `).join("");
+}
+
+function renderChart(data) {
+    const ctx = document.getElementById('capacityChart').getContext('2d');
+    const statusCounts = {};
+    data.forEach(d => {
+        const s = d.Status || d.status || "Unknown";
+        statusCounts[s] = (statusCounts[s] || 0) + parseFloat(d["Capacity (MW)"] || 0);
+    });
+
+    if(capacityChart) capacityChart.destroy();
+    capacityChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: Object.keys(statusCounts),
+            datasets: [{
+                data: Object.values(statusCounts),
+                backgroundColor: ['#1a3a5f', '#2a9d8f', '#e76f51', '#f4a261']
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+    });
+}
+
+document.getElementById("search").oninput = updateDashboard;
+document.getElementById("workbook-filter").onchange = updateDashboard;
 </script>
 
 </body>
