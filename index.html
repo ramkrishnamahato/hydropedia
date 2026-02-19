@@ -1,135 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Hydropower Projects of Nepal</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineering Gyan | Hydropower Projects of Nepal</title>
+    
+    <!-- Leaflet Map & CSV Parser -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
-<!-- Leaflet Map -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        :root {
+            --primary: #1a3a5f; /* Professional Navy */
+            --accent: #2a9d8f;  /* Engineering Teal */
+            --bg-light: #f8f9fa;
+        }
 
-<!-- CSV Parser -->
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: var(--bg-light); color: #333; }
+        
+        header { background: var(--primary); color: white; padding: 2rem 5%; text-align: center; }
+        header h1 { margin: 0; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 1px; }
+        header p { margin: 5px 0 0; opacity: 0.8; font-weight: 300; }
 
-<style>
-body {font-family: Arial, sans-serif;}
-input, select {padding:6px; margin:5px;}
-table {border-collapse: collapse; width:100%;}
-th, td {border:1px solid #ccc; padding:6px; text-align:left;}
-tr:hover {background:#f2f2f2; cursor:pointer;}
-#map {height:420px; margin:10px 0;}
-#summary {margin:10px 0; font-weight:bold;}
-</style>
+        .container { padding: 20px 5%; }
+
+        /* Controls Area */
+        .controls { 
+            display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; 
+            background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        input, select { padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem; }
+        #search { width: 300px; }
+
+        #summary { 
+            text-align: center; margin: 15px 0; font-weight: 600; color: var(--accent); 
+            background: #e9f5f4; padding: 10px; border-radius: 5px;
+        }
+
+        #map { height: 450px; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; z-index: 1; }
+
+        /* DOED Table Format */
+        .table-wrapper { overflow-x: auto; background: white; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        table { border-collapse: collapse; width: 100%; min-width: 1200px; font-size: 0.85rem; }
+        th { background: var(--primary); color: white; padding: 12px; text-align: left; position: sticky; top: 0; }
+        td { border-bottom: 1px solid #eee; padding: 10px; }
+        tr:hover { background: #f1f7f6; cursor: pointer; }
+
+        footer { text-align: center; padding: 20px; color: #777; font-size: 0.8rem; }
+    </style>
 </head>
-
 <body>
 
-<h2>Hydropower Projects of Nepal (DOED Format)</h2>
+<header>
+    <h1>Hydropower Projects of Nepal</h1>
+    <p>DOED Format Dashboard | Curated by Ramkrishna Mahato, Civil Engineer</p>
+</header>
 
-<input type="text" id="search" placeholder="Search project, river, district">
+<div class="container">
+    <div class="controls">
+        <input type="text" id="search" placeholder="Search Project, River, Promoter, or District...">
+        
+        <select id="status">
+            <option value="">All Status</option>
+            <option value="Survey Licensed">Survey Licensed</option>
+            <option value="Under Construction">Under Construction</option>
+            <option value="Operational">Operational</option>
+        </select>
 
-<select id="status">
-  <option value="">All Status</option>
-  <option value="Survey Licensed">Survey Licensed</option>
-  <option value="Under Construction">Under Construction</option>
-  <option value="Operational">Operational</option>
-</select>
+        <select id="province">
+            <option value="">All Provinces</option>
+            <option>Bagmati</option><option>Gandaki</option><option>Koshi</option>
+            <option>Lumbini</option><option>Karnali</option><option>Sudurpashchim</option>
+        </select>
+    </div>
 
-<select id="province">
-  <option value="">All Provinces</option>
-  <option>Bagmati</option>
-  <option>Gandaki</option>
-  <option>Koshi</option>
-  <option>Lumbini</option>
-  <option>Karnali</option>
-  <option>Sudurpashchim</option>
-</select>
+    <div id="summary">Loading Hydro Data...</div>
 
-<div id="summary"></div>
+    <div id="map"></div>
 
-<div id="map"></div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>S No</th>
+                    <th>Project</th>
+                    <th>Capacity (MW)</th>
+                    <th>River</th>
+                    <th>Lic No</th>
+                    <th>Issue Date</th>
+                    <th>Validity</th>
+                    <th>Promoter</th>
+                    <th>Address</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>VDC/District</th>
+                </tr>
+            </thead>
+            <tbody id="table"></tbody>
+        </table>
+    </div>
+</div>
 
-<table>
-<thead>
-<tr>
-<th>Project Name</th>
-<th>Capacity (MW)</th>
-<th>River</th>
-<th>District</th>
-<th>Province</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody id="table"></tbody>
-</table>
+<footer>
+    &copy; 2023 Engineering Gyan | Research Enthusiast & Analyst: Ramkrishna Mahato
+</footer>
 
 <script>
 let data=[], map, markers=[];
 
-map = L.map("map").setView([28.3949,84.1240],7);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+// Initialize map centered on Nepal
+map = L.map("map").setView([28.3949, 84.1240], 7);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: '© OpenStreetMap contributors'
+}).addTo(map);
 
+// Fetch CSV data from your Google Sheets link
 Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vTvwf-HpJkJ55xmAU623qEZPc6rzudFF9IuuLym_sFt6Dh1Xs4mTqeCo9e1BQdCCSa2NACgPbD3SBdv/pub?gid=0&single=true&output=csv", {
- download:true,
- header:true,
- complete:r=>{
-  data=r.data.filter(d=>d.name);
-  render();
- }
+    download: true,
+    header: true,
+    complete: r => {
+        data = r.data.filter(d => d.Project || d.name); // Handles both "Project" and "name" column headers
+        render();
+    }
 });
 
-function render(){
- let s=document.getElementById("search").value.toLowerCase();
- let f=document.getElementById("status").value;
- let p=document.getElementById("province").value;
- let body=document.getElementById("table");
- body.innerHTML="";
- markers.forEach(m=>map.removeLayer(m));
- markers=[];
+function render() {
+    let s = document.getElementById("search").value.toLowerCase();
+    let f = document.getElementById("status").value;
+    let p = document.getElementById("province").value;
+    let body = document.getElementById("table");
+    
+    body.innerHTML = "";
+    markers.forEach(m => map.removeLayer(m));
+    markers = [];
 
- let totals={};
+    let totals = {};
+    let count = 1;
 
- data.filter(d=>
-  (!f || d.status===f) &&
-  (!p || d.province===p) &&
-  Object.values(d).join(" ").toLowerCase().includes(s)
- ).forEach(d=>{
-  body.innerHTML+=`
-  <tr onclick="zoom(${d.latitude},${d.longitude})">
-   <td>${d.name}</td>
-   <td>${d.capacity_mw}</td>
-   <td>${d.river}</td>
-   <td>${d.district}</td>
-   <td>${d.province}</td>
-   <td>${d.status}</td>
-  </tr>`;
+    data.filter(d => {
+        // Ensure column names match your CSV (e.g., d.Project or d.name)
+        let projectName = (d.Project || d.name || "").toLowerCase();
+        let river = (d.River || "").toLowerCase();
+        let district = (d.District || d["VDC/District"] || "").toLowerCase();
+        let promoter = (d.Promoter || "").toLowerCase();
+        
+        let matchesSearch = projectName.includes(s) || river.includes(s) || district.includes(s) || promoter.includes(s);
+        let matchesStatus = !f || d.Status === f || d.status === f;
+        let matchesProvince = !p || d.Province === p || d.province === p;
 
-  if(d.latitude && d.longitude){
-   let m=L.marker([+d.latitude,+d.longitude])
-    .addTo(map)
-    .bindPopup(`<b>${d.name}</b><br>${d.capacity_mw} MW`);
-   markers.push(m);
-  }
+        return matchesSearch && matchesStatus && matchesProvince;
+    }).forEach(d => {
+        // Create table row using DOED columns
+        let row = document.createElement("tr");
+        row.onclick = () => zoom(d.Latitude || d.latitude, d.Longitude || d.longitude);
+        row.innerHTML = `
+            <td>${count++}</td>
+            <td style="font-weight:bold; color:var(--primary)">${d.Project || d.name}</td>
+            <td>${d["Capacity (MW)"] || d.capacity_mw}</td>
+            <td>${d.River || d.river}</td>
+            <td>${d["Lic No"] || "-"}</td>
+            <td>${d["Issue Date"] || "-"}</td>
+            <td>${d.Validity || "-"}</td>
+            <td>${d.Promoter || "-"}</td>
+            <td>${d.Address || "-"}</td>
+            <td>${d.Latitude || d.latitude || "-"}</td>
+            <td>${d.Longitude || d.longitude || "-"}</td>
+            <td>${d["VDC/District"] || d.district || "-"}</td>
+        `;
+        body.appendChild(row);
 
-  totals[d.status]=(totals[d.status]||0)+(+d.capacity_mw||0);
- });
+        // Map Marker
+        let lat = d.Latitude || d.latitude;
+        let lng = d.Longitude || d.longitude;
+        if (lat && lng) {
+            let m = L.marker([+lat, +lng])
+                .addTo(map)
+                .bindPopup(`<b>${d.Project || d.name}</b><br>${d["Capacity (MW)"] || d.capacity_mw} MW<br>${d.Promoter || ""}`);
+            markers.push(m);
+        }
 
- document.getElementById("summary").innerHTML=
-  Object.entries(totals)
-   .map(([k,v])=>`${k}: ${v.toFixed(1)} MW`)
-   .join(" | ");
+        // Calculate Totals for Summary
+        let statusKey = d.Status || d.status || "Unknown";
+        let capacity = parseFloat(d["Capacity (MW)"] || d.capacity_mw || 0);
+        totals[statusKey] = (totals[statusKey] || 0) + capacity;
+    });
+
+    // Update Summary Text
+    document.getElementById("summary").innerHTML = "Summary Analytics: " +
+        Object.entries(totals)
+            .map(([k, v]) => `${k}: ${v.toFixed(1)} MW`)
+            .join(" | ");
 }
 
-function zoom(lat,lng){
- if(!lat || !lng) return;
- map.setView([+lat,+lng],12);
+function zoom(lat, lng) {
+    if (!lat || !lng) return;
+    map.setView([+lat, +lng], 12);
 }
 
-document.getElementById("search").oninput=render;
-document.getElementById("status").onchange=render;
-document.getElementById("province").onchange=render;
+// Event Listeners for Filters
+document.getElementById("search").oninput = render;
+document.getElementById("status").onchange = render;
+document.getElementById("province").onchange = render;
 </script>
 
 </body>
 </html>
-
