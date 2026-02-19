@@ -4,164 +4,159 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nepal Hydropower Hub | Engineering Gyan</title>
-    <!-- External Libraries for Map and Icons -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --navy: #1a3a5f; --teal: #2a9d8f; --bg: #f8f9fa; --white: #ffffff; }
-        body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg); color: #333; scroll-behavior: smooth; }
+        :root { --navy: #1a3a5f; --teal: #2a9d8f; --bg: #f4f7f6; --white: #ffffff; }
+        body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg); color: #333; line-height: 1.6; }
+        nav { background: var(--navy); padding: 15px 5%; display: flex; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; font-weight: 600; font-size: 0.85rem; }
+        .hero { padding: 60px 5%; background: linear-gradient(rgba(26,58,95,0.9), rgba(26,58,95,0.9)), url('hydro.jpg'); color: white; text-align: center; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: -30px 5% 0; }
+        .stat-card { background: var(--white); padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); color: var(--navy); }
+        section { padding: 60px 8%; }
+        h2 { color: var(--navy); border-bottom: 3px solid var(--teal); display: inline-block; padding-bottom: 5px; margin-bottom: 30px; }
         
-        /* Navigation */
-        nav { background: var(--navy); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .logo { color: white; font-weight: 800; font-size: 1.2rem; }
-        nav ul { list-style: none; display: flex; margin: 0; }
-        nav ul li { margin-left: 20px; }
-        nav ul li a { color: white; text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
-        nav ul li a:hover { color: var(--teal); }
+        /* 10-Step Roadmap */
+        .roadmap { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .step { background: white; padding: 20px; border-radius: 8px; position: relative; border-top: 4px solid var(--teal); }
+        .step-num { position: absolute; top: -15px; right: 10px; background: var(--navy); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
 
-        /* Sections */
-        section { padding: 80px 8%; }
-        .hero { height: 60vh; background: linear-gradient(rgba(26,58,95,0.85), rgba(26,58,95,0.85)), url('hydro-power.jpg'); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        h2.section-title { text-align: center; color: var(--navy); font-size: 2.2rem; margin-bottom: 40px; }
+        /* Tables & Compliance */
+        .info-box { background: #e9ecef; padding: 20px; border-radius: 8px; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 0.85rem; }
+        th { background: var(--navy); color: white; }
 
-        /* Regulatory Roadmap Cards */
-        .roadmap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        .step-card { background: white; padding: 30px; border-radius: 12px; border-left: 5px solid var(--teal); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .step-card h3 { color: var(--navy); margin-top: 0; }
-        .authority-badge { display: inline-block; background: #e9ecef; color: var(--navy); padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-bottom: 15px; }
-
-        /* Technical Hub & Guidelines */
-        .tech-list { list-style: none; padding: 0; }
-        .tech-list li { background: white; padding: 15px; margin-bottom: 10px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .download-btn { color: var(--teal); text-decoration: none; font-weight: bold; font-size: 0.85rem; }
-
-        /* Dashboard Placeholder */
-        #map { height: 450px; border-radius: 12px; border: 1px solid #ddd; }
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: var(--navy); color: white; padding: 20px; border-radius: 8px; text-align: center; }
-
-        footer { background: var(--navy); color: white; padding: 40px 5%; text-align: center; font-size: 0.9rem; }
+        footer { background: var(--navy); color: white; padding: 30px; text-align: center; font-size: 0.85rem; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">HYDROPOWER NEPAL HUB</div>
+<nav>
+    <div style="color:white; font-weight:bold;">HYDRO NEPAL HUB</div>
+    <div>
+        <a href="#roadmap">10-Step Process</a>
+        <a href="#compliance">Legal & Environment</a>
+        <a href="#technical">Technical Manuals</a>
+        <a href="#dashboard">Live Data</a>
+    </div>
+</nav>
+
+<header class="hero">
+    <h1>Comprehensive Hydropower Development Guide</h1>
+    <p>From Registration to Nationalization: Expert Knowledge for Nepal's Energy Sector</p>
+</header>
+
+<!-- Live Stats -->
+<div class="stats-grid">
+    <div class="stat-card"><h3>2238 MW</h3><p>Peak Demand [1]</p></div>
+    <div class="stat-card"><h3>14.80 NPR</h3><p>Winter Tariff/Unit [2]</p></div>
+    <div class="stat-card"><h3>1:10</h3><p>Compensatory Planting [3]</p></div>
+    <div class="stat-card"><h3>30-35 Yrs</h3><p>Avg. License Term [4]</p></div>
+</div>
+
+<!-- 10-Step Lifecycle -->
+<section id="roadmap">
+    <h2>Project Development Lifecycle [5]</h2>
+    <div class="roadmap">
+        <div class="step"><div class="step-num">1</div><h4>Company Registration</h4><p>Register at CRO, DOI, and Tax Office. FDI approval needed if foreign [5].</p></div>
+        <div class="step"><div class="step-num">2</div><h4>Survey License</h4><p>Issued via DoED/MoE. Valid for max 5 years to conduct feasibility studies [4, 6].</p></div>
+        <div class="step"><div class="step-num">3</div><h4>Feasibility & Enviro</h4><p>IEE for projects <50MW; EIA for >50MW. Approving Authority: MoE/MoFE [5, 7].</p></div>
+        <div class="step"><div class="step-num">4</div><h4>PPA Execution</h4><p>Power Purchase Agreement with NEA. Requires feasibility and LOI from banks [5].</p></div>
+        <div class="step"><div class="step-num">5</div><h4>Additional Approvals</h4><p>Forestry, National Parks, and Road Dept clearances as applicable [5, 8].</p></div>
+        <div class="step"><div class="step-num">6</div><h4>Financial Closure</h4><p>Submission of PPA, project cost, and debt-equity ratio (usually 70:30) [5, 9].</p></div>
+        <div class="step"><div class="step-num">7</div><h4>Generation License</h4><p>Issued for 30-35 years (Max 50). Allows start of physical construction [4, 5].</p></div>
+        <div class="step"><div class="step-num">8</div><h4>Construction</h4><p>Implementation phase following DoED standards and O&M safety rules [5, 10].</p></div>
+        <div class="step"><div class="step-num">9</div><h4>Operation</h4><p>Power generation and royalty management via DoED system [5, 11].</p></div>
+        <div class="step"><div class="step-num">10</div><h4>Handover</h4><p>Transfer of assets to GON for free after license expiry (Right of Reversion) [4, 12, 13].</p></div>
+    </div>
+</section>
+
+<!-- Legal & Compliance -->
+<section id="compliance" style="background: white;">
+    <h2>Legal & Environmental Compliance</h2>
+    <div class="info-box">
+        <h3>Hydropower Classifications [6, 14, 15]</h3>
+        <table>
+            <tr><th>Category</th><th>Capacity</th><th>Regulatory Oversight</th></tr>
+            <tr><td>Micro Hydro</td><td>< 1 MW</td><td>Rural Municipality / Ward Office (Local Governance Act)</td></tr>
+            <tr><td>Small Hydro</td><td>1 - 10 MW</td><td>DoED (Small-scale prioritization)</td></tr>
+            <tr><td>Massive Hydro</td><td>> 10 MW</td><td>Department of Electricity Development (DoED)</td></tr>
+            <tr><td>Mega Projects</td><td>> 500 MW</td><td>Investment Board of Nepal (IBN) [4]</td></tr>
+        </table>
+    </div>
+
+    <div class="info-box" style="margin-top:40px;">
+        <h3>Forest & Land Acquisition [3, 16]</h3>
+        <p>If the project area includes national forests, developers must:</p>
         <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#roadmap">Regulatory Journey</a></li>
-            <li><a href="#technical">Expert Knowledge</a></li>
-            <li><a href="#dashboard">Live Dashboard</a></li>
-            <li><a href="#authorities">Authorities</a></li>
+            <li>Obtain lease approval from the **Ministry of Forest and Soil Conservation (MFSC)** [16].</li>
+            <li>Plant **10 trees for every 1 tree cut** (1:10 ratio) and maintain them for 5 years [3].</li>
+            <li>Plant trees equal to the project area if using national forest land [3].</li>
         </ul>
-    </nav>
+    </div>
+</section>
 
-    <header class="hero" id="home">
-        <h1>Mastering Nepal's Hydropower Lifecycle</h1>
-        <p>From Inception to Operation: A Comprehensive Guide for Developers and Engineers</p>
-    </header>
-
-    <!-- Step-by-Step Regulatory Roadmap -->
-    <section id="roadmap">
-        <h2 class="section-title">Development Work Plan & Methodology</h2>
-        <div class="roadmap-grid">
-            <div class="step-card">
-                <span class="authority-badge">Authority: DoED</span>
-                <h3>1. Survey Licensing</h3>
-                <p>Apply for a survey license via the <strong>Online Application System</strong>. Methodology involves identifying project sites via the GON Project Bank [1, 2].</p>
-            </div>
-            <div class="step-card">
-                <span class="authority-badge">Authority: MoFE</span>
-                <h3>2. Environmental Clearance</h3>
-                <p>Conduct EIA/IEE studies. Navigate <strong>National Forest Land Acquisition</strong> if using forest territory [3, 4].</p>
-            </div>
-            <div class="step-card">
-                <span class="authority-badge">Authority: ERC / NEA</span>
-                <h3>3. Financial PPA</h3>
-                <p>Sign a Power Purchase Agreement (PPA). ERC regulates winter/summer tariffs and IPO/Right Share issues [5, 6].</p>
-            </div>
-            <div class="step-card">
-                <span class="authority-badge">Authority: DoED</span>
-                <h3>4. Generation License</h3>
-                <p>Apply for a Generation License after technical clearance. Begin site preparation and mobilization [1].</p>
-            </div>
+<!-- Technical Hub -->
+<section id="technical">
+    <h2>Expert Technical Manuals</h2>
+    <div class="roadmap">
+        <div class="step">
+            <h4>Construction & Site</h4>
+            <ul>
+                <li>Guidelines for Explosive Quantity for Tunneling (2025) [17]</li>
+                <li>PowerHouse Design Guidelines (2018) [18]</li>
+                <li>Grid Code for Transmission [19]</li>
+            </ul>
         </div>
-    </section>
-
-    <!-- Expert Technical Hub -->
-    <section id="technical" style="background-color: #ffffff;">
-        <h2 class="section-title">Technical Knowledge Hub (Expert Level)</h2>
-        <div class="roadmap-grid">
-            <div>
-                <h3>Design Guidelines</h3>
-                <ul class="tech-list">
-                    <li>Guidelines for Study of Hydropower Projects, 2018 <a href="#" class="download-btn">View</a></li>
-                    <li>PowerHouse Design Guidelines <a href="#" class="download-btn">View</a></li>
-                    <li>Estimation for Explosive Quantity for Tunnels (2025) <a href="#" class="download-btn">View [7, 8]</a></li>
-                </ul>
-            </div>
-            <div>
-                <h3>Operation & Maintenance</h3>
-                <ul class="tech-list">
-                    <li>O&M Guidelines for Hydropower Plants (2017) <a href="#" class="download-btn">View</a></li>
-                    <li>Royalty Management and Distribution System <a href="#" class="download-btn">Access [2, 8]</a></li>
-                </ul>
-            </div>
+        <div class="step">
+            <h4>Feasibility & Study</h4>
+            <ul>
+                <li>Guidelines for Study of Hydropower (2018) [18]</li>
+                <li>EIA/IEE Reporting Standards [7, 20]</li>
+                <li>Standard Progress Update Formats [18]</li>
+            </ul>
         </div>
-    </section>
-
-    <!-- Live Analytics Dashboard -->
-    <section id="dashboard">
-        <h2 class="section-title">Nepal Hydropower Dashboard</h2>
-        <div class="stats-grid">
-            <div class="stat-card"><h5>Operational</h5><span id="op-count">3000+ MW</span></div>
-            <div class="stat-card"><h5>Under Construction</h5><span id="const-count">2500+ MW</span></div>
-            <div class="stat-card"><h5>Survey Licensed</h5><span id="surv-count">15000+ MW</span></div>
-            <div class="stat-card"><h5>Current Demand</h5><span id="demand">2238 MW [9]</span></div>
+        <div class="step">
+            <h4>Financial & Legal</h4>
+            <ul>
+                <li>Electricity Act 2049 (1992) [12, 21]</li>
+                <li>ERC Directives on Right Share Issues [19]</li>
+                <li>Foreign Exchange Recommendation Guidelines [22]</li>
+            </ul>
         </div>
-        <div id="map"></div>
-    </section>
+    </div>
+</section>
 
-    <!-- Authorities Directory -->
-    <section id="authorities" style="background-color: #ffffff;">
-        <h2 class="section-title">Key Authorities & Contact</h2>
-        <div class="roadmap-grid">
-            <div class="step-card">
-                <h3>DoED</h3>
-                <p>Licensing, technical clearance, and royalty management [1, 2].</p>
-                <small>Location: Sano Gaucharan, Kathmandu</small>
-            </div>
-            <div class="step-card">
-                <h3>ERC</h3>
-                <p>Tariff regulation, PPA approval, and consumer rights [6, 10].</p>
-                <small>Website: erc.gov.np</small>
-            </div>
-            <div class="step-card">
-                <h3>MoFE</h3>
-                <p>EIA approval and forest resource management [3, 11].</p>
-                <small>Website: mofe.gov.np</small>
-            </div>
-        </div>
-    </section>
+<!-- Live Data Dashboard -->
+<section id="dashboard" style="background: white;">
+    <h2>Nepal Hydropower Dashboard</h2>
+    <div id="map" style="height: 500px; border-radius: 12px; border: 1px solid #ddd;"></div>
+</section>
 
-    <footer>
-        <p>&copy; 2026 Engineering Gyan | Developed by Ramkrishna Mahato, Civil Engineer</p>
-        <p>Expert Resources for Nepal's Hydropower Sector</p>
-    </footer>
+<footer>
+    <p>&copy; 2026 Engineering Gyan | Ramkrishna Mahato, Civil Engineer</p>
+    <p>Sanogaucharan, Kathmandu | info@doed.gov.np | +977-1-4522442 [23]</p>
+</footer>
 
-    <!-- Leaflet JS for Map -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-        // Basic Map Setup
-        var map = L.map('map').setView([28.3949, 84.1240], 7);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([28.3949, 84.1240], 7);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-        // Example: Add a marker for a project site (e.g., Upper Daraundi)
-        L.marker([28.2333, 84.6667]).addTo(map)
-            .bindPopup('<b>Upper Daraundi HPP</b><br>Under Construction.')
-            .openPopup();
-    </script>
+    // Highlighting current project sites mentioned in sources
+    var projects = [
+        {name: "Upper Daraundi HPP", coords: [28.23, 84.66], status: "Construction"},
+        {name: "Upper Trishuli-1", coords: [28.11, 85.23], status: "SEIA Phase [24]"},
+        {name: "Myardi Khola", coords: [28.45, 84.35], status: "EIA Notice [25]"},
+        {name: "Saptakoshi High Dam", coords: [26.88, 87.15], status: "Study [26]"}
+    ];
+
+    projects.forEach(p => {
+        L.marker(p.coords).addTo(map).bindPopup(`<b>${p.name}</b><br>Status: ${p.status}`);
+    });
+</script>
+
 </body>
 </html>
