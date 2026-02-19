@@ -69,7 +69,7 @@ let data=[], map, markers=[];
 map = L.map("map").setView([28.3949,84.1240],7);
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
 
-Papa.parse("/data/hydropower_nepal.csv", {
+Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vTvwf-HpJkJ55xmAU623qEZPc6rzudFF9IuuLym_sFt6Dh1Xs4mTqeCo9e1BQdCCSa2NACgPbD3SBdv/pub?gid=0&single=true&output=csv", {
  download:true,
  header:true,
  complete:r=>{
@@ -132,3 +132,4 @@ document.getElementById("province").onchange=render;
 
 </body>
 </html>
+
