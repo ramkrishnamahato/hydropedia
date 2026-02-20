@@ -4,29 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nepal Hydropower Hub | Engineering Gyan</title>
+    <!-- External Libraries -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --navy: #1a3a5f; --teal: #2a9d8f; --bg: #f4f7f6; --white: #ffffff; }
         body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg); color: #333; line-height: 1.6; }
-        nav { background: var(--navy); padding: 15px 5%; display: flex; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+        nav { background: var(--navy); padding: 15px 5%; display: flex; justify-content: space-between; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         nav a { color: white; text-decoration: none; margin-left: 20px; font-weight: 600; font-size: 0.85rem; }
+        
         .hero { padding: 60px 5%; background: linear-gradient(rgba(26,58,95,0.9), rgba(26,58,95,0.9)), url('hydro.jpg'); color: white; text-align: center; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: -30px 5% 0; }
         .stat-card { background: var(--white); padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); color: var(--navy); }
+        
         section { padding: 60px 8%; }
         h2 { color: var(--navy); border-bottom: 3px solid var(--teal); display: inline-block; padding-bottom: 5px; margin-bottom: 30px; }
         
-        /* 10-Step Roadmap */
+        /* Roadmap Styling */
         .roadmap { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .step { background: white; padding: 20px; border-radius: 8px; position: relative; border-top: 4px solid var(--teal); }
+        .step { background: white; padding: 20px; border-radius: 8px; position: relative; border-top: 4px solid var(--teal); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .step-num { position: absolute; top: -15px; right: 10px; background: var(--navy); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-
-        /* Tables & Compliance */
-        .info-box { background: #e9ecef; padding: 20px; border-radius: 8px; margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 0.85rem; }
+        
+        /* PPA and Compliance Tables */
+        .info-box { background: white; padding: 25px; border-radius: 12px; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; font-size: 0.85rem; }
         th { background: var(--navy); color: white; }
+        .ppa-header { background: #e9ecef; color: var(--navy); font-weight: bold; }
 
         footer { background: var(--navy); color: white; padding: 30px; text-align: center; font-size: 0.85rem; }
     </style>
@@ -34,131 +38,133 @@
 <body>
 
 <nav>
-    <div style="color:white; font-weight:bold;">HYDRO NEPAL HUB</div>
+    <div style="color:white; font-weight:bold;">ENGINEERING GYAN</div>
     <div>
-        <a href="#roadmap">Project Development</a>
-        <a href="#compliance">Legal & Environment</a>
-        <a href="#technical">Technical Manuals</a>
-        <a href="#dashboard">Live Data</a>
+        <a href="#roadmap">Development Cycle</a>
+        <a href="#ppa">PPA Rates</a>
+        <a href="#compliance">Legal & Compliance</a>
+        <a href="#manuals">Manuals</a>
     </div>
 </nav>
 
 <header class="hero">
-    <h1>Comprehensive Hydropower Development Guide</h1>
-    <p>From Registration to Nationalization: Expert Knowledge for Nepal's Energy Sector</p>
+    <h1>Nepal Hydropower Hub</h1>
+    <p>Comprehensive Insights from Registration to Asset Nationalization </p>
 </header>
 
-<!-- Live Stats -->
 <div class="stats-grid">
-    <div class="stat-card"><h3>2238 MW</h3><p>Peak Demand</p></div>
-    <div class="stat-card"><h3>14.80 NPR</h3><p>Winter Tariff/Unit</p></div>
-    <div class="stat-card"><h3>1:10</h3><p>Compensatory Planting</p></div>
-    <div class="stat-card"><h3>30-35 Yrs</h3><p>Avg. License Term</p></div>
+    <div class="stat-card"><h3>2238 MW</h3><p>Peak Demand </p></div>
+    <div class="stat-card"><h3>14.80 NPR</h3><p>Winter Tariff </p></div>
+    <div class="stat-card"><h3>1:10</h3><p>Tree Planting </p></div>
+    <div class="stat-card"><h3>30-35 Yrs</h3><p>License Term </p></div>
 </div>
 
-<!-- 10-Step Lifecycle -->
+<!-- 10-Step Roadmap -->
 <section id="roadmap">
-    <h2>Project Development Lifecycle </h2>
+    <h2>Project Development Lifecycle</h2>
     <div class="roadmap">
-        <div class="step"><div class="step-num">1</div><h4>Company Registration</h4><p>Register at CRO, DOI, and Tax Office. FDI approval needed if foreign. </p></div>
-        <div class="step"><div class="step-num">2</div><h4>Survey License</h4><p>Issued via DoED/MoE. Valid for max 5 years to conduct feasibility studies. </p></div>
-        <div class="step"><div class="step-num">3</div><h4>Feasibility & Enviro</h4><p>IEE for projects <50MW; EIA for >50MW. Approving Authority: MoE/MoFE. </p></div>
-        <div class="step"><div class="step-num">4</div><h4>PPA Execution</h4><p>Power Purchase Agreement with NEA. Requires feasibility and LOI from banks. </p></div>
-        <div class="step"><div class="step-num">5</div><h4>Additional Approvals</h4><p>Forestry, National Parks, and Road Dept clearances as applicable. </p></div>
-        <div class="step"><div class="step-num">6</div><h4>Financial Closure</h4><p>Submission of PPA, project cost, and debt-equity ratio (usually 70:30). </p></div>
-        <div class="step"><div class="step-num">7</div><h4>Generation License</h4><p>Issued for 30-35 years (Max 50). Allows start of physical construction. </p></div>
-        <div class="step"><div class="step-num">8</div><h4>Construction</h4><p>Implementation phase following DoED standards and O&M safety rules. </p></div>
-        <div class="step"><div class="step-num">9</div><h4>Operation</h4><p>Power generation and royalty management via DoED system .</p></div>
-        <div class="step"><div class="step-num">10</div><h4>Handover</h4><p>Transfer of assets to GON for free after license expiry (Right of Reversion). </p></div>
+        <div class="step"><div class="step-num">1</div><h4>Company Registration</h4><p>Register at CRO, DOI, and Tax Office. FDI approval needed if foreign.</p></div>
+        <div class="step"><div class="step-num">2</div><h4>Survey License</h4><p>Issued via DoED/MoE; valid for max 5 years for feasibility studies.</p></div>
+        <div class="step"><div class="step-num">3</div><h4>Feasibility & Enviro</h4><p>IEE for projects <50MW; EIA for >50MW. Approved by MoE/MoFE.</p></div>
+        <div class="step"><div class="step-num">4</div><h4>PPA Execution</h4><p>Agreement with NEA. Requires technical feasibility and bank LOI.</p></div>
+        <div class="step"><div class="step-num">5</div><h4>Additional Approvals</h4><p>Forestry, National Parks, and Road Dept clearances as applicable.</p></div>
+        <div class="step"><div class="step-num">6</div><h4>Financial Closure</h4><p>Submission of cost data and debt-equity ratio (usually 70:30).</p></div>
+        <div class="step"><div class="step-num">7</div><h4>Generation License</h4><p>Issued for 30-35 years (Max 50). Start of construction.</p></div>
+        <div class="step"><div class="step-num">8</div><h4>Construction</h4><p>Implementation phase following DoED standards and O&M safety rules.</p></div>
+        <div class="step"><div class="step-num">9</div><h4>Operation</h4><p>Power generation and royalty management via DoED system.</p></div>
+        <div class="step"><div class="step-num">10</div><h4>Handover</h4><p>Assets revert to GON for free after license expiry (Right of Reversion).</p></div>
     </div>
 </section>
 
-<!-- Legal & Compliance -->
-<section id="compliance" style="background: white;">
+<!-- PPA Rates Section -->
+<section id="ppa" style="background: #e9ecef;">
+    <h2>NEA Power Purchase Rates</h2>
+    <p>Effective from 2074/01/14 (April 27, 2017). 3% simple annual escalation applies for 8 years for projects up to 100 MW. </p>
+    
+    <div class="info-box">
+        <h3>ROR & PROR Rates (Up to 100 MW)</h3>
+        <table>
+            <tr><th>Project Type</th><th>Season</th><th>Rate (Rs./KWh)</th><th>Min. Dry Energy Required</th></tr>
+            <tr><td><strong>ROR</strong></td><td>Wet (Jestha 16 - Mangsir 15)</td><td>4.80</td><td rowspan="2">30%</td></tr>
+            <tr><td><strong>ROR</strong></td><td>Dry (Mangsir 16 - Jestha 15)</td><td>8.40</td></tr>
+            <tr class="ppa-header"><td colspan="4">PROR Dry Peak Hour Tiers </td></tr>
+            <tr><td><strong>PROR</strong></td><td>1 to <2 Peak Hours</td><td>8.50</td><td rowspan="4">30% </td></tr>
+            <tr><td><strong>PROR</strong></td><td>2 to <3 Peak Hours</td><td>8.80</td></tr>
+            <tr><td><strong>PROR</strong></td><td>3 to <4 Peak Hours</td><td>9.40</td></tr>
+            <tr><td><strong>PROR</strong></td><td>4 to 6 Peak Hours</td><td>10.55</td></tr>
+            <tr><td><strong>PROR</strong></td><td>Non-peak / Wet Season</td><td>4.80 / 8.40</td><td>—</td></tr>
+        </table>
+    </div>
+
+    <div class="info-box" style="margin-top: 20px;">
+        <h3>Storage Project Rates</h3>
+        <table>
+            <tr><th>Season</th><th>Rate (Rs./KWh)</th><th>Min. Dry Energy Required</th></tr>
+            <tr><td>Dry (Mangsir 16 - Jestha 15)</td><td>12.40</td><td rowspan="2">35% </td></tr>
+            <tr><td>Wet (Jestha 16 - Mangsir 15)</td><td>7.10*</td></tr>
+        </table>
+        <p style="font-size: 0.75rem;">*If wet season energy > 50%, rate decreases by the excess %. If dry energy < 35%, considered as PROR.</p>
+    </div>
+</section>
+
+<!-- Legal & Environmental Compliance -->
+<section id="compliance">
     <h2>Legal & Environmental Compliance</h2>
     <div class="info-box">
         <h3>Hydropower Classifications </h3>
         <table>
             <tr><th>Category</th><th>Capacity</th><th>Regulatory Oversight</th></tr>
-            <tr><td>Micro Hydro</td><td>< 1 MW</td><td>Rural Municipality / Ward Office (Local Governance Act)</td></tr>
+            <tr><td>Micro Hydro</td><td>< 1 MW</td><td>Local Government / Ward Office</td></tr>
             <tr><td>Small Hydro</td><td>1 - 10 MW</td><td>DoED (Small-scale prioritization)</td></tr>
             <tr><td>Massive Hydro</td><td>> 10 MW</td><td>Department of Electricity Development (DoED)</td></tr>
-            <tr><td>Mega Projects</td><td>> 500 MW</td><td>Investment Board of Nepal (IBN) </td></tr>
+            <tr><td>Mega Projects</td><td>> 500 MW</td><td>Investment Board of Nepal (IBN)</td></tr>
         </table>
     </div>
 
-    <div class="info-box" style="margin-top:40px;">
-        <h3>Forest & Land Acquisition </h3>
-        <p>If the project area includes national forests, developers must:</p>
+    <div class="info-box" style="margin-top:20px;">
+        <h3>Forest & Land Acquisition [3]</h3>
         <ul>
-            <li>Obtain lease approval from the Ministry of Forest and Soil Conservation (MFSC). </li>
-            <li>Plant 10 trees for every 1 tree cut (1:10 ratio) and maintain them for 5 years.</li>
-            <li>Plant trees equal to the project area if using national forest land.</li>
+            <li><strong>Lease Approval:</strong> Required from Ministry of Forest and Soil Conservation (MFSC).</li>
+            <li><strong>Compensatory Planting:</strong> Plant 10 trees for every 1 cut (1:10 ratio) and maintain for 5 years.</li>
+            <li><strong>Area Substitution:</strong> Plant trees equal to the project area if using national forest land.</li>
         </ul>
     </div>
 </section>
 
-<!-- Technical Hub -->
-<section id="technical">
-    <h2>Expert Technical Manuals</h2>
+<!-- Manuals Section -->
+<section id="manuals" style="background: #e9ecef;">
+    <h2>Expert Technical Manuals [3, 10]</h2>
     <div class="roadmap">
         <div class="step">
             <h4>Construction & Site</h4>
             <ul>
-                <li>Guidelines for Explosive Quantity for Tunneling (2025) </li>
-                <li>PowerHouse Design Guidelines (2018) </li>
-                <li>Grid Code for Transmission </li>
+                <li>Explosive Quantity for Tunneling (2025)</li>
+                <li>PowerHouse Design Guidelines (2018)</li>
+                <li>Grid Code for Transmission</li>
             </ul>
         </div>
         <div class="step">
             <h4>Feasibility & Study</h4>
             <ul>
-                <li>Guidelines for Study of Hydropower (2018) </li>
-                <li>EIA/IEE Reporting Standards </li>
-                <li>Standard Progress Update Formats </li>
+                <li>Guidelines for Study of Hydropower (2018)</li>
+                <li>EIA/IEE Reporting Standards</li>
+                <li>Standard Progress Update Formats</li>
             </ul>
         </div>
         <div class="step">
             <h4>Financial & Legal</h4>
             <ul>
-                <li>Electricity Act 2049 (1992) </li>
-                <li>ERC Directives on Right Share Issues </li>
-                <li>Foreign Exchange Recommendation Guidelines </li>
+                <li>Electricity Act 2049 (1992)</li>
+                <li>ERC Directives on Right Share Issues</li>
+                <li>Foreign Currency PPA Guidelines (>100 MW)</li>
             </ul>
         </div>
     </div>
 </section>
 
-<!-- Live Data Dashboard -->
-<section id="dashboard" style="background: white;">
-    <h2>Nepal Hydropower Dashboard</h2>
-    <div id="map" style="height: 500px; border-radius: 12px; border: 1px solid #ddd;"></div>
-</section>
-
 <footer>
     <p>&copy; Copyright 2026 Civilopedia </p>
-    <p> </p>
 </footer>
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script>
-    var map = L.map('map').setView([28.3949, 84.1240], 7);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-    // Highlighting current project sites mentioned in sources
-    var projects = [
-        {name: "Upper Daraundi HPP", coords: [28.23, 84.66], status: "Construction"},
-        {name: "Upper Trishuli-1", coords: [28.11, 85.23], status: "SEIA Phase "},
-        {name: "Myardi Khola", coords: [28.45, 84.35], status: "EIA Notice "},
-        {name: "Saptakoshi High Dam", coords: [26.88, 87.15], status: "Study "}
-    ];
-
-    projects.forEach(p => {
-        L.marker(p.coords).addTo(map).bindPopup(`<b>${p.name}</b><br>Status: ${p.status}`);
-    });
-</script>
 
 </body>
 </html>
-
-
