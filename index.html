@@ -46,7 +46,56 @@
         <a href="#manuals">Manuals</a>
     </div>
 </nav>
+<style>
+    .hero {
+        /* 
+           1. The linear-gradient creates a dark blue overlay (matching your professional Navy theme).
+           2. Replace 'YOUR_IMAGE_URL_HERE' with the actual link to a high-quality hydropower image.
+        */
+        background-image: linear-gradient(rgba(26, 58, 95, 0.85), rgba(26, 58, 95, 0.85)), 
+                          url('YOUR_IMAGE_URL_HERE');
+        
+        /* Ensures the image covers the entire section without stretching */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        
+        /* Sets the height of the section (60% of the viewport height) */
+        height: 60vh; 
+        
+        /* Flexbox centers the text both vertically and horizontally */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+        color: white;
+        text-align: center;
+        padding: 0 5%;
+    }
 
+    .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 800;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        font-weight: 300;
+        max-width: 800px;
+        line-height: 1.5;
+    }
+
+    /* Responsive adjustment for mobile devices */
+    @media (max-width: 768px) {
+        .hero h1 { font-size: 2rem; }
+        .hero p { font-size: 1rem; }
+        .hero { height: 50vh; }
+    }
+</style>
 <header class="hero">
     <h1>Nepal Hydropower Hub</h1>
     <p>Comprehensive Insights from Registration to Asset Nationalization </p>
@@ -177,6 +226,7 @@
 
 </body>
 </html>
+
 
 
 
