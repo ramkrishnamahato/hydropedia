@@ -1,297 +1,413 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nepal Hydropower Hub | Civilopedia</title>
-    <!-- External Libraries -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root { --navy: #1a3a5f; --teal: #2a9d8f; --bg: #f4f7f6; --white: #ffffff; }
-        body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg); color: #333; line-height: 1.6; }
-        nav { background: var(--navy); padding: 15px 5%; display: flex; justify-content: space-between; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        nav a { color: white; text-decoration: none; margin-left: 20px; font-weight: 600; font-size: 0.85rem; }
-        
-        .hero { padding: 60px 5%; background: linear-gradient(rgba(26,58,95,0.9), rgba(26,58,95,0.9)), url('hydro.jpg'); color: white; text-align: center; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: -30px 5% 0; }
-        .stat-card { background: var(--white); padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); color: var(--navy); }
-        
-        section { padding: 60px 8%; }
-        h2 { color: var(--navy); border-bottom: 3px solid var(--teal); display: inline-block; padding-bottom: 5px; margin-bottom: 30px; }
-        
-        /* Roadmap Styling */
-        .roadmap { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .step { background: white; padding: 20px; border-radius: 8px; position: relative; border-top: 4px solid var(--teal); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .step-num { position: absolute; top: -15px; right: 10px; background: var(--navy); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        
-        /* PPA and Compliance Tables */
-        .info-box { background: white; padding: 25px; border-radius: 12px; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; font-size: 0.85rem; }
-        th { background: var(--navy); color: white; }
-        .ppa-header { background: #e9ecef; color: var(--navy); font-weight: bold; }
-
-        footer { background: var(--navy); color: white; padding: 30px; text-align: center; font-size: 0.85rem; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Civilopedia | Nepal Hydropower Hub</title>
+  <meta name="description" content="Civilopedia – Nepal's comprehensive hydropower reference: project development lifecycle, NEA PPA rates, legal compliance, and expert technical manuals." />
+  <meta property="og:title" content="Civilopedia | Nepal Hydropower Hub" />
+  <meta property="og:description" content="Comprehensive insights on Nepal hydropower – from company registration to asset nationalization." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.ramkrishnamahato.com.np/civilopedia/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:#0b1f3a;--blue:#1054a8;--sky:#2e8bc0;--teal:#0fa3b1;--gold:#e6a817;
+      --light:#f0f5fb;--white:#ffffff;--gray:#6b7a8d;--border:#d0dbe8;
+      --shadow:0 4px 24px rgba(11,31,58,.10);--radius:12px;
+      --font-head:'DM Serif Display',Georgia,serif;--font-body:'DM Sans',sans-serif;
+      --transition:.25s ease;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;font-size:16px}
+    body{font-family:var(--font-body);color:var(--navy);background:var(--light);line-height:1.65}
+    a{color:inherit;text-decoration:none}
+    nav{position:sticky;top:0;z-index:100;background:rgba(11,31,58,.96);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+    .nav-inner{max-width:1140px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px}
+    .brand{font-family:var(--font-head);font-size:1.4rem;color:var(--white);letter-spacing:.02em}
+    .brand span{color:var(--teal)}
+    .nav-search{display:flex;align-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:6px 14px;gap:8px;flex:0 1 260px}
+    .nav-search input{background:none;border:none;outline:none;color:var(--white);font-family:var(--font-body);font-size:.875rem;width:100%}
+    .nav-search input::placeholder{color:rgba(255,255,255,.4)}
+    .nav-links{display:flex;gap:4px}
+    .nav-links a{color:rgba(255,255,255,.75);font-size:.875rem;font-weight:500;padding:6px 12px;border-radius:6px;transition:var(--transition)}
+    .nav-links a:hover{color:var(--white);background:rgba(255,255,255,.1)}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+    .hamburger span{width:22px;height:2px;background:var(--white);border-radius:2px;transition:var(--transition);display:block}
+    .hero{background:linear-gradient(135deg,var(--navy) 0%,#0d2d52 50%,#0e3660 100%);padding:80px 24px 64px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+    .hero-tag{display:inline-block;background:rgba(14,163,177,.2);color:var(--teal);border:1px solid rgba(14,163,177,.4);border-radius:100px;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;margin-bottom:20px}
+    .hero h1{font-family:var(--font-head);font-size:clamp(2rem,5vw,3.2rem);color:var(--white);line-height:1.2;max-width:680px;margin:0 auto 16px}
+    .hero p{color:rgba(255,255,255,.6);font-size:1.05rem;max-width:520px;margin:0 auto 40px}
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:760px;margin:0 auto}
+    .stat-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:20px 16px;transition:var(--transition)}
+    .stat-card:hover{background:rgba(255,255,255,.12);transform:translateY(-2px)}
+    .stat-value{font-family:var(--font-head);font-size:1.6rem;color:var(--gold);line-height:1;margin-bottom:6px}
+    .stat-label{color:rgba(255,255,255,.55);font-size:.8rem;font-weight:500}
+    .container{max-width:1140px;margin:0 auto;padding:0 24px}
+    section{padding:72px 24px}
+    .section-header{text-align:center;margin-bottom:48px}
+    .section-tag{display:inline-block;background:rgba(16,84,168,.1);color:var(--blue);border-radius:100px;font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:4px 14px;margin-bottom:12px}
+    .section-header h2{font-family:var(--font-head);font-size:clamp(1.6rem,3vw,2.4rem);color:var(--navy);margin-bottom:10px}
+    .section-header p{color:var(--gray);max-width:560px;margin:0 auto}
+    #roadmap{background:var(--white)}
+    .lifecycle-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;max-width:1140px;margin:0 auto}
+    .lifecycle-card{border:1px solid var(--border);border-radius:var(--radius);padding:24px 20px;background:var(--light);transition:var(--transition)}
+    .lifecycle-card:hover{border-color:var(--sky);box-shadow:var(--shadow);transform:translateY(-3px)}
+    .step-num{width:34px;height:34px;border-radius:50%;background:var(--blue);color:var(--white);font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+    .lifecycle-card h4{font-size:1rem;font-weight:600;margin-bottom:8px;color:var(--navy)}
+    .lifecycle-card p{font-size:.875rem;color:var(--gray)}
+    #ppa{background:var(--light)}
+    .ppa-notice{max-width:900px;margin:0 auto 36px;background:rgba(230,168,23,.1);border:1px solid rgba(230,168,23,.35);border-left:4px solid var(--gold);border-radius:var(--radius);padding:14px 20px;font-size:.9rem;color:#7a5000}
+    .table-wrap{max-width:900px;margin:0 auto 40px;overflow-x:auto;border-radius:var(--radius);box-shadow:var(--shadow)}
+    .table-wrap h3{background:var(--navy);color:var(--white);font-family:var(--font-head);font-size:1.15rem;padding:16px 24px;border-radius:var(--radius) var(--radius) 0 0}
+    table{width:100%;border-collapse:collapse;background:var(--white);font-size:.875rem}
+    th{background:var(--blue);color:var(--white);font-weight:600;padding:12px 16px;text-align:left;white-space:nowrap}
+    td{padding:11px 16px;border-bottom:1px solid var(--border);vertical-align:top}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:rgba(16,84,168,.04)}
+    .rate{font-weight:700;color:var(--blue)}
+    .ppa-notes{max-width:900px;margin:0 auto;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px}
+    .ppa-notes h4{font-weight:600;margin-bottom:14px;color:var(--navy)}
+    .ppa-notes ol{padding-left:18px}
+    .ppa-notes li{font-size:.875rem;color:var(--gray);margin-bottom:10px;line-height:1.6}
+    #compliance{background:var(--white)}
+    .compliance-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1140px;margin:0 auto}
+    .comp-card{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .comp-card-head{background:var(--navy);color:var(--white);padding:14px 20px;font-family:var(--font-head);font-size:1.05rem}
+    #manuals{background:var(--light)}
+    .manuals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;max-width:1140px;margin:0 auto}
+    .manual-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:var(--transition)}
+    .manual-card:hover{box-shadow:var(--shadow);transform:translateY(-3px)}
+    .manual-card-head{padding:18px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border)}
+    .manual-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .manual-card-head h4{font-size:1rem;font-weight:600}
+    .manual-list{list-style:none}
+    .manual-list li{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--border);font-size:.875rem;transition:var(--transition)}
+    .manual-list li:last-child{border-bottom:none}
+    .manual-list li:hover{background:var(--light)}
+    .manual-list a{color:var(--navy);font-weight:500;flex:1}
+    .manual-list a:hover{color:var(--blue)}
+    .badge-soon{font-size:.7rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;background:rgba(16,84,168,.1);color:var(--blue);padding:3px 8px;border-radius:100px;flex-shrink:0}
+    footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;padding:32px 24px;font-size:.875rem}
+    footer strong{color:var(--teal)}
+    #back-top{position:fixed;bottom:28px;right:28px;z-index:200;width:46px;height:46px;border-radius:50%;background:var(--blue);color:var(--white);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(16,84,168,.4);opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;font-size:1.2rem}
+    #back-top.visible{opacity:1;pointer-events:auto}
+    #back-top:hover{transform:translateY(-3px)}
+    mark{background:rgba(230,168,23,.35);color:inherit;border-radius:2px}
+    .fade-in{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
+    .fade-in.visible{opacity:1;transform:none}
+    @media(max-width:768px){
+      .nav-links{display:none}
+      .nav-links.open{display:flex;flex-direction:column;position:absolute;top:60px;left:0;right:0;background:var(--navy);padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+      .hamburger{display:flex}
+      nav{position:relative}
+      .stats-grid{grid-template-columns:repeat(2,1fr)}
+      .compliance-grid{grid-template-columns:1fr}
+      section{padding:48px 16px}
+    }
+    @media(max-width:480px){
+      .lifecycle-grid{grid-template-columns:1fr}
+      .nav-search{flex:0 1 140px}
+    }
+  </style>
 </head>
 <body>
 
-<nav>
-    <div style="color:white; font-weight:bold;">Civilopedia</div>
-    <div>
-        <a href="#roadmap">Development Cycle</a>
-        <a href="#ppa">PPA Rates</a>
-        <a href="#compliance">Legal & Compliance</a>
-        <a href="#manuals">Manuals</a>
+<nav role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <div class="brand">Civil<span>opedia</span></div>
+    <div class="nav-search" role="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="site-search" placeholder="Search topics…" aria-label="Search page content" />
     </div>
+    <div class="nav-links" id="nav-links">
+      <a href="#roadmap">Dev Cycle</a>
+      <a href="#ppa">PPA Rates</a>
+      <a href="#compliance">Legal</a>
+      <a href="#manuals">Manuals</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
-<style>
-    .hero {
-        /* 
-           1. The linear-gradient creates a dark blue overlay (matching your professional Navy theme).
-           2. Replace 'YOUR_IMAGE_URL_HERE' with the actual link to a high-quality hydropower image.
-        */
-        background-image: linear-gradient(rgba(26, 58, 95, 0.2), rgba(26, 58, 95, 0.7)), 
-                          url('bg_1.jpg');
-        
-        /* Ensures the image covers the entire section without stretching */
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        
-        /* Sets the height of the section (40% of the viewport height) */
-        height: 50vh; 
-        
-        /* Flexbox centers the text both vertically and horizontally */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        
-        color: white;
-        text-align: center;
-        padding: 0 5%;
-    }
 
-    .hero h1 {
-        font-size: 3rem;
-        margin-bottom: 10px;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        font-weight: 800;
-    }
-
-    .hero p {
-        font-size: 1.2rem;
-        font-weight: 300;
-        max-width: 800px;
-        line-height: 1;
-    }
-
-    /* Responsive adjustment for mobile devices */
-    @media (max-width: 768px) {
-        .hero h1 { font-size: 2rem; }
-        .hero p { font-size: 1rem; }
-        .hero { height: 50vh; }
-    }
-</style>
-<header class="hero">
-    <h1>Nepal Hydropower Hub</h1>
-    <p>Comprehensive Insights from Registration to Asset Nationalization </p>
+<header class="hero" role="banner">
+  <div class="hero-tag">🇳🇵 Nepal Reference Hub</div>
+  <h1>Nepal Hydropower Hub</h1>
+  <p>Comprehensive insights from company registration to asset nationalization — all in one place.</p>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-value">2238 MW</div><div class="stat-label">Peak Demand</div></div>
+    <div class="stat-card"><div class="stat-value">14.80 NPR</div><div class="stat-label">Winter Tariff</div></div>
+    <div class="stat-card"><div class="stat-value">1:10</div><div class="stat-label">Tree Planting Ratio</div></div>
+    <div class="stat-card"><div class="stat-value">30–35 Yrs</div><div class="stat-label">License Term</div></div>
+  </div>
 </header>
 
-<div class="stats-grid">
-    <div class="stat-card"><h3>2238 MW</h3><p>Peak Demand </p></div>
-    <div class="stat-card"><h3>14.80 NPR</h3><p>Winter Tariff </p></div>
-    <div class="stat-card"><h3>1:10</h3><p>Tree Planting </p></div>
-    <div class="stat-card"><h3>30-35 Yrs</h3><p>License Term </p></div>
-    <div class="stat-card"><h3>2238 MW</h3><p>Peak Demand </p></div>
-    <div class="stat-card"><h3>14.80 NPR</h3><p>Winter Tariff </p></div>
-    <div class="stat-card"><h3>1:10</h3><p>Tree Planting </p></div>
-    <div class="stat-card"><h3>30-35 Yrs</h3><p>License Term </p></div>
-</div>
-
-<!-- 10-Step Roadmap -->
-<section id="roadmap">
-    <h2>Project Development Lifecycle</h2>
-    <div class="roadmap">
-        <div class="step"><div class="step-num">1</div><h4>Company Registration</h4><p>Register at CRO, DOI, and Tax Office. FDI approval needed if foreign.</p></div>
-        <div class="step"><div class="step-num">2</div><h4>Survey License</h4><p>Issued via DoED/MoE; valid for max 5 years for feasibility studies.</p></div>
-        <div class="step"><div class="step-num">3</div><h4>Feasibility & Enviro</h4><p>IEE for projects <50MW; EIA for >50MW. Approved by MoE/MoFE.</p></div>
-        <div class="step"><div class="step-num">4</div><h4>PPA Execution</h4><p>Agreement with NEA. Requires technical feasibility and bank LOI.</p></div>
-        <div class="step"><div class="step-num">5</div><h4>Additional Approvals</h4><p>Forestry, National Parks, and Road Dept clearances as applicable.</p></div>
-        <div class="step"><div class="step-num">6</div><h4>Financial Closure</h4><p>Submission of cost data and debt-equity ratio (usually 70:30).</p></div>
-        <div class="step"><div class="step-num">7</div><h4>Generation License</h4><p>Issued for 30-35 years (Max 50). Start of construction.</p></div>
-        <div class="step"><div class="step-num">8</div><h4>Construction</h4><p>Implementation phase following DoED standards and O&M safety rules.</p></div>
-        <div class="step"><div class="step-num">9</div><h4>Operation</h4><p>Power generation and royalty management via DoED system.</p></div>
-        <div class="step"><div class="step-num">10</div><h4>Handover</h4><p>Assets revert to GON for free after license expiry (Right of Reversion).</p></div>
-    </div>
+<section id="roadmap" aria-labelledby="roadmap-heading">
+  <div class="section-header fade-in">
+    <div class="section-tag">Step by Step</div>
+    <h2 id="roadmap-heading">Project Development Lifecycle</h2>
+    <p>From initial registration through construction to final handover to the Government of Nepal.</p>
+  </div>
+  <div class="lifecycle-grid container">
+    <div class="lifecycle-card fade-in"><div class="step-num">1</div><h4>Company Registration</h4><p>Register at CRO, DOI, and Tax Office. FDI approval needed for foreign participation.</p></div>
+    <div class="lifecycle-card fade-in"><div class="step-num">2</div><h4>Survey License</h4><p>Issued via DoED/MoE; valid for max 5 years for feasibility studies.</p></div>
+    <div class="lifecycle-card fade-in"><div class="step-num">3</div><h4>Feasibility &amp; Environment</h4><p>IEE for projects &lt;50MW; EIA for &gt;50MW. Approved by MoE/MoFE.</p></div>
+    <div class="lifecycle-card fade-in"><div class="step-num">4</div><h4>PPA Execution</h4><p>Agreement with NEA. Requires technical feasibility and bank letter of intent.</p></div>
+    <div class="lifecycle-card fade-in"><div class="step-num">5</div><h4>Additional Approvals</h4><p>Forestry, National Parks, and Road Department clearances as applicable.</p></div>
+    <div class="lifecycle-card fade-in"><div class="step-num">6</div><h4>Financial Closure</h4><p>Submission of cost data and debt-equity ratio (usually 70:30).</p></div>
+    <div class="lifecycle-card fade-in"><div class="step-num">7</div><h4>Generation License</h4><p>Issued for 30–35 years (max 50). Marks the start of construction.</p></div>
+    <div class="lifecycle-card fade-in"><div class="step-num">8</div><h4>Construction</h4><p>Implementation phase following DoED standards and O&amp;M safety rules.</p></div>
+    <div class="lifecycle-card fade-in"><div class="step-num">9</div><h4>Operation</h4><p>Power generation and royalty management via the DoED system.</p></div>
+    <div class="lifecycle-card fade-in"><div class="step-num">10</div><h4>Handover</h4><p>Assets revert to GON for free after license expiry (Right of Reversion).</p></div>
+  </div>
 </section>
 
-<!-- PPA Rates Section -->
-<section id="ppa" style="background: #e9ecef;">
-    <h2>NEA Power Purchase Rates</h2>
-    <p>Effective from 2074/01/14 (April 27, 2017). 3% simple annual escalation applies for 8 years for projects up to 100 MW. </p>
-    
-    <div class="info-box">
-        <h3>ROR Rates (Up to 100 MW)</h3>
-        <table>
-            <tr><th>Option</th><th>Season</th><th>Rate (Rs./KWh)</th><th>Min. Dry Energy Required</th></tr>
-            <tr><td rowspan="2"><strong>1 (Dry   and Wet season 6 months each) </strong></td><td>Wet (Jestha 16 - Mangsir 15)</td><td>4.80</td><td rowspan="2">30%</td></tr>
-            <tr><td>Dry (Mangsir 16 - Jestha 15)</td><td>8.40</td></tr>
-            <tr><td rowspan="2"><strong>2 (Dry and Wet season 4 months and 8 months respectively)</strong></td><td>Wet (Baisakh - Mangsir)</td><td>4.80</td><td rowspan="2">15%</td></tr>
-            <tr><td>Dry (Poush - Chaitra)</td><td>8.40</td></tr>
-            
-        </table>
-    </div>
- <div class="info-box">
-        <h3>PROR Dry Peak Hour Tiers (Up to 100 MW)</h3>
-        <table>
-            <tr><th>Project Type</th><th>Season</th><th>Time of the day</th><th>Daily hours</th><th>Rate (Rs./KWh)</th><th>Min. Dry Energy Required</th></tr>
-            <tr><td rowspan="6"><strong>PROR</strong></td><td rowspan="5">Dry (Mangsir 16 - Jestha 15)</td><td rowspan="4">Peak hours </td><td>1 to <2 Peak Hours</td><td>8.50</td><td rowspan="6">30% </td></tr>
-            <tr><td>2 to <3 Peak Hours</td><td>8.80</td></tr>
-            <tr><td>3 to <4 Peak Hours</td><td>9.40</td></tr>
-            <tr><td>4 to 6 Peak Hours</td><td>10.55</td></tr>
-            <tr><td>Non-peak hours </td><td></td><td>4.80 </td></tr>
-            <tr><td> Wet (Jestha 16 - Mangsir 15)</td><td>All hours </td><td></td><td>4.80 </td></tr>
-        </table>
-    </div>
-    <div class="info-box" style="margin-top: 20px;">
-        <h3>Storage Project Rates</h3>
-        <table>
-            <tr><th>Season</th><th>Rate (Rs./KWh)</th><th>Min. Dry Energy Required</th></tr>
-            <tr><td>Dry (Mangsir 16 - Jestha 15)</td><td>12.40</td><td rowspan="2">35% </td></tr>
-            <tr><td>Wet (Jestha 16 - Mangsir 15)</td><td>7.10*</td></tr>
-        </table>
-        <p style="font-size: 0.75rem;">*If wet season energy > 50%, rate decreases by the excess %. If dry energy < 35%, considered as PROR.</p>
-        </div>
-        <p style="font-size: 0.75rem;">1. If dry season energy is less than 35% of annual energy, a storage project shall be considered as a PROR project for applying the power purchase rate.</p>
-        <p style="font-size: 0.75rem;">2. Flat power purchase rate ( example for less than 50% wet season energy : Dry season energy % *12.40 + Wet season energy % *7.10) shall be applicable for multipurpose storage projects. </p>
-        <p style="font-size: 0.75rem;">3. The active storage volume of a storage project should not be less than the volume corresponding to the design discharge of 15 days and the dead storage volume should be designed not to be filled up by sediments for at least 50 years.</p>
-        <p style="font-size: 0.75rem;">4. A PROR project must be capable of providing daily peaking power at rated capacity for minimum 1 hour to 6 hours at one time.</p>
-        <p style="font-size: 0.75rem;">5. Despite any hours of daily peaking mentioned in PPA, power purchase rate for a PROR project in the dry season for the peaking energy shall be as per actual as approved once a year by the system operator after the project is commissioned.</p>
-        <p style="font-size: 0.75rem;">6. If the energy supplied in dry season is found to be less than 30% after the ROR/PROR project comes into operation despite mentioning 30 % or more dry season energy in PPA, the annual energy supplied more than the estimated annual energy based on 30% energy in dry season shall be adjusted  as a compensation in the monthly bill payment in the next year.
-        Example: Suppose, annual contract energy (X) = 100 GWh
-        Min. dry season energy required to be supplied = 0.3X
-        Suppose, dry season energy supplied in a year (y) = 29 GWh
-        Total estimated annual energy based on 30% dry season energy = y/0.3 =96.67 GWh
-        Amount to be adjusted as a compensation =(Total energy supplied in a year – Total annual estimated energy based on 30% dry season energy)* Power purchase rate in the wet season of the relevant year.
-        However, if the developer has paid the penalty on account of not meeting the energy as per the monthly availability declaration in a fiscal year, the only one which is higher out of the above compensation amount or the penalty in a year on account of not meeting the availability declaration shall be applicable.</p>
-        <p style="font-size: 0.75rem;">7. The new rates and the associated rules shall be applicable only to the projects to be concluded from Baisakh 14, 2074 onwards. </p>
-        <p style="font-size: 0.75rem;">8. For  foreign  currency  denominated  PPA,  NEA  Board  has  approved  the guidelines based on the above rates and associated terms and conditions. </p>
-</section>
-<!-- Legal & Environmental Compliance -->
-<section id="compliance">
-    <h2>Legal & Environmental Compliance</h2>
-    <div class="info-box">
-    <h3>Hydropower Classifications</h3>
-    
-    <!-- Administrative/Regulatory Classification -->
-    <p><strong>1. Administrative & Regulatory Classification</strong></p>
+<section id="ppa" aria-labelledby="ppa-heading">
+  <div class="section-header fade-in">
+    <div class="section-tag">NEA Tariff Schedule</div>
+    <h2 id="ppa-heading">NEA Power Purchase Rates</h2>
+    <p>3% simple annual escalation applies for 8 years for projects up to 100 MW.</p>
+  </div>
+  <div class="ppa-notice fade-in" role="note">
+    ⚠️ <strong>Rate Notice:</strong> Rates below are effective from 2074/01/14 (April 27, 2017). Please verify against the latest NEA circulars before concluding any PPA.
+  </div>
+  <div class="table-wrap fade-in">
+    <h3>ROR Rates — Up to 100 MW</h3>
     <table>
-        <tr><th>Category</th><th>Capacity</th><th>Regulatory Oversight</th></tr>
-        <tr><td>Micro Hydro</td><td>< 1 MW</td><td>Local Government / Ward Office </td></tr>
-        <tr><td>Small Hydro</td><td>1 - 10 MW</td><td>DoED (Small-scale prioritization)</td></tr>
-        <tr><td>Massive Hydro</td><td>> 10 MW</td><td>Department of Electricity Development (DoED)</td></tr>
-        <tr><td>Mega Projects</td><td>> 500 MW</td><td>Investment Board of Nepal (IBN)</td></tr>
+      <thead><tr><th scope="col">Option</th><th scope="col">Season</th><th scope="col">Rate (Rs./KWh)</th><th scope="col">Min. Dry Energy</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="2"><strong>Option 1</strong><br/><small>Dry &amp; Wet 6 months each</small></td><td>Wet (Jestha 16 – Mangsir 15)</td><td class="rate">4.80</td><td rowspan="2">30%</td></tr>
+        <tr><td>Dry (Mangsir 16 – Jestha 15)</td><td class="rate">8.40</td></tr>
+        <tr><td rowspan="2"><strong>Option 2</strong><br/><small>Wet 8 mo. / Dry 4 mo.</small></td><td>Wet (Baisakh – Mangsir)</td><td class="rate">4.80</td><td rowspan="2">15%</td></tr>
+        <tr><td>Dry (Poush – Chaitra)</td><td class="rate">8.40</td></tr>
+      </tbody>
     </table>
-
-    <!-- Technical Classification Based on Capacity (Nepal Specific) -->
-    <p style="margin-top: 20px;"><strong>2. Based on Head </strong></p>
-        <p style="margin-top: 10px;">According to Dandaker and Sharma, hydropower plants can be categorized based on head as below: </p>
+  </div>
+  <div class="table-wrap fade-in">
+    <h3>PROR Dry Peak Hour Tiers — Up to 100 MW</h3>
     <table>
-        <tr><th>Plant Type</th><th>Capacity Range</th></tr>
-        <tr><td>Low Head Plants:</td><td> <15 m </td></tr>
-        <tr><td>Medium head plants:</td><td>15 - 70m</td></tr>
-        <tr><td>High head plants:</td><td>71 - 250m</td></tr>
-        <tr><td>Very high head plants:</td><td>>250m </td></tr>
+      <thead><tr><th scope="col">Type</th><th scope="col">Season</th><th scope="col">Period</th><th scope="col">Daily Hours</th><th scope="col">Rate (Rs./KWh)</th><th scope="col">Min. Dry Energy</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="6"><strong>PROR</strong></td><td rowspan="5">Dry (Mangsir 16 – Jestha 15)</td><td rowspan="4">Peak hours</td><td>1 to &lt;2 hrs</td><td class="rate">8.50</td><td rowspan="6">30%</td></tr>
+        <tr><td>2 to &lt;3 hrs</td><td class="rate">8.80</td></tr>
+        <tr><td>3 to &lt;4 hrs</td><td class="rate">9.40</td></tr>
+        <tr><td>4 to 6 hrs</td><td class="rate">10.55</td></tr>
+        <tr><td>Non-peak</td><td>—</td><td class="rate">4.80</td></tr>
+        <tr><td>Wet (Jestha 16 – Mangsir 15)</td><td>All hours</td><td>—</td><td class="rate">4.80</td></tr>
+      </tbody>
     </table>
-
-    <!-- Technical Classification Based on Head (Nepal Specific) -->
-    <p style="margin-top: 20px;"><strong>3. Technical Classification Based on Head (Nepal Context)</strong></p>
+  </div>
+  <div class="table-wrap fade-in">
+    <h3>Storage Project Rates</h3>
     <table>
-        <tr><th>Classification</th><th>Head Range (m)</th></tr>
-        <tr><td>Very High Head Plant</td><td>> 350m</td></tr>
-        <tr><td>High Head Plant</td><td>150m - 350m</td></tr>
-        <tr><td>Medium Head Plant</td><td>60m - 150m</td></tr>
-        <tr><td>Low Head Plant</td><td>Below 60m</td></tr>
-        <tr><td>Very Low Head Plant</td><td>Upto 15m</td></tr>
+      <thead><tr><th scope="col">Season</th><th scope="col">Rate (Rs./KWh)</th><th scope="col">Min. Dry Energy</th></tr></thead>
+      <tbody>
+        <tr><td>Dry (Mangsir 16 – Jestha 15)</td><td class="rate">12.40</td><td>35%</td></tr>
+        <tr><td>Wet (Jestha 16 – Mangsir 15)</td><td class="rate">7.10*</td><td>—</td></tr>
+      </tbody>
     </table>
-
-    <!-- Other Classifications -->
-    <div style="margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-        <div>
-            <p><strong>4. Based on Purpose </strong></p>
-            <ul>
-                <li><strong>Single Purpose:</strong> Solely for electricity generation (e.g., Upper Tamakoshi).</li>
-                <li><strong>Multipurpose:</strong> Functions for electricity and other uses like irrigation (e.g., Bheri Babai Diversion).</li>
-            </ul>
-        </div>
-        <div>
-            <p><strong>5. Based on Operation </strong></p>
-            <ul>
-                <li><strong>Isolated Plant:</strong> Designed for a particular village; not connected to the national grid.</li>
-                <li><strong>Grid Connected:</strong> Power station feeding directly into the national grid.</li>
-            </ul>
-        </div>
-    </div>
-</div>
-</section>
-<!-- Manuals Section -->
-<section id="manuals" style="background: #e9ecef;">
-    <h2>Expert Technical Manuals </h2>
-    <div class="roadmap">
-        <div class="step">
-            <h4>Construction & Site</h4>
-            <ul>
-                <li>Explosive Quantity for Tunneling (2025)</li>
-                <li>PowerHouse Design Guidelines (2018)</li>
-                <li>Grid Code for Transmission</li>
-            </ul>
-        </div>
-        <div class="step">
-            <h4>Feasibility & Study</h4>
-            <ul>
-                <li>Guidelines for Study of Hydropower (2018)</li>
-                <li>EIA/IEE Reporting Standards</li>
-                <li>Standard Progress Update Formats</li>
-            </ul>
-        </div>
-        <div class="step">
-            <h4>Financial & Legal</h4>
-            <ul>
-                <li>Electricity Act 2049 (1992)</li>
-                <li>ERC Directives on Right Share Issues</li>
-                <li>Foreign Currency PPA Guidelines (>100 MW)</li>
-            </ul>
-        </div>
-    </div>
+  </div>
+  <div class="ppa-notes fade-in">
+    <h4>Important Notes &amp; Conditions</h4>
+    <ol>
+      <li>If dry season energy is less than 35% of annual energy, a storage project shall be considered as a PROR project for applying the power purchase rate.</li>
+      <li>Flat power purchase rate shall be applicable for multipurpose storage projects (Dry % × 12.40 + Wet % × 7.10).</li>
+      <li>Active storage volume should not be less than 15 days design discharge. Dead storage must resist sediment fill for at least 50 years.</li>
+      <li>A PROR project must provide daily peaking power at rated capacity for minimum 1 to 6 hours at one time.</li>
+      <li>Power purchase rate for PROR dry season peaking energy shall be as per actual, approved once a year by the system operator after commissioning.</li>
+      <li>If dry season energy falls below 30% after commissioning despite PPA commitment, excess annual energy above the 30%-based estimate shall be adjusted as compensation in the next year's bill.</li>
+      <li>New rates and rules apply only to projects concluded from Baisakh 14, 2074 onwards.</li>
+      <li>For foreign currency denominated PPA, NEA Board has approved guidelines based on the above rates and terms.</li>
+    </ol>
+    <p style="margin-top:12px;font-size:.8rem;color:var(--gray);">* If wet season energy &gt; 50%, rate decreases by the excess %. If dry energy &lt; 35%, project is treated as PROR.</p>
+  </div>
 </section>
 
-<footer>
-    <p>&copy; Copyright 2026 Civilopedia </p>
+<section id="compliance" aria-labelledby="compliance-heading">
+  <div class="section-header fade-in">
+    <div class="section-tag">Regulatory Framework</div>
+    <h2 id="compliance-heading">Legal &amp; Environmental Compliance</h2>
+    <p>Classifications and oversight responsibilities under Nepal's hydropower regulatory system.</p>
+  </div>
+  <div class="compliance-grid container">
+    <div class="comp-card fade-in">
+      <div class="comp-card-head">1 · Administrative &amp; Regulatory Classification</div>
+      <div class="table-wrap" style="margin:0;border-radius:0 0 var(--radius) var(--radius);box-shadow:none;">
+        <table>
+          <thead><tr><th scope="col">Category</th><th scope="col">Capacity</th><th scope="col">Oversight</th></tr></thead>
+          <tbody>
+            <tr><td>Micro Hydro</td><td>&lt; 1 MW</td><td>Local Govt / Ward</td></tr>
+            <tr><td>Small Hydro</td><td>1 – 10 MW</td><td>DoED</td></tr>
+            <tr><td>Massive Hydro</td><td>&gt; 10 MW</td><td>DoED</td></tr>
+            <tr><td>Mega Projects</td><td>&gt; 500 MW</td><td>IBN</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="comp-card fade-in">
+      <div class="comp-card-head">2 · Based on Head (Dandaker &amp; Sharma)</div>
+      <div class="table-wrap" style="margin:0;border-radius:0 0 var(--radius) var(--radius);box-shadow:none;">
+        <table>
+          <thead><tr><th scope="col">Plant Type</th><th scope="col">Head Range</th></tr></thead>
+          <tbody>
+            <tr><td>Low Head</td><td>&lt; 15 m</td></tr>
+            <tr><td>Medium Head</td><td>15 – 70 m</td></tr>
+            <tr><td>High Head</td><td>71 – 250 m</td></tr>
+            <tr><td>Very High Head</td><td>&gt; 250 m</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="comp-card fade-in">
+      <div class="comp-card-head">3 · Technical Classification — Nepal Context</div>
+      <div class="table-wrap" style="margin:0;border-radius:0 0 var(--radius) var(--radius);box-shadow:none;">
+        <table>
+          <thead><tr><th scope="col">Classification</th><th scope="col">Head Range (m)</th></tr></thead>
+          <tbody>
+            <tr><td>Very High Head</td><td>&gt; 350 m</td></tr>
+            <tr><td>High Head</td><td>150 – 350 m</td></tr>
+            <tr><td>Medium Head</td><td>60 – 150 m</td></tr>
+            <tr><td>Low Head</td><td>Below 60 m</td></tr>
+            <tr><td>Very Low Head</td><td>Up to 15 m</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="comp-card fade-in">
+      <div class="comp-card-head">4 &amp; 5 · Based on Purpose &amp; Operation</div>
+      <div style="padding:20px 20px 16px;">
+        <p style="font-weight:600;font-size:.9rem;margin-bottom:6px;color:var(--navy);">By Purpose</p>
+        <p style="font-size:.875rem;color:var(--gray);margin-bottom:16px;"><strong>Single Purpose:</strong> Solely for electricity generation (e.g., Upper Tamakoshi).<br/><strong>Multipurpose:</strong> Electricity + irrigation etc. (e.g., Bheri Babai Diversion).</p>
+        <p style="font-weight:600;font-size:.9rem;margin-bottom:6px;color:var(--navy);">By Operation</p>
+        <p style="font-size:.875rem;color:var(--gray);"><strong>Isolated Plant:</strong> Designed for a specific village; not grid-connected.<br/><strong>Grid Connected:</strong> Power station feeding directly into the national grid.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="manuals" aria-labelledby="manuals-heading">
+  <div class="section-header fade-in">
+    <div class="section-tag">Reference Library</div>
+    <h2 id="manuals-heading">Expert Technical Manuals</h2>
+    <p>Key guidelines, acts, and standards for hydropower practitioners in Nepal.</p>
+  </div>
+  <div class="manuals-grid container">
+    <div class="manual-card fade-in">
+      <div class="manual-card-head">
+        <div class="manual-icon" style="background:rgba(46,139,192,.12);">
+          <svg width="20" height="20" fill="none" stroke="#2e8bc0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h4>Construction &amp; Site</h4>
+      </div>
+      <ul class="manual-list">
+        <li><a href="#">Explosive Quantity for Tunneling (2025)</a><span class="badge-soon">Soon</span></li>
+        <li><a href="#">PowerHouse Design Guidelines (2018)</a><span class="badge-soon">Soon</span></li>
+        <li><a href="#">Grid Code for Transmission</a><span class="badge-soon">Soon</span></li>
+      </ul>
+    </div>
+    <div class="manual-card fade-in">
+      <div class="manual-card-head">
+        <div class="manual-icon" style="background:rgba(15,163,177,.12);">
+          <svg width="20" height="20" fill="none" stroke="#0fa3b1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h4>Feasibility &amp; Study</h4>
+      </div>
+      <ul class="manual-list">
+        <li><a href="#">Guidelines for Study of Hydropower (2018)</a><span class="badge-soon">Soon</span></li>
+        <li><a href="#">EIA/IEE Reporting Standards</a><span class="badge-soon">Soon</span></li>
+        <li><a href="#">Standard Progress Update Formats</a><span class="badge-soon">Soon</span></li>
+      </ul>
+    </div>
+    <div class="manual-card fade-in">
+      <div class="manual-card-head">
+        <div class="manual-icon" style="background:rgba(230,168,23,.12);">
+          <svg width="20" height="20" fill="none" stroke="#e6a817" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+        </div>
+        <h4>Financial &amp; Legal</h4>
+      </div>
+      <ul class="manual-list">
+        <li><a href="#">Electricity Act 2049 (1992)</a><span class="badge-soon">Soon</span></li>
+        <li><a href="#">ERC Directives on Right Share Issues</a><span class="badge-soon">Soon</span></li>
+        <li><a href="#">Foreign Currency PPA Guidelines (&gt;100 MW)</a><span class="badge-soon">Soon</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer role="contentinfo">
+  <p>&copy; 2026 <strong>Civilopedia</strong> · Built by Ram Krishna Mahato · All rights reserved.</p>
 </footer>
 
+<button id="back-top" aria-label="Back to top" title="Back to top">↑</button>
+
+<script>
+  const ham = document.getElementById('hamburger');
+  const links = document.getElementById('nav-links');
+  ham.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    ham.setAttribute('aria-expanded', open);
+  });
+  document.querySelectorAll('.nav-links a').forEach(a =>
+    a.addEventListener('click', () => links.classList.remove('open'))
+  );
+  const btn = document.getElementById('back-top');
+  window.addEventListener('scroll', () => btn.classList.toggle('visible', window.scrollY > 400));
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  const searchInput = document.getElementById('site-search');
+  function clearHighlights() {
+    document.querySelectorAll('mark').forEach(m => {
+      m.parentNode.replaceChild(document.createTextNode(m.textContent), m);
+    });
+  }
+  function highlightText(term) {
+    clearHighlights();
+    if (!term.trim()) return;
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        return ['SCRIPT','STYLE','NAV','INPUT','BUTTON'].includes(node.parentNode.tagName)
+          ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    const re = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+    let firstMatch = null;
+    nodes.forEach(node => {
+      if (!re.test(node.textContent)) return;
+      re.lastIndex = 0;
+      const frag = document.createDocumentFragment();
+      let last = 0, match;
+      while ((match = re.exec(node.textContent)) !== null) {
+        frag.appendChild(document.createTextNode(node.textContent.slice(last, match.index)));
+        const mark = document.createElement('mark');
+        mark.textContent = match[0];
+        if (!firstMatch) firstMatch = mark;
+        frag.appendChild(mark);
+        last = re.lastIndex;
+      }
+      frag.appendChild(document.createTextNode(node.textContent.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+    if (firstMatch) firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  let debounceTimer;
+  searchInput.addEventListener('input', e => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => highlightText(e.target.value), 300);
+  });
+  searchInput.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { searchInput.value = ''; clearHighlights(); }
+  });
+</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
