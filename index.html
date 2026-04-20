@@ -630,7 +630,7 @@ html.dark #admin-sync-bar { background: rgba(200,169,110,0.08); border-bottom: 1
 <div id="admin-sync-bar"></div>
 <aside id="sidebar">
   <div class="sb-brand">
-    <a href="https://www.ramkrishnamahato.com.np/">Civilopedia</a>
+    <a href="https://www.ramkrishnamahato.com.np/civilopedia">Civilopedia</a>
     <small>Nepal Hydropower Hub</small>
   </div>
   <nav class="sb-nav">
@@ -642,6 +642,7 @@ html.dark #admin-sync-bar { background: rgba(200,169,110,0.08); border-bottom: 1
     <button class="sb-item" data-panel="nea"><span class="si-icon">⚡</span><span class="si-label">NEA Statistics</span><span class="si-dot"></span></button>
     <button class="sb-item" data-panel="ppa"><span class="si-icon">📑</span><span class="si-label">PPA Rates</span><span class="si-dot"></span></button>
     <button class="sb-item" data-panel="doed"><span class="si-icon">🏛️</span><span class="si-label">DoED Licensing</span><span class="si-dot"></span></button>
+    <button class="sb-item" data-panel="doed"><span class="si-icon">🏛️</span><span class="si-label">Consumer Tariff</span><span class="si-dot"></span></button>
     <div class="sb-group-label">Environment &amp; Legal</div>
     <button class="sb-item" data-panel="mofe"><span class="si-icon">🌿</span><span class="si-label">MoFE / EIA</span><span class="si-dot"></span></button>
     <button class="sb-item" data-panel="compliance"><span class="si-icon">⚖️</span><span class="si-label">Legal Framework</span><span class="si-dot"></span></button>
@@ -673,7 +674,7 @@ html.dark #admin-sync-bar { background: rgba(200,169,110,0.08); border-bottom: 1
     <div class="panel active" id="panel-home">
       <div class="hero-wrap">
         <div class="hero-eyebrow" id="cv-eyebrow">Nepal Hydropower Hub · Civilopedia</div>
-        <h1 id="cv-headline">Comprehensive Hydropower<br>Development Reference</h1>
+        <h1 id="cv-headline">Nepal Comprehensive Hydropower Development Reference</h1>
         <p class="hero-sub" id="cv-sub">Authoritative insights sourced from NEA, DoED, and MoFE — from survey license to asset handover.</p>
         <div class="stats-bar" id="cv-stats-bar">
           <div class="stat-box"><span class="val" id="sv1">3,617<span style="font-size:0.9rem"> MW</span></span><span class="lbl" id="sl1">Installed Capacity</span></div>
@@ -684,26 +685,29 @@ html.dark #admin-sync-bar { background: rgba(200,169,110,0.08); border-bottom: 1
         </div>
       </div>
 
-      <div class="live-banner">
+<div class="live-banner">
         <div class="live-banner-inner">
           <div class="live-label"><div class="live-dot"></div>NEA Live</div>
           <div class="live-cells">
-            <div class="live-cell"><div class="live-cell-label">Current Demand</div><div class="live-cell-value loading" id="lv-demand">—</div><div class="live-cell-unit" id="lv-demand-u">fetching…</div></div>
-            <div class="live-cell"><div class="live-cell-label">Total Generation</div><div class="live-cell-value loading" id="lv-gen">—</div><div class="live-cell-unit" id="lv-gen-u">fetching…</div></div>
+            <div class="live-cell"><div class="live-cell-label">National Peak Demand</div><div class="live-cell-value loading" id="lv-demand">—</div><div class="live-cell-unit" id="lv-demand-u">fetching…</div></div>
+            <div class="live-cell"><div class="live-cell-label">Total Energy Demand</div><div class="live-cell-value loading" id="lv-total-demand">—</div><div class="live-cell-unit" id="lv-total-demand-u">fetching…</div></div>
+            <div class="live-cell"><div class="live-cell-label">NEA Generation</div><div class="live-cell-value loading" id="lv-gen">—</div><div class="live-cell-unit" id="lv-gen-u">fetching…</div></div>
+            <div class="live-cell"><div class="live-cell-label">NEA Subsidiaries</div><div class="live-cell-value loading" id="lv-subsidiary">—</div><div class="live-cell-unit" id="lv-subsidiary-u">fetching…</div></div>
+            <div class="live-cell"><div class="live-cell-label">IPP Generation</div><div class="live-cell-value loading" id="lv-ipp">—</div><div class="live-cell-unit" id="lv-ipp-u">fetching…</div></div>
             <div class="live-cell"><div class="live-cell-label">Import</div><div class="live-cell-value loading" id="lv-import">—</div><div class="live-cell-unit" id="lv-import-u">fetching…</div></div>
             <div class="live-cell"><div class="live-cell-label">Export</div><div class="live-cell-value loading" id="lv-export">—</div><div class="live-cell-unit" id="lv-export-u">fetching…</div></div>
-            <div class="live-cell"><div class="live-cell-label">Consumption</div><div class="live-cell-value loading" id="lv-domestic">—</div><div class="live-cell-unit" id="lv-domestic-u">fetching…</div></div>
+            <div class="live-cell"><div class="live-cell-label">Interruption Loss</div><div class="live-cell-value loading" id="lv-interruption">—</div><div class="live-cell-unit" id="lv-interruption-u">fetching…</div></div>
             <div class="live-cell"><div class="live-cell-label">Installed Capacity</div><div class="live-cell-value loading" id="lv-capacity">—</div><div class="live-cell-unit" id="lv-capacity-u">fetching…</div></div>
           </div>
           <div class="live-meta"><span id="live-updated">Loading…</span><button class="live-refresh-btn" onclick="fetchNEALive()" id="refresh-btn">↻ Refresh</button></div>
         </div>
       </div>
-
       <div class="home-nav-grid">
         <button class="hn-card" data-panel="roadmap"><div class="hn-icon">🗺️</div><div class="hn-title">Development Cycle</div><div class="hn-sub">10-step lifecycle from registration to asset handover</div><div class="hn-arrow">Explore →</div></button>
         <button class="hn-card" data-panel="nea"><div class="hn-icon">⚡</div><div class="hn-title">NEA Statistics</div><div class="hn-sub">Capacity 3,617 MW · Customers 6.11M · Q2 FY 2082/83 data (Dec 2025)</div><div class="hn-arrow">Explore →</div></button>
         <button class="hn-card" data-panel="ppa"><div class="hn-icon">📑</div><div class="hn-title">PPA Rates</div><div class="hn-sub">ROR, PROR, Storage &amp; Solar tariff tables with ERC 2026 update</div><div class="hn-arrow">Explore →</div></button>
         <button class="hn-card" data-panel="doed"><div class="hn-icon">🏛️</div><div class="hn-title">DoED Licensing</div><div class="hn-sub">License flow, requirements, royalty structure &amp; incentives</div><div class="hn-arrow">Explore →</div></button>
+        <button class="hn-card" data-panel="consumer-tariff"><div class="hn-icon">💡</div><div class="hn-title">Consumer Tariff</div><div class="hn-sub">Residential, commercial & industrial rates · EV charging tariff</div><div class="hn-arrow">Explore →</div></button>
         <button class="hn-card" data-panel="mofe"><div class="hn-icon">🌿</div><div class="hn-title">MoFE / EIA</div><div class="hn-sub">Environmental clearance thresholds, process &amp; forest rules</div><div class="hn-arrow">Explore →</div></button>
         <button class="hn-card" data-panel="compliance"><div class="hn-icon">⚖️</div><div class="hn-title">Legal Framework</div><div class="hn-sub">Acts, regulations &amp; classification tables</div><div class="hn-arrow">Explore →</div></button>
       </div>
@@ -848,6 +852,188 @@ html.dark #admin-sync-bar { background: rgba(200,169,110,0.08); border-bottom: 1
       </div>
       <div class="panel-footer"><span>Source: Electricity Act 2049, Electricity Rules 2050, DoED Guidelines</span><a href="https://doed.gov.np" target="_blank">doed.gov.np ↗</a></div>
     </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+     CONSUMER TARIFF PANEL
+     Source: nea.org.np/pages/consumer-tariff-rates (April 2026)
+══════════════════════════════════════════════════════════════ -->
+<div class="panel" id="panel-consumer-tariff">
+  <div class="ph">
+    <div class="ph-tag">Nepal Electricity Authority</div>
+    <h2>Consumer Tariff Rates <span class="source-badge badge-nea">NEA 2026</span></h2>
+    <p>Official electricity tariff for domestic, commercial, industrial and special categories. Source: <a href="https://nea.org.np/pages/consumer-tariff-rates" target="_blank" style="color:var(--gold);text-decoration:none;">nea.org.np/pages/consumer-tariff-rates</a>. Rates effective per ERC directive.</p>
+  </div>
+  <div class="pb">
+ 
+    <!-- TARIFF CATEGORIES OVERVIEW -->
+    <div class="sec-tag-wrap" style="margin-bottom:1.5rem;">
+      <div class="sec-tag">Tariff Structure</div>
+      <h2 class="sec-title">NEA Consumer Electricity Tariff <span class="source-badge badge-nea">ERC Approved</span></h2>
+    </div>
+ 
+    <div class="r-highlight" style="margin-bottom:2rem;">
+      <div class="rh-icon">⚡</div>
+      <div class="rh-text">
+        NEA's consumer tariff is approved by the Electricity Regulatory Commission (ERC). Rates are structured by consumer category (Domestic, Commercial, Industrial, Mixed) and by consumption slab. Fixed service charges apply regardless of usage. A <strong>15-unit free electricity</strong> benefit applies to domestic consumers with connected load of ≤5 Ampere (single phase). EV charging stations have a dedicated tariff. For the latest PDF, see <a href="https://nea.org.np/uploads/shares/Tarrif_rates/Consumer_Tarrif_data.pdf" target="_blank" style="color:var(--teal);">official tariff document ↗</a>.
+      </div>
+    </div>
+ 
+    <!-- DOMESTIC TARIFF -->
+    <div class="r-section">
+      <div class="r-sec-tag">Category 1</div>
+      <div class="r-sec-title">Domestic / Residential Tariff</div>
+      <div style="overflow-x:auto;" class="tscroll">
+        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;min-width:500px;">
+          <thead>
+            <tr style="background:var(--surface2);">
+              <th style="padding:0.65rem 1rem;text-align:left;color:var(--muted);font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;border-bottom:1px solid var(--border);">Consumption Slab</th>
+              <th style="padding:0.65rem 1rem;text-align:right;color:var(--muted);font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;border-bottom:1px solid var(--border);">Energy Rate (Rs./kWh)</th>
+              <th style="padding:0.65rem 1rem;text-align:right;color:var(--muted);font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;border-bottom:1px solid var(--border);">Fixed Charge (Rs./month)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.6rem 1rem;color:var(--light);">0 – 20 units</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--gold);font-family:'DM Mono',monospace;font-weight:600;">3.00</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--text);font-family:'DM Mono',monospace;">30</td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(255,255,255,0.015);"><td style="padding:0.6rem 1rem;color:var(--light);">21 – 30 units</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--gold);font-family:'DM Mono',monospace;font-weight:600;">6.50</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--text);font-family:'DM Mono',monospace;">50</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.6rem 1rem;color:var(--light);">31 – 50 units</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--gold);font-family:'DM Mono',monospace;font-weight:600;">8.00</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--text);font-family:'DM Mono',monospace;">75</td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(255,255,255,0.015);"><td style="padding:0.6rem 1rem;color:var(--light);">51 – 100 units</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--gold);font-family:'DM Mono',monospace;font-weight:600;">9.50</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--text);font-family:'DM Mono',monospace;">100</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.6rem 1rem;color:var(--light);">101 – 250 units</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--gold);font-family:'DM Mono',monospace;font-weight:600;">10.50</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--text);font-family:'DM Mono',monospace;">125</td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(255,255,255,0.015);"><td style="padding:0.6rem 1rem;color:var(--light);">251 – 500 units</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--gold);font-family:'DM Mono',monospace;font-weight:600;">11.50</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--text);font-family:'DM Mono',monospace;">150</td></tr>
+            <tr><td style="padding:0.6rem 1rem;color:var(--light);">Above 500 units</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--gold);font-family:'DM Mono',monospace;font-weight:600;">12.00</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--text);font-family:'DM Mono',monospace;">200</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:0.75rem;font-size:0.75rem;color:var(--muted);line-height:1.7;padding:0.85rem 1rem;background:var(--surface);border:1px solid var(--border);">
+        <strong style="color:var(--gold);">Free electricity:</strong> Households with ≤5A single-phase connection consuming up to 15 units/month pay nothing. &nbsp;
+        <strong style="color:var(--gold);">Night tariff:</strong> Domestic consumers using electricity between 11PM–5AM get 25% rebate. &nbsp;
+        <strong style="color:var(--gold);">Note:</strong> Slab rates are cumulative — each slab rate applies only to units within that slab, not the entire consumption.
+      </div>
+    </div>
+ 
+    <!-- NON-DOMESTIC / COMMERCIAL -->
+    <div class="r-section">
+      <div class="r-sec-tag">Category 2</div>
+      <div class="r-sec-title">Non-Domestic / Commercial Tariff</div>
+      <div style="overflow-x:auto;" class="tscroll">
+        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;min-width:500px;">
+          <thead>
+            <tr style="background:var(--surface2);">
+              <th style="padding:0.65rem 1rem;text-align:left;color:var(--muted);font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;border-bottom:1px solid var(--border);">Consumption Slab</th>
+              <th style="padding:0.65rem 1rem;text-align:right;color:var(--muted);font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;border-bottom:1px solid var(--border);">Energy Rate (Rs./kWh)</th>
+              <th style="padding:0.65rem 1rem;text-align:right;color:var(--muted);font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;border-bottom:1px solid var(--border);">Fixed Charge (Rs./month)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.6rem 1rem;color:var(--light);">0 – 50 units</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--teal);font-family:'DM Mono',monospace;font-weight:600;">10.00</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--text);font-family:'DM Mono',monospace;">100</td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(255,255,255,0.015);"><td style="padding:0.6rem 1rem;color:var(--light);">51 – 150 units</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--teal);font-family:'DM Mono',monospace;font-weight:600;">11.50</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--text);font-family:'DM Mono',monospace;">125</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.6rem 1rem;color:var(--light);">151 – 400 units</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--teal);font-family:'DM Mono',monospace;font-weight:600;">12.00</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--text);font-family:'DM Mono',monospace;">200</td></tr>
+            <tr><td style="padding:0.6rem 1rem;color:var(--light);">Above 400 units</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--teal);font-family:'DM Mono',monospace;font-weight:600;">13.00</td><td style="padding:0.6rem 1rem;text-align:right;color:var(--text);font-family:'DM Mono',monospace;">250</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+ 
+    <!-- INDUSTRIAL / BULK SUPPLY -->
+    <div class="r-section">
+      <div class="r-sec-tag">Category 3 & 4</div>
+      <div class="r-sec-title">Industrial, Mixed & Bulk Supply Tariff</div>
+      <div class="r-data-grid-2" style="margin-bottom:1.25rem;">
+        <div class="r-stat-card">
+          <div class="r-stat-card-title">Industrial (LT — Low Tension, Single Phase / 3-Phase)</div>
+          <div class="r-row"><span class="k">Energy charge (all slabs)</span><span class="v accent">NPR 9.00 – 11.00/kWh</span></div>
+          <div class="r-row"><span class="k">Fixed / demand charge</span><span class="v">NPR 75–200/month (by slab)</span></div>
+          <div class="r-row"><span class="k">Power factor penalty</span><span class="v red">If PF &lt; 0.9: surcharge on demand charge</span></div>
+          <div class="r-row"><span class="k">Time-of-use (night rebate)</span><span class="v green">25% rebate 11PM–5AM</span></div>
+        </div>
+        <div class="r-stat-card">
+          <div class="r-stat-card-title">HT Industrial / Bulk Supply (11 kV and above)</div>
+          <div class="r-row"><span class="k">Energy charge</span><span class="v accent">NPR 8.50/kWh (off-peak)</span></div>
+          <div class="r-row"><span class="k">Peak hour charge</span><span class="v red">NPR 11.00/kWh (6–10 AM, 5–11 PM)</span></div>
+          <div class="r-row"><span class="k">Demand charge</span><span class="v">NPR 400–600/kVA/month</span></div>
+          <div class="r-row"><span class="k">Power factor requirement</span><span class="v">≥ 0.9 (penalty if below)</span></div>
+          <div class="r-row"><span class="k">Minimum monthly charge</span><span class="v">50% of contracted demand</span></div>
+        </div>
+      </div>
+ 
+      <div class="r-data-grid-2">
+        <div class="r-stat-card">
+          <div class="r-stat-card-title">Public Transport (Trolleybus, Electric Bus / Tram)</div>
+          <div class="r-row"><span class="k">Charging stations (public transport)</span><span class="v accent">NPR 10.00/kWh (flat rate)</span></div>
+          <div class="r-row"><span class="k">Fixed service charge</span><span class="v">NPR 200/month</span></div>
+          <div class="r-row"><span class="k">Applicable vehicles</span><span class="v">Trolleybus, Electric bus, Mini-bus, Tempo, Tram</span></div>
+          <div class="r-row"><span class="k">Night tariff (11PM–5AM)</span><span class="v green">25% rebate applies</span></div>
+        </div>
+        <div class="r-stat-card">
+          <div class="r-stat-card-title">EV Charging Stations (Public / Commercial)</div>
+          <div class="r-row"><span class="k">EV charging rate (commercial stations)</span><span class="v accent">NPR 10.00/kWh</span></div>
+          <div class="r-row"><span class="k">EV charging (residential, domestic meter)</span><span class="v">Normal domestic slab applies</span></div>
+          <div class="r-row"><span class="k">Dedicated EV charging meter</span><span class="v">Per ERC 2025 amendment to Distribution Regulations 2078</span></div>
+          <div class="r-row"><span class="k">Connection at distribution substations (33/11 kV)</span><span class="v">Up to 1 MW per substation</span></div>
+          <div class="r-row"><span class="k">Night rebate (11PM–5AM)</span><span class="v green">25% rebate — encourages off-peak EV charging</span></div>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- COMMUNITY / IRRIGATION -->
+    <div class="r-section">
+      <div class="r-sec-tag">Special Categories</div>
+      <div class="r-sec-title">Community, Irrigation & Special Tariff</div>
+      <div class="r-data-grid-2">
+        <div class="r-stat-card">
+          <div class="r-stat-card-title">Community Bulk Purchaser / Rural Cooperatives</div>
+          <div class="r-row"><span class="k">Bulk supply rate (to cooperatives)</span><span class="v accent">NPR 6.50–8.00/kWh</span></div>
+          <div class="r-row"><span class="k">Cooperative resale margin allowed</span><span class="v">Per ERC-approved tariff schedule</span></div>
+          <div class="r-row"><span class="k">Minimum load factor requirement</span><span class="v">≥ 60% of contracted capacity</span></div>
+          <div class="r-row"><span class="k">Community rural electrification customers</span><span class="v">~3,28,170 (Poush 2082)</span></div>
+        </div>
+        <div class="r-stat-card">
+          <div class="r-stat-card-title">Irrigation Pumping & Agricultural</div>
+          <div class="r-row"><span class="k">Irrigation pump (seasonal)</span><span class="v accent">NPR 7.00/kWh</span></div>
+          <div class="r-row"><span class="k">Agricultural processing (agro-industry)</span><span class="v">NPR 9.00/kWh</span></div>
+          <div class="r-row"><span class="k">Fixed charge</span><span class="v">NPR 75/month</span></div>
+          <div class="r-row"><span class="k">Night rebate (11PM–5AM)</span><span class="v green">25% rebate</span></div>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- KEY LINKS & BILLING -->
+    <div class="r-section">
+      <div class="r-sec-tag">Billing & Services</div>
+      <div class="r-sec-title">NEA Online Billing & Consumer Services</div>
+      <div class="r-data-grid-3">
+        <div class="r-stat-card">
+          <div class="r-stat-card-title">Check &amp; Pay Your Bill</div>
+          <div class="r-row"><span class="k">Online bill check</span><span class="v"><a href="https://www.neabilling.com/viewonline/" target="_blank" style="color:var(--teal);text-decoration:none;">neabilling.com ↗</a></span></div>
+          <div class="r-row"><span class="k">Bill payment</span><span class="v"><a href="https://nea.org.np/payment" target="_blank" style="color:var(--teal);text-decoration:none;">nea.org.np/payment ↗</a></span></div>
+          <div class="r-row"><span class="k">Complaint portal</span><span class="v"><a href="https://crm.nea.org.np/complain" target="_blank" style="color:var(--teal);text-decoration:none;">crm.nea.org.np ↗</a></span></div>
+          <div class="r-row"><span class="k">No-light emergency</span><span class="v"><a href="https://nea.org.np/no-light-numbers" target="_blank" style="color:var(--teal);text-decoration:none;">No-light numbers ↗</a></span></div>
+        </div>
+        <div class="r-stat-card">
+          <div class="r-stat-card-title">New Connection</div>
+          <div class="r-row"><span class="k">New customer application</span><span class="v"><a href="https://nea.org.np/en/pages/new-customer-application-form" target="_blank" style="color:var(--teal);text-decoration:none;">nea.org.np/new-customer ↗</a></span></div>
+          <div class="r-row"><span class="k">Meter transfer form</span><span class="v"><a href="https://nea.org.np/en/pages/meter-transfer-form" target="_blank" style="color:var(--teal);text-decoration:none;">nea.org.np/meter-transfer ↗</a></span></div>
+          <div class="r-row"><span class="k">DCS contact numbers</span><span class="v"><a href="https://nea.org.np/contact-information-of-dcs" target="_blank" style="color:var(--teal);text-decoration:none;">nea.org.np/dcs ↗</a></span></div>
+          <div class="r-row"><span class="k">Power Trade DMS</span><span class="v"><a href="https://nea.org.np" target="_blank" style="color:var(--teal);text-decoration:none;">nea.org.np ↗</a></span></div>
+        </div>
+        <div class="r-stat-card">
+          <div class="r-stat-card-title">NEA Mobile Apps</div>
+          <div class="r-row"><span class="k">NEA App (Android)</span><span class="v"><a href="https://play.google.com/store/apps/details?id=com.nepalelectricityauthority.nea&hl=en" target="_blank" style="color:var(--teal);text-decoration:none;">Google Play ↗</a></span></div>
+          <div class="r-row"><span class="k">NEA App (iOS)</span><span class="v"><a href="https://apps.apple.com/np/app/nea-official/id1639332704" target="_blank" style="color:var(--teal);text-decoration:none;">App Store ↗</a></span></div>
+          <div class="r-row"><span class="k">EV Charging Station App</span><span class="v"><a href="https://play.google.com/store/apps/details?id=com.wanbangauto.neapower&hl=en" target="_blank" style="color:var(--teal);text-decoration:none;">Google Play ↗</a></span></div>
+          <div class="r-row"><span class="k">NEA Head Office</span><span class="v">977-1-4153051 · Durbarmarg, KTM</span></div>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="panel-footer">
+      <span>Source: NEA Consumer Tariff — <a href="https://nea.org.np/pages/consumer-tariff-rates" target="_blank" style="color:var(--teal);text-decoration:none;">nea.org.np/pages/consumer-tariff-rates ↗</a> · <a href="https://nea.org.np/uploads/shares/Tarrif_rates/Consumer_Tarrif_data.pdf" target="_blank" style="color:var(--gold);text-decoration:none;">Download PDF ↗</a></span>
+      <a href="https://nea.org.np/en" target="_blank">nea.org.np/en ↗</a>
+    </div>
+ 
+  </div><!-- /pb -->
+</div><!-- /panel-consumer-tariff -->
+ 
+  </div><!-- /panel-wrap -->
+</div><!-- /main -->
 
     <!-- MOFE PANEL -->
     <div class="panel" id="panel-mofe">
