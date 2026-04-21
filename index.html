@@ -34,12 +34,24 @@ html.dark #topbar{background:rgba(21,27,38,.98)}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;font-size:15px;background:var(--bg)}
 
-/* ══════════════════════════════════════
-   FIX 1: body — overflow:hidden removed.
-   Was blocking all vertical scroll. Use
-   overflow-x:hidden only.
-   ══════════════════════════════════════ */
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;height:100dvh;display:flex;transition:background .25s,color .25s}
+
+/* ══ CALCULATORS SPECIFIC STYLES ══ */
+.calc-card { background: var(--surface); border: 1px solid var(--border); padding: 1.75rem; border-radius: 4px; margin-bottom: 2.5rem; }
+.calc-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.calc-label { font-size: 0.65rem; font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.5rem; display: block; font-weight: 600; }
+.calc-input { width: 100%; padding: 0.65rem 0.8rem; background: var(--bg); border: 1px solid var(--border); color: var(--text); border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.95rem; font-weight: 500; transition: border-color 0.2s; }
+.calc-input:focus { border-color: var(--gold); outline: none; }
+.calc-type-btn { flex: 1; padding: 0.65rem; text-align: center; border: 1px solid var(--border); background: var(--bg); color: var(--text); cursor: pointer; font-size: 0.75rem; font-weight: 600; border-radius: 2px; transition: all 0.2s; }
+.calc-type-btn.active { background: var(--gold-glow); border-color: var(--gold); color: var(--gold); }
+.calc-range { width: 100%; accent-color: var(--gold); cursor: pointer; }
+.calc-result-box { background: var(--gold-glow); border: 1px solid rgba(138,106,46,0.22); padding: 1.75rem; border-radius: 4px; }
+html.dark .calc-result-box { border: 1px solid rgba(200,169,110,0.22); }
+.calc-res-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-family: 'DM Mono', monospace; }
+.calc-res-val { font-size: 2.2rem; font-family: 'Playfair Display', serif; font-weight: 700; color: var(--gold); line-height: 1.2; margin-top: 0.3rem; }
+.calc-res-val.green { color: var(--green-bright); }
+.calc-res-val.teal { color: var(--teal); }
+.calc-res-val.red { color: var(--red); }
 
 /* ══ REPORT UPDATE BAR ══ */
 .report-update-bar{display:flex;align-items:center;gap:.75rem;padding:.6rem 1.4rem;background:rgba(56,178,172,.07);border-bottom:1px solid rgba(56,178,172,.18);font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);flex-shrink:0}
@@ -179,13 +191,7 @@ html.dark .ar-new-badge{background:rgba(74,222,128,.1);border:1px solid rgba(74,
 .sb-footer{padding:1rem 1.4rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.5rem}
 .sb-footer a{font-size:.68rem;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:.4rem;transition:color .15s}
 .sb-footer a:hover{color:var(--gold)}
-
-/* ══════════════════════════════════════════
-   FIX 2: #main — was overflow:hidden.
-   Changed to overflow-y:auto so panels scroll.
-   ══════════════════════════════════════════ */
 #main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;height:100dvh;overflow-x:hidden;overflow-y:auto;min-width:0}
-
 #topbar{display:none;align-items:center;gap:.75rem;padding:.8rem 1rem;background:rgba(245,244,240,.98);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);flex-shrink:0;z-index:200;transition:background .25s}
 #topbar-brand{font-family:'Playfair Display',serif;font-size:.98rem;color:var(--gold);font-weight:700;flex:1}
 #topbar-crumb{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
@@ -196,23 +202,10 @@ html.dark .ar-new-badge{background:rgba(74,222,128,.1);border:1px solid rgba(74,
 #menu-btn.open span:nth-child(3){transform:rotate(-45deg) translate(3px,-3.5px)}
 #sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(2px);z-index:299}
 #sb-overlay.on{display:block}
-
-/* ══════════════════════════════════════════
-   FIX 3: #panel-wrap — was overflow:hidden.
-   Changed to overflow-y:auto.
-   ══════════════════════════════════════════ */
 #panel-wrap{flex:1;overflow-y:auto;overflow-x:hidden;position:relative}
 
-/* ══════════════════════════════════════════
-   FIX 4: .panel — was position:absolute with
-   opacity:0 + pointer-events:none.
-   This caused the home panel to be invisible
-   on load (content rendered but not shown).
-   Now using display:none / display:flex.
-   ══════════════════════════════════════════ */
 .panel{display:none;flex-direction:column;min-height:100%}
 .panel.active{display:flex;flex-direction:column}
-
 .ph{background:var(--surface);border-bottom:1px solid var(--border);padding:1.5rem 2.5rem 1.25rem;flex-shrink:0;transition:background .25s}
 .ph-tag{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem}
 .ph-tag::before{content:'';width:1rem;height:1px;background:var(--gold)}
@@ -220,9 +213,6 @@ html.dark .ar-new-badge{background:rgba(74,222,128,.1);border:1px solid rgba(74,
 .ph p{font-size:.84rem;color:var(--muted);margin-top:.4rem;line-height:1.6;max-width:600px}
 .pb{flex:1;overflow-y:auto;overflow-x:hidden;padding:2rem 2.5rem 3rem;scrollbar-width:thin;scrollbar-color:rgba(138,106,46,.2) transparent}
 html.dark .pb{scrollbar-color:rgba(200,169,110,.2) transparent}
-
-/* FIX 5: home panel pb — was padding:0 but that's intentional for hero;
-   keep it but ensure hero-wrap + nav grid are not clipped */
 #panel-home .pb{padding:0}
 #panel-home{overflow:visible}
 
@@ -255,15 +245,8 @@ html.dark .live-label{background:rgba(56,178,172,.09)}
 .live-cell{display:flex;flex-direction:column;justify-content:center;padding:.65rem 1rem;border-right:1px solid var(--border);flex:1;min-width:110px}
 .live-cell:last-child{border-right:none}
 .live-cell-label{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.15rem}
-
-/* ══════════════════════════════════════════
-   FIX 6: .live-cell-value — removed .loading
-   italic/muted style; values now always render
-   in Playfair serif immediately (no blank state)
-   ══════════════════════════════════════════ */
 .live-cell-value{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;line-height:1;color:var(--text);transition:color .3s}
 .live-cell-value.green{color:var(--green-bright)}.live-cell-value.teal{color:var(--teal)}.live-cell-value.red{color:var(--red)}.live-cell-value.gold{color:var(--gold)}
-
 .live-cell-unit{font-size:.58rem;color:var(--muted);font-family:'DM Mono',monospace;margin-top:.1rem}
 .live-meta{display:flex;align-items:center;gap:.5rem;padding:.65rem 1rem;font-size:.58rem;color:var(--muted);font-family:'DM Mono',monospace;flex-shrink:0;flex-direction:column;justify-content:center;text-align:right;border-left:1px solid var(--border)}
 .live-refresh-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:.2rem .5rem;font-size:.56rem;font-family:'DM Mono',monospace;cursor:pointer;transition:all .2s;text-transform:uppercase;margin-top:.25rem}
@@ -367,7 +350,7 @@ html.dark .update-pill{background:rgba(224,82,82,.09);border:1px solid rgba(224,
 #admin-sync-bar{display:none;align-items:center;gap:.75rem;padding:.5rem 1.4rem;background:rgba(138,106,46,.08);border-bottom:1px solid rgba(138,106,46,.2);font-family:'DM Mono',monospace;font-size:.6rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;flex-shrink:0}
 html.dark #admin-sync-bar{background:rgba(200,169,110,.08);border-bottom:1px solid rgba(200,169,110,.2)}
 #admin-sync-bar.show{display:flex}
-@media(max-width:1100px){.lifecycle-grid{grid-template-columns:repeat(2,1fr)}.license-flow{grid-template-columns:repeat(3,1fr)}.eia-process{grid-template-columns:repeat(4,1fr)}.doed-grid{grid-template-columns:1fr 1fr}.nea-grid{grid-template-columns:1fr 1fr}.home-nav-grid{grid-template-columns:repeat(2,1fr)}.r-data-grid-3{grid-template-columns:1fr 1fr}.annual-report-grid{grid-template-columns:1fr 1fr}.r-achieve-grid{grid-template-columns:1fr 1fr}.r-live-grid{grid-template-columns:1fr 1fr}.r-data-grid-4{grid-template-columns:1fr 1fr}}
+@media(max-width:1100px){.lifecycle-grid{grid-template-columns:repeat(2,1fr)}.license-flow{grid-template-columns:repeat(3,1fr)}.eia-process{grid-template-columns:repeat(4,1fr)}.doed-grid{grid-template-columns:1fr 1fr}.nea-grid{grid-template-columns:1fr 1fr}.home-nav-grid{grid-template-columns:repeat(2,1fr)}.r-data-grid-3{grid-template-columns:1fr 1fr}.annual-report-grid{grid-template-columns:1fr 1fr}.r-achieve-grid{grid-template-columns:1fr 1fr}.r-live-grid{grid-template-columns:1fr 1fr}.r-data-grid-4{grid-template-columns:1fr 1fr}.calc-grid-2{grid-template-columns:1fr}}
 @media(max-width:820px){#sidebar{transform:translateX(calc(-1 * var(--sidebar-w) - 2px))}#sidebar.open{transform:translateX(0)}#main{margin-left:0}#topbar{display:flex}#theme-toggle{top:10px;right:60px}.pb{padding:1.25rem 1.1rem 3rem}.ph{padding:1.1rem 1.1rem .9rem}.panel-footer{padding:1rem 1.1rem;font-size:.64rem}.lifecycle-grid{grid-template-columns:1fr}.nea-grid{grid-template-columns:1fr}.license-flow{grid-template-columns:1fr 1fr}.lf-step::after{display:none}.doed-grid{grid-template-columns:1fr}.royalty-grid{grid-template-columns:1fr}.eia-threshold{grid-template-columns:1fr}.eia-process{grid-template-columns:repeat(2,1fr)}.env-cards{grid-template-columns:1fr}.compliance-grid{grid-template-columns:1fr}.manuals-grid{grid-template-columns:1fr 1fr}.home-nav-grid{grid-template-columns:1fr 1fr}.annual-report-grid{grid-template-columns:1fr 1fr}.live-banner-inner{flex-direction:column}.live-label{border-right:none;border-bottom:1px solid var(--border)}.live-cells{flex-wrap:wrap}.live-cell{min-width:50%;border-bottom:1px solid var(--border)}.live-cell:nth-child(odd){border-right:1px solid var(--border)}.live-cell:nth-child(even){border-right:none}.live-meta{border-left:none;border-top:1px solid var(--border);flex-direction:row;justify-content:space-between}.hero-wrap{padding:2.5rem 1.25rem 2rem}.stats-bar{flex-direction:row;flex-wrap:wrap}.stat-box{min-width:calc(50% - 1px)}.stat-box .val{font-size:1.25rem}th,td{padding:.5rem .65rem;font-size:.73rem}}
 @media(max-width:480px){html{font-size:13px}.manuals-grid{grid-template-columns:1fr}.license-flow{grid-template-columns:1fr}.eia-process{grid-template-columns:1fr}.stat-box{min-width:100%}.live-cell{min-width:100%;border-right:none}.home-nav-grid{grid-template-columns:1fr}.annual-report-grid{grid-template-columns:1fr}}
 </style>
@@ -456,14 +439,14 @@ html.dark #admin-sync-bar{background:rgba(200,169,110,.08);border-bottom:1px sol
       <div class="home-nav-grid">
         <button class="hn-card" data-panel="roadmap"><div class="hn-icon">🗺️</div><div class="hn-title">Development Cycle</div><div class="hn-sub">10-step lifecycle from registration to asset handover</div><div class="hn-arrow">Explore →</div></button>
         <button class="hn-card" data-panel="nea"><div class="hn-icon">⚡</div><div class="hn-title">NEA Statistics</div><div class="hn-sub">Capacity 3,617 MW · Customers 6.11M · Q2 FY 2082/83</div><div class="hn-arrow">Explore →</div></button>
-        <button class="hn-card" data-panel="ppa"><div class="hn-icon">📑</div><div class="hn-title">PPA Rates</div><div class="hn-sub">ROR, PROR, Storage &amp; Solar tariff tables with ERC 2026 update</div><div class="hn-arrow">Explore →</div></button>
+        <button class="hn-card" data-panel="ppa"><div class="hn-icon">📑</div><div class="hn-title">PPA Rates &amp; Calculator</div><div class="hn-sub">ROR, PROR &amp; Storage rates + interactive revenue projector</div><div class="hn-arrow">Explore →</div></button>
         <button class="hn-card" data-panel="doed"><div class="hn-icon">🏛️</div><div class="hn-title">DoED Licensing</div><div class="hn-sub">License flow, requirements, royalty structure &amp; incentives</div><div class="hn-arrow">Explore →</div></button>
-        <button class="hn-card" data-panel="consumer-tariff"><div class="hn-icon">💡</div><div class="hn-title">Consumer Tariff</div><div class="hn-sub">Residential, commercial &amp; industrial rates · EV charging tariff</div><div class="hn-arrow">Explore →</div></button>
+        <button class="hn-card" data-panel="consumer-tariff"><div class="hn-icon">💡</div><div class="hn-title">Consumer Tariff &amp; Estimator</div><div class="hn-sub">Tariff slabs &amp; interactive consumer bill estimator</div><div class="hn-arrow">Explore →</div></button>
         <button class="hn-card" data-panel="mofe"><div class="hn-icon">🌿</div><div class="hn-title">MoFE / EIA</div><div class="hn-sub">Environmental clearance thresholds, process &amp; forest rules</div><div class="hn-arrow">Explore →</div></button>
         <button class="hn-card" data-panel="nea-report"><div class="hn-icon">📋</div><div class="hn-title">NEA Annual Report</div><div class="hn-sub">FY 2081/82 full report + Q2 FY 2082/83 quarterly update</div><div class="hn-arrow">Explore →</div></button>
         <button class="hn-card" data-panel="nea-publications"><div class="hn-icon">📰</div><div class="hn-title">NEA Publications</div><div class="hn-sub">Vidyut 2082, DCSD Magazine, Auto-publications &amp; more</div><div class="hn-arrow">Explore →</div></button>
       </div>
-<div class="panel-footer"><span>© 2026 Civilopedia · Data: NEA, DoED, MoFE, ERC</span><span>For reference only — verify with official sources</span><a href="/civilopedia/privacy-policy.html">Privacy Policy</a></div>
+      <div class="panel-footer"><span>© 2026 Civilopedia · Data: NEA, DoED, MoFE, ERC</span><span>For reference only — verify with official sources</span><a href="/civilopedia/privacy-policy.html">Privacy Policy</a></div>
     </div>
 
     <!-- ROADMAP PANEL -->
@@ -535,13 +518,113 @@ html.dark #admin-sync-bar{background:rgba(200,169,110,.08);border-bottom:1px sol
 
     <!-- PPA PANEL -->
     <div class="panel" id="panel-ppa">
-      <div class="ph"><div class="ph-tag">NEA Power Purchase Agreement</div><h2>PPA Rates <span class="source-badge badge-nea">NEA</span><span class="source-badge badge-erc" style="margin-left:.4rem">ERC 2026</span></h2><p>ROR, PROR, Storage and Solar power purchase rates. Includes new ERC February 2026 directive.</p></div>
+      <div class="ph"><div class="ph-tag">NEA Power Purchase Agreement</div><h2>PPA Rates &amp; Revenue Projection Module <span class="source-badge badge-nea">NEA</span><span class="source-badge badge-erc" style="margin-left:.4rem">ERC 2026</span></h2><p>ROR, PROR, Storage and Solar power purchase rates. Includes an interactive lifecycle and financial calculator.</p></div>
       <div class="pb">
         <div class="update-pill">New ERC Directive — February 2026</div>
         <div class="ppa-new-banner">
           <div class="icon">🔔</div>
           <div class="text"><strong>ERC Directive on Reservoir-Based Projects (2026):</strong> For projects <strong>up to 100 MW</strong>: <strong>NPR 14.80/unit (winter)</strong> and <strong>NPR 8.45/unit (monsoon)</strong>. For projects <strong>above 100 MW</strong>, rates are determined based on actual project costs.</div>
         </div>
+
+        <!-- PPA CALCULATOR INTEGRATION -->
+        <div class="r-section">
+          <div class="r-sec-tag">Interactive Module</div>
+          <h2 class="r-sec-title">PPA Revenue &amp; Financial Projections</h2>
+          <div class="calc-card calc-grid-2">
+            <!-- Left Side: Inputs -->
+            <div style="display:flex; flex-direction:column; gap:1.5rem;">
+              <div>
+                <label class="calc-label">Project Type Selection</label>
+                <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                  <button class="calc-type-btn active" data-type="ROR" onclick="setPPAType('ROR')">ROR</button>
+                  <button class="calc-type-btn" data-type="PROR" onclick="setPPAType('PROR')">PROR</button>
+                  <button class="calc-type-btn" data-type="RESERVOIR" onclick="setPPAType('RESERVOIR')">RESERVOIR</button>
+                  <button class="calc-type-btn" data-type="SOLAR" onclick="setPPAType('SOLAR')">SOLAR</button>
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem;">
+                <div><label class="calc-label">Capacity (MW)</label><input type="number" id="ppa-cap" class="calc-input" value="10" oninput="updatePPACalculator()"></div>
+                <div><label class="calc-label">Annual Gen. (GWh)</label><input type="number" id="ppa-gen" class="calc-input" value="55" oninput="updatePPACalculator()"></div>
+              </div>
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:.5rem;">
+                  <label class="calc-label" style="margin-bottom:0;">Dry Season Energy Partition</label>
+                  <span id="ppa-dry-val" style="font-size:0.75rem; font-weight:700; color:var(--teal)">30%</span>
+                </div>
+                <input type="range" id="ppa-dry-percent" class="calc-range" min="0" max="100" value="30" oninput="updatePPACalculator()">
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; border-top:1px solid var(--border); padding-top:1.25rem;">
+                <div style="grid-column: span 2"><label class="calc-label">Total Project Cost (Rs. Cr)</label><input type="number" id="ppa-cost" class="calc-input" value="200" oninput="updatePPACalculator()"></div>
+                <div><label class="calc-label">Lifespan (Yrs)</label><input type="number" id="ppa-life" class="calc-input" value="30" oninput="updatePPACalculator()"></div>
+                <div><label class="calc-label">Loan Term (Yrs)</label><input type="number" id="ppa-loan" class="calc-input" value="12" oninput="updatePPACalculator()"></div>
+                <div><label class="calc-label">Debt (%)</label><input type="number" id="ppa-debt" class="calc-input" value="70" oninput="updatePPACalculator()"></div>
+                <div><label class="calc-label">Interest Rate (%)</label><input type="number" id="ppa-int" class="calc-input" value="12" oninput="updatePPACalculator()" step="0.1"></div>
+                <div><label class="calc-label">OPEX (% Rev)</label><input type="number" id="ppa-opex" class="calc-input" value="2.5" oninput="updatePPACalculator()" step="0.1"></div>
+                <div>
+                  <label class="calc-label">Rate Escalation</label>
+                  <div style="display:flex; align-items:center; height:100%; font-size:.7rem; color:var(--muted); font-family:'DM Mono',monospace;" id="ppa-esc-info">3% for 8 yrs</div>
+                </div>
+              </div>
+              <div style="border-top:1px solid var(--border); padding-top:1.25rem;">
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:.5rem;">
+                  <label class="calc-label" style="margin-bottom:0;">Analysis Target Year</label>
+                  <span id="ppa-year-val" style="font-size:0.75rem; font-weight:700; color:var(--green-bright)">Year 1</span>
+                </div>
+                <input type="range" id="ppa-year" class="calc-range" min="1" max="30" value="1" oninput="updatePPACalculator()">
+              </div>
+            </div>
+
+            <!-- Right Side: Output Dashboard -->
+            <div style="background:var(--surface2); padding:1.75rem; border-radius:4px; display:flex; flex-direction:column; gap:1.75rem; border:1px solid var(--border);">
+               <div>
+                  <div class="calc-res-label">Est. Annual Revenue (Selected Year)</div>
+                  <div class="calc-res-val" id="ppa-res-annual">NPR 0.00 Cr</div>
+               </div>
+               
+               <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; border-top:1px solid rgba(0,0,0,0.05); padding-top:1.5rem;">
+                  <div>
+                     <div class="calc-res-label">DSCR</div>
+                     <div class="calc-res-val" id="ppa-res-dscr" style="font-size:1.8rem">0.00</div>
+                  </div>
+                  <div>
+                     <div class="calc-res-label">Free Cash Flow</div>
+                     <div class="calc-res-val" id="ppa-res-fcf" style="font-size:1.8rem; color:var(--text)">Rs. 0.00 Cr</div>
+                  </div>
+               </div>
+
+               <div style="background:var(--bg); border:1px solid var(--border); padding:1rem; border-radius:4px;">
+                  <div style="display:flex; justify-content:space-between; margin-bottom:.75rem;">
+                     <span class="calc-res-label">GoN Royalty Breakdown</span>
+                     <span id="ppa-royalty-phase" style="font-size:0.6rem; background:rgba(15,118,110,0.1); color:var(--teal); padding:0.15rem 0.4rem; border-radius:2px; font-weight:700;">Y1-15 Phase</span>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; font-size:.8rem; margin-bottom:.4rem;"><span style="color:var(--muted)">Capacity Royalty</span><strong id="ppa-res-royalty-cap" style="color:var(--text)">0</strong></div>
+                  <div style="display:flex; justify-content:space-between; font-size:.8rem; margin-bottom:.6rem;"><span style="color:var(--muted)">Energy Royalty</span><strong id="ppa-res-royalty-eng" style="color:var(--text)">0</strong></div>
+                  <div style="display:flex; justify-content:space-between; font-size:.85rem; border-top:1px dashed var(--border); padding-top:.6rem;"><strong style="color:var(--teal)">Total Est. Royalty</strong><strong id="ppa-res-royalty-tot" style="color:var(--teal)">0</strong></div>
+               </div>
+
+               <div style="font-size:.7rem; font-family:'DM Mono',monospace; color:var(--muted); text-transform:uppercase;">
+                  OPEX Estimated: <strong id="ppa-res-opex" style="color:var(--text)">0</strong>
+               </div>
+
+               <div style="border-top:1px solid rgba(0,0,0,0.05); padding-top:1.5rem;">
+                  <div class="calc-res-label">Est. Lifecycle Revenue (All Years)</div>
+                  <div class="calc-res-val" id="ppa-res-lc" style="font-size:1.6rem; color:var(--text); opacity:0.8;">NPR 0.00 Cr</div>
+               </div>
+
+               <div style="display:grid; grid-template-columns:1fr; gap:1rem; border-top:1px solid rgba(0,0,0,0.05); padding-top:1.5rem;">
+                  <div style="display:flex; justify-content:space-between; align-items:center;">
+                     <div><div class="calc-res-label">Dry Revenue Component</div><div style="font-size:1.1rem; font-weight:700; color:var(--teal);" id="ppa-res-dry-rev">0</div></div>
+                     <div style="text-align:right; font-size:.7rem; color:var(--muted); font-family:'DM Mono',monospace;" id="ppa-res-dry-det">0</div>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; align-items:center;">
+                     <div><div class="calc-res-label">Wet Revenue Component</div><div style="font-size:1.1rem; font-weight:700; color:var(--text);" id="ppa-res-wet-rev">0</div></div>
+                     <div style="text-align:right; font-size:.7rem; color:var(--muted); font-family:'DM Mono',monospace;" id="ppa-res-wet-det">0</div>
+                  </div>
+               </div>
+            </div>
+          </div>
+        </div>
+
         <h3 style="font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;font-family:'DM Mono',monospace">ROR Rates — Up to 100 MW</h3>
         <div class="tscroll"><table>
           <tr><th>Option</th><th>Season</th><th>Period</th><th>Rate (Rs./kWh)</th><th>Min. Dry Energy</th></tr>
@@ -649,18 +732,45 @@ html.dark #admin-sync-bar{background:rgba(200,169,110,.08);border-bottom:1px sol
     <div class="panel" id="panel-consumer-tariff">
       <div class="ph">
         <div class="ph-tag">Nepal Electricity Authority</div>
-        <h2>Consumer Tariff Rates <span class="source-badge badge-nea">NEA 2026</span></h2>
-        <p>Official electricity tariff for domestic, commercial, industrial and special categories. Source: <a href="https://nea.org.np/pages/consumer-tariff-rates" target="_blank" style="color:var(--gold);text-decoration:none;">nea.org.np/pages/consumer-tariff-rates</a>. Rates effective per ERC directive.</p>
+        <h2>Consumer Tariff Rates &amp; Estimator <span class="source-badge badge-nea">NEA 2026</span></h2>
+        <p>Official electricity tariff for domestic, commercial, industrial and special categories. Interactive bill estimator included. Rates effective per ERC directive.</p>
       </div>
       <div class="pb">
-        <div class="sec-tag">Tariff Structure</div>
-        <h2 class="sec-title">NEA Consumer Electricity Tariff <span class="source-badge badge-nea">ERC Approved</span></h2>
-        <div class="r-highlight" style="margin-bottom:2rem;">
-          <div class="rh-icon">⚡</div>
-          <div class="rh-text">NEA's consumer tariff is approved by the Electricity Regulatory Commission (ERC). Rates are structured by consumer category and consumption slab. A <strong>15-unit free electricity</strong> benefit applies to domestic consumers with connected load of ≤5 Ampere. EV charging stations have a dedicated tariff. For the latest PDF, see <a href="https://nea.org.np/uploads/shares/Tarrif_rates/Consumer_Tarrif_data.pdf" target="_blank" style="color:var(--teal);">official tariff document ↗</a>.</div>
-        </div>
+
+        <!-- BILL ESTIMATOR INTEGRATION -->
         <div class="r-section">
-          <div class="r-sec-tag">Category 1</div>
+          <div class="r-sec-tag">Interactive Calculator</div>
+          <h2 class="r-sec-title">NEA Electricity Bill Estimator</h2>
+          <div class="calc-card calc-grid-2" style="align-items: flex-start;">
+            <div>
+              <label class="calc-label">Monthly Consumption (Units / kWh)</label>
+              <input type="number" id="calc-bill-units" class="calc-input" placeholder="Enter units..." value="120" oninput="updateBillCalculator()" style="font-size: 1.5rem; padding: 1rem 1.2rem; font-weight: 700; color:var(--gold);">
+              <div style="margin-top:1.5rem; font-size:.7rem; color:var(--muted); font-family:'DM Mono',monospace; text-transform:uppercase; display:flex; align-items:center; gap:0.5rem;">
+                <span style="color:var(--teal)">⚡</span> 5A Single Phase Domestic Tariff Applied
+              </div>
+            </div>
+            
+            <div>
+              <div class="calc-result-box" style="margin-top:0;">
+                <div class="calc-res-label">Total Monthly Payable</div>
+                <div class="calc-res-val" id="calc-bill-total">NPR 0.00</div>
+                <div style="display:flex; gap:1.25rem; margin-top:0.75rem; font-size:.8rem; color:var(--muted); font-family:'DM Mono', monospace;">
+                  <span>Energy: <span id="calc-bill-energy" style="color:var(--text); font-weight:600;">Rs. 0.00</span></span>
+                  <span>Fixed: <span id="calc-bill-fixed" style="color:var(--text); font-weight:600;">Rs. 0.00</span></span>
+                </div>
+              </div>
+              <div style="margin-top:1.5rem;">
+                <h4 style="font-size:.65rem; color:var(--muted); text-transform:uppercase; font-family:'DM Mono', monospace; margin-bottom:0.75rem; font-weight:600; letter-spacing:0.1em;">Calculation Breakdown</h4>
+                <div id="calc-bill-breakdown" style="background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0.5rem 1rem;">
+                  <!-- Breakdown rows injected via JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="r-section">
+          <div class="r-sec-tag">Tariff Structure</div>
           <div class="r-sec-title">Domestic / Residential Tariff</div>
           <div class="tscroll"><table>
             <tr><th>Consumption Slab</th><th>Energy Rate (Rs./kWh)</th><th>Fixed Charge (Rs./month)</th></tr>
@@ -674,6 +784,7 @@ html.dark #admin-sync-bar{background:rgba(200,169,110,.08);border-bottom:1px sol
           </table></div>
           <div class="table-note"><strong>Free electricity:</strong> Households with ≤5A single-phase consuming up to 15 units/month pay nothing. &nbsp;<strong>Night tariff:</strong> 25% rebate 11PM–5AM. &nbsp;Slab rates are cumulative.</div>
         </div>
+
         <div class="r-section">
           <div class="r-sec-tag">Category 2</div>
           <div class="r-sec-title">Non-Domestic / Commercial Tariff</div>
@@ -949,21 +1060,13 @@ html.dark #admin-sync-bar{background:rgba(200,169,110,.08);border-bottom:1px sol
 function toggleTheme(){var h=document.documentElement,d=h.classList.toggle('dark');localStorage.setItem('cv_theme',d?'dark':'light');document.getElementById('tt-icon').textContent=d?'☀️':'🌙';document.getElementById('tt-label').textContent=d?'Light mode':'Dark mode';var tb=document.getElementById('topbar');if(tb)tb.style.background=d?'rgba(21,27,38,.98)':'rgba(245,244,240,.98)'}
 window.addEventListener('DOMContentLoaded',function(){var d=document.documentElement.classList.contains('dark');document.getElementById('tt-icon').textContent=d?'☀️':'🌙';document.getElementById('tt-label').textContent=d?'Light mode':'Dark mode'});
 
-/* ══ PANEL SWITCHING ══
-   FIX: Replaced opacity/transform animation with display:none/flex toggle.
-   Also scrolls panel-wrap (the scrollable container) back to top on switch.
-*/
+/* ══ PANEL SWITCHING ══ */
 var sidebar=document.getElementById('sidebar'),overlay=document.getElementById('sb-overlay'),menuBtn=document.getElementById('menu-btn'),topCrumb=document.getElementById('topbar-crumb');
-var LABELS={'nea-report':'NEA Annual Report','nea-publications':'NEA Publications','consumer-tariff':'Consumer Tariff',home:'Home & Live Data',roadmap:'Development Cycle',nea:'NEA Statistics',ppa:'PPA Rates',doed:'DoED Licensing',mofe:'MoFE / EIA',compliance:'Legal Framework',manuals:'Technical Manuals'};
+var LABELS={'nea-report':'NEA Annual Report','nea-publications':'NEA Publications','consumer-tariff':'Consumer Tariff & Estimator',home:'Home & Live Data',roadmap:'Development Cycle',nea:'NEA Statistics',ppa:'PPA Rates & Calculator',doed:'DoED Licensing',mofe:'MoFE / EIA',compliance:'Legal Framework',manuals:'Technical Manuals'};
 function showPanel(id){
   document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')});
   var t=document.getElementById('panel-'+id);
-  if(t){
-    t.classList.add('active');
-    // FIX: scroll the panel-wrap container back to top
-    var pw=document.getElementById('panel-wrap');
-    if(pw)pw.scrollTop=0;
-  }
+  if(t){ t.classList.add('active'); var pw=document.getElementById('panel-wrap'); if(pw)pw.scrollTop=0; }
   document.querySelectorAll('.sb-item').forEach(function(b){b.classList.toggle('active',b.dataset.panel===id)});
   if(topCrumb)topCrumb.textContent=LABELS[id]||id;
   if(window.innerWidth<=820)closeSidebar();
@@ -978,12 +1081,187 @@ overlay.addEventListener('click',closeSidebar);
 document.querySelectorAll('.pb table').forEach(function(t){if(t.closest('.tscroll'))return;var w=document.createElement('div');w.className='tscroll';t.parentNode.insertBefore(w,t);w.appendChild(t)});
 
 /* ══════════════════════════════════════════════
+   NEA BILL CALCULATOR LOGIC (NATIVE JS PORT)
+   ══════════════════════════════════════════════ */
+const TARIFF_DATA =[
+  { min: 0, max: 20, rate: 3.00, fixed: 30 },
+  { min: 21, max: 30, rate: 6.50, fixed: 50 },
+  { min: 31, max: 50, rate: 8.00, fixed: 75 },
+  { min: 51, max: 100, rate: 9.50, fixed: 100 },
+  { min: 101, max: 250, rate: 10.50, fixed: 125 },
+  { min: 251, max: 500, rate: 11.50, fixed: 150 },
+  { min: 501, max: Infinity, rate: 12.00, fixed: 200 },
+];
+
+function updateBillCalculator() {
+  const unitsInput = document.getElementById('calc-bill-units');
+  if(!unitsInput) return;
+  const units = Math.max(0, parseInt(unitsInput.value) || 0);
+  let energyCharge = 0, appliedFixed = 0, remainingUnits = units, html = '';
+
+  if (units <= 15) {
+    appliedFixed = TARIFF_DATA[0].fixed; // 30
+    html = `<div style="display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid var(--border); font-size:0.8rem;">
+              <span style="font-weight:600; color:var(--text);">Below 15 Units Benefit</span>
+              <span style="font-weight:700; color:var(--teal);">Rs. 0.00</span>
+            </div>`;
+  } else {
+    for (const slab of TARIFF_DATA) {
+      if (units >= slab.min) appliedFixed = slab.fixed;
+      
+      const slabCap = slab.min === 0 ? 20 : (slab.max - slab.min + 1);
+      const unitsInThisSlab = Math.min(remainingUnits, slabCap);
+
+      if (unitsInThisSlab > 0) {
+        const cost = unitsInThisSlab * slab.rate;
+        energyCharge += cost;
+        const maxLabel = slab.max === Infinity ? '+' : `-${slab.max}`;
+        html += `<div style="display:flex; justify-content:space-between; padding:0.6rem 0; border-bottom:1px solid var(--border); font-size:0.8rem;">
+                  <span style="font-weight:600; color:var(--text);">${slab.min}${maxLabel} Units <span style="font-size:0.7rem; color:var(--muted); font-weight:400; margin-left:0.4rem;">(${unitsInThisSlab}U × Rs.${slab.rate.toFixed(2)})</span></span>
+                  <span style="font-weight:700; color:var(--text);">Rs. ${cost.toFixed(2)}</span>
+                </div>`;
+        remainingUnits -= unitsInThisSlab;
+      }
+      if (remainingUnits <= 0) break;
+    }
+  }
+
+  // Remove last border
+  if(html) html = html.replace(/border-bottom:1px solid var\(--border\);(?!.*border-bottom:1px solid var\(--border\);)/, '');
+
+  const total = energyCharge + appliedFixed;
+  document.getElementById('calc-bill-total').innerText = 'NPR ' + total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  document.getElementById('calc-bill-energy').innerText = 'Rs. ' + energyCharge.toFixed(2);
+  document.getElementById('calc-bill-fixed').innerText = 'Rs. ' + appliedFixed.toFixed(2);
+  document.getElementById('calc-bill-breakdown').innerHTML = html;
+}
+
+/* ══════════════════════════════════════════════
+   PPA CALCULATOR LOGIC (NATIVE JS PORT)
+   ══════════════════════════════════════════════ */
+let currentPPAType = 'ROR';
+const PPA_RATES_MAP = {
+  ROR: { dry: 8.40, wet: 4.80, esc: 8 },
+  PROR: { dry: 9.40, wet: 4.80, esc: 8 },
+  RESERVOIR: { dry: 14.80, wet: 8.45, esc: 0 },
+  SOLAR: { dry: 5.94, wet: 5.94, esc: 0 }
+};
+
+function setPPAType(type) {
+  currentPPAType = type;
+  document.querySelectorAll('.calc-type-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.type === type);
+  });
+  
+  const rates = PPA_RATES_MAP[type];
+  document.getElementById('ppa-esc-info').innerText = rates.esc > 0 ? `3% p.a. for ${rates.esc} yrs` : 'Fixed (No Escalation)';
+  
+  const dryInput = document.getElementById('ppa-dry-percent');
+  if(type === 'SOLAR') {
+    dryInput.value = 100;
+    dryInput.disabled = true;
+  } else {
+    dryInput.disabled = false;
+  }
+  updatePPACalculator();
+}
+
+function updatePPACalculator() {
+  const capInput = document.getElementById('ppa-cap');
+  if(!capInput) return; // Not on page
+
+  const cap = parseFloat(capInput.value) || 0;
+  const gen = parseFloat(document.getElementById('ppa-gen').value) || 0;
+  const dryPct = currentPPAType === 'SOLAR' ? 100 : (parseFloat(document.getElementById('ppa-dry-percent').value) || 0);
+  document.getElementById('ppa-dry-val').innerText = dryPct + '%';
+
+  const cost = parseFloat(document.getElementById('ppa-cost').value) || 0;
+  const lifespan = parseFloat(document.getElementById('ppa-life').value) || 30;
+  const loanTerm = parseFloat(document.getElementById('ppa-loan').value) || 0;
+  const debtRatio = parseFloat(document.getElementById('ppa-debt').value) || 0;
+  const interestRate = parseFloat(document.getElementById('ppa-int').value) || 0;
+  const opexPct = parseFloat(document.getElementById('ppa-opex').value) || 0;
+
+  const opYearInput = document.getElementById('ppa-year');
+  opYearInput.max = lifespan;
+  let opYear = parseFloat(opYearInput.value) || 1;
+  if(opYear > lifespan) { opYear = lifespan; opYearInput.value = lifespan; }
+  document.getElementById('ppa-year-val').innerText = 'Year ' + opYear;
+
+  const rates = PPA_RATES_MAP[currentPPAType];
+  const escRate = rates.esc > 0 ? 3 : 0;
+  const escYears = rates.esc;
+
+  const dryEnergy = (gen * dryPct) / 100;
+  const wetEnergy = gen - dryEnergy;
+
+  const steps = Math.min(opYear - 1, escYears);
+  const mult = Math.pow(1 + escRate / 100, Math.max(0, steps));
+
+  const dryRev = dryEnergy * 1000000 * rates.dry * mult;
+  const wetRev = wetEnergy * 1000000 * rates.wet * mult;
+  const annualRev = dryRev + wetRev;
+
+  // Royalty
+  const capRoyaltyRate = opYear <= 15 ? 100 : 1000;
+  const engRoyaltyPct = opYear <= 15 ? 1.85 : 10.0;
+  const capRoyalty = cap * 1000 * capRoyaltyRate;
+  const engRoyalty = annualRev * (engRoyaltyPct / 100);
+  const totalRoyalty = capRoyalty + engRoyalty;
+
+  document.getElementById('ppa-royalty-phase').innerText = opYear <= 15 ? 'Y1-15 Phase' : 'Post-15 Phase';
+  document.getElementById('ppa-royalty-phase').style.color = opYear <= 15 ? 'var(--teal)' : 'var(--gold)';
+  document.getElementById('ppa-royalty-phase').style.background = opYear <= 15 ? 'rgba(15,118,110,0.1)' : 'rgba(138,106,46,0.1)';
+
+  const opex = annualRev * (opexPct / 100);
+  const ebitda = annualRev - totalRoyalty - opex;
+
+  // Debt Service
+  const principal = cost * 10000000 * (debtRatio / 100);
+  const annualRate = interestRate / 100;
+  let ds = 0;
+  if (opYear <= loanTerm && principal > 0) {
+    if (annualRate > 0) ds = principal * (annualRate * Math.pow(1 + annualRate, loanTerm)) / (Math.pow(1 + annualRate, loanTerm) - 1);
+    else ds = principal / loanTerm;
+  }
+
+  const dscr = ds > 0 ? ebitda / ds : 0;
+  const fcf = ebitda - ds;
+
+  // Lifecycle
+  let lcTotal = 0;
+  const baseRev = (dryEnergy * 1000000 * rates.dry) + (wetEnergy * 1000000 * rates.wet);
+  for (let y = 1; y <= lifespan; y++) {
+    const s = Math.min(y - 1, escYears);
+    const m = Math.pow(1 + escRate / 100, Math.max(0, s));
+    lcTotal += baseRev * m;
+  }
+
+  // Update DOM
+  document.getElementById('ppa-res-annual').innerText = 'NPR ' + (annualRev / 10000000).toLocaleString(undefined, {maximumFractionDigits:2}) + ' Cr';
+  
+  const dscrEl = document.getElementById('ppa-res-dscr');
+  dscrEl.innerText = ds > 0 ? dscr.toFixed(2) : (opYear > loanTerm ? 'N/A' : '0.00');
+  dscrEl.className = 'calc-res-val ' + (dscr >= 1.2 ? 'green' : (dscr > 0 ? 'gold' : ''));
+  
+  document.getElementById('ppa-res-fcf').innerText = 'Rs. ' + (fcf / 10000000).toFixed(2) + ' Cr';
+  
+  document.getElementById('ppa-res-royalty-cap').innerText = 'Rs. ' + (capRoyalty / 10000000).toFixed(3) + ' Cr';
+  document.getElementById('ppa-res-royalty-eng').innerText = 'Rs. ' + (engRoyalty / 10000000).toFixed(3) + ' Cr';
+  document.getElementById('ppa-res-royalty-tot').innerText = 'Rs. ' + (totalRoyalty / 10000000).toFixed(2) + ' Cr';
+  
+  document.getElementById('ppa-res-opex').innerText = 'Rs. ' + (opex / 10000000).toFixed(2) + ' Cr';
+  document.getElementById('ppa-res-lc').innerText = 'NPR ' + (lcTotal / 10000000).toLocaleString(undefined, {maximumFractionDigits:2}) + ' Cr';
+
+  document.getElementById('ppa-res-dry-rev').innerText = 'Rs. ' + (dryRev / 10000000).toFixed(2) + ' Cr';
+  document.getElementById('ppa-res-wet-rev').innerText = 'Rs. ' + (wetRev / 10000000).toFixed(2) + ' Cr';
+  document.getElementById('ppa-res-dry-det').innerText = dryEnergy.toFixed(2) + ' GWh @ ' + (rates.dry * mult).toFixed(2);
+  document.getElementById('ppa-res-wet-det').innerText = wetEnergy.toFixed(2) + ' GWh @ ' + (rates.wet * mult).toFixed(2);
+}
+
+
+/* ══════════════════════════════════════════════
    NEA LIVE DATA
-   FIX: Fallback data is embedded directly in the
-   HTML (no blank cells on load). The API fetch
-   only UPDATES values if it succeeds. If it fails,
-   the embedded fallback remains visible.
-   Values are from nea.org.np/en (Apr 20, 2026).
    ══════════════════════════════════════════════ */
 var FALLBACK={
   peak_demand_mw:'1,958', total_demand_mwh:'43,271',
@@ -1013,15 +1291,7 @@ function applyFallback(d){
   syncReportLive(d);
 }
 function syncReportLive(d){
-  var map=[
-    ['rl-demand','rl-demand-u',d.peak_demand_mw,'MW','gold'],
-    ['rl-nea','rl-nea-u',d.nea_mwh,'MWh','teal'],
-    ['rl-sub','rl-sub-u',d.subsidiary_mwh,'MWh','teal'],
-    ['rl-ipp','rl-ipp-u',d.ipp_mwh,'MWh','green'],
-    ['rl-import','rl-import-u',d.import_mwh,'MWh','red'],
-    ['rl-export','rl-export-u',d.export_mwh,'MWh','green'],
-    ['rl-inter','rl-inter-u',d.interruption_mwh,'MWh','red'],
-    ['rl-total','rl-total-u',d.total_demand_mwh,'MWh','gold']
+  var map=[['rl-demand','rl-demand-u',d.peak_demand_mw,'MW','gold'],['rl-nea','rl-nea-u',d.nea_mwh,'MWh','teal'],['rl-sub','rl-sub-u',d.subsidiary_mwh,'MWh','teal'],['rl-ipp','rl-ipp-u',d.ipp_mwh,'MWh','green'],['rl-import','rl-import-u',d.import_mwh,'MWh','red'],['rl-export','rl-export-u',d.export_mwh,'MWh','green'],['rl-inter','rl-inter-u',d.interruption_mwh,'MWh','red'],['rl-total','rl-total-u',d.total_demand_mwh,'MWh','gold']
   ];
   map.forEach(function(m){
     var v=document.getElementById(m[0]),u=document.getElementById(m[1]);
@@ -1052,7 +1322,6 @@ async function fetchNEALive(){
     applyFallback(d);
   }catch(e){
     console.warn('NEA live fetch:',e.message,'— showing embedded data');
-    // FIX: Always fall back gracefully — no blank cells
     try{var c=JSON.parse(localStorage.getItem('nea_live_cache')||'null');if(c&&c.data)applyFallback(c.data);else applyFallback(FALLBACK);}catch(e2){applyFallback(FALLBACK)}
   }
   if(btn)btn.innerHTML='↻ Refresh';
@@ -1103,21 +1372,18 @@ async function fetchPublications(){
   var lbl=document.getElementById('pub-update-label');if(lbl)lbl.textContent='Publications from nea.org.np · Verified '+ts;
 }
 
-/* ══ INIT ══
-   FIX: Fallback data applied synchronously at DOMContentLoaded
-   so the page NEVER shows blank/loading cells.
-   The async fetch only updates values if it succeeds.
-*/
+/* ══ INIT ══ */
 window.addEventListener('DOMContentLoaded',function(){
-  // 1. Apply known-good data immediately (synchronous — no blank state)
   applyFallback(FALLBACK);
   applyReportData(NEA_REPORT_FALLBACK,'Embedded');
-  // 2. Remove any lingering 'loading' classes from HTML
+  
+  // Initialize embedded calculators natively
+  updateBillCalculator();
+  updatePPACalculator();
+
   document.querySelectorAll('.live-cell-value.loading').forEach(function(el){el.classList.remove('loading')});
-  // 3. Attempt live refresh (will gracefully fall back if CORS/network fails)
   fetchNEALive();
   fetchNEAReport();
-  // 4. Auto-refresh intervals
   setInterval(fetchNEALive,10*60*1000);
   setInterval(function(){localStorage.removeItem('nea_report_cache');fetchNEAReport();},24*60*60*1000);
 });
