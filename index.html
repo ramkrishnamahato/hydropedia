@@ -733,7 +733,7 @@ html.dark #admin-sync-bar{background:rgba(200,169,110,.08);border-bottom:1px sol
       <div class="ph">
         <div class="ph-tag">Nepal Electricity Authority</div>
         <h2>Consumer Tariff Rates &amp; Estimator <span class="source-badge badge-nea">NEA 2026</span></h2>
-        <p>Official electricity tariff for domestic, commercial, industrial and special categories. Interactive bill estimator included. Rates effective per ERC directive.</p>
+        <p>Official electricity tariff for domestic, commercial, industrial and special categories. Interactive bill estimator included. Translated from the official NEA tariff PDF.</p>
       </div>
       <div class="pb">
 
@@ -778,64 +778,284 @@ html.dark #admin-sync-bar{background:rgba(200,169,110,.08);border-bottom:1px sol
         </div>
 
         <div class="r-section">
-          <div class="r-sec-tag">Tariff Structure</div>
-          <div class="r-sec-title">Domestic / Residential Tariff <span style="font-size: 0.9rem; color: var(--muted); font-weight: normal;">(5 Ampere Base Example)</span></div>
+          <div class="r-sec-tag">1. Domestic Sector</div>
+          <div class="r-sec-title">1.1 Single Phase Low Voltage (230V)</div>
           <div class="tscroll"><table>
-            <tr><th>Consumption Slab</th><th>Energy Rate (Rs./kWh)</th><th>Fixed Charge (Rs./month)</th></tr>
-            <tr><td>0 – 20 units</td><td class="rate">3.00</td><td>30</td></tr>
-            <tr><td>21 – 30 units</td><td class="rate">6.50</td><td>50</td></tr>
-            <tr><td>31 – 50 units</td><td class="rate">8.00</td><td>50</td></tr>
-            <tr><td>51 – 100 units</td><td class="rate">9.50</td><td>75</td></tr>
-            <tr><td>101 – 250 units</td><td class="rate">9.50</td><td>100</td></tr>
-            <tr><td>251 – 500 units</td><td class="rate">11.50</td><td>150</td></tr>
-            <tr><td>Above 500 units</td><td class="rate">12.00</td><td>175</td></tr>
+            <tr>
+              <th rowspan="2" style="vertical-align:middle">Units (kWh) / Month</th>
+              <th colspan="2" style="text-align:center; border-left:1px solid var(--border)">5 Ampere</th>
+              <th colspan="2" style="text-align:center; border-left:1px solid var(--border)">15 Ampere</th>
+              <th colspan="2" style="text-align:center; border-left:1px solid var(--border)">30 Ampere</th>
+              <th colspan="2" style="text-align:center; border-left:1px solid var(--border)">60 Ampere</th>
+            </tr>
+            <tr>
+              <th style="border-left:1px solid var(--border)">Min Charge (Rs.)</th><th>Energy Rate (Rs.)</th>
+              <th style="border-left:1px solid var(--border)">Min Charge (Rs.)</th><th>Energy Rate (Rs.)</th>
+              <th style="border-left:1px solid var(--border)">Min Charge (Rs.)</th><th>Energy Rate (Rs.)</th>
+              <th style="border-left:1px solid var(--border)">Min Charge (Rs.)</th><th>Energy Rate (Rs.)</th>
+            </tr>
+            <tr><td>0 - 20</td><td style="border-left:1px solid var(--border)">30</td><td class="rate">0.00*</td><td style="border-left:1px solid var(--border)">50</td><td class="rate">4.00</td><td style="border-left:1px solid var(--border)">75</td><td class="rate">5.00</td><td style="border-left:1px solid var(--border)">125</td><td class="rate">6.00</td></tr>
+            <tr><td>21 - 30</td><td style="border-left:1px solid var(--border)">50</td><td class="rate">6.50</td><td style="border-left:1px solid var(--border)">75</td><td class="rate">6.50</td><td style="border-left:1px solid var(--border)">100</td><td class="rate">6.50</td><td style="border-left:1px solid var(--border)">125</td><td class="rate">6.50</td></tr>
+            <tr><td>31 - 50</td><td style="border-left:1px solid var(--border)">50</td><td class="rate">8.00</td><td style="border-left:1px solid var(--border)">75</td><td class="rate">8.00</td><td style="border-left:1px solid var(--border)">100</td><td class="rate">8.00</td><td style="border-left:1px solid var(--border)">125</td><td class="rate">8.00</td></tr>
+            <tr><td>51 - 100</td><td style="border-left:1px solid var(--border)">75</td><td class="rate">9.50</td><td style="border-left:1px solid var(--border)">100</td><td class="rate">9.50</td><td style="border-left:1px solid var(--border)">125</td><td class="rate">9.50</td><td style="border-left:1px solid var(--border)">150</td><td class="rate">9.50</td></tr>
+            <tr><td>101 - 250</td><td style="border-left:1px solid var(--border)">100</td><td class="rate">9.50</td><td style="border-left:1px solid var(--border)">125</td><td class="rate">9.50</td><td style="border-left:1px solid var(--border)">150</td><td class="rate">9.50</td><td style="border-left:1px solid var(--border)">200</td><td class="rate">9.50</td></tr>
+            <tr><td>Above 250</td><td style="border-left:1px solid var(--border)">150</td><td class="rate">11.00</td><td style="border-left:1px solid var(--border)">175</td><td class="rate">11.00</td><td style="border-left:1px solid var(--border)">200</td><td class="rate">11.00</td><td style="border-left:1px solid var(--border)">250</td><td class="rate">11.00</td></tr>
           </table></div>
-          <div class="table-note"><strong>Free electricity:</strong> Households with ≤5A single-phase consuming up to 20 units/month pay 0 for energy (Rs. 30 minimum fixed charge still applies). &nbsp;<strong>Night tariff:</strong> 25% rebate 11PM–5AM. &nbsp;Slab rates are cumulative.</div>
+          <div class="table-note"><strong>Note:</strong> *For 5 Ampere customers, if monthly consumption exceeds 20 kWh, the energy charge for the first 1 to 20 units will be calculated at Rs. 3.00 per unit.</div>
+        </div>
+
+        <div class="r-data-grid-2" style="margin-bottom:2.5rem;">
+          <div class="r-section" style="margin-bottom:0;">
+            <div class="r-sec-title" style="font-size:1rem; margin-bottom:1rem;">1.2 Three-Phase Low Voltage (400V)</div>
+            <div class="tscroll"><table>
+              <tr><th rowspan="2" style="vertical-align:middle">Category</th><th rowspan="2" style="vertical-align:middle; border-left:1px solid var(--border)">Min Charge (Rs.)</th><th colspan="2" style="text-align:center; border-left:1px solid var(--border)">Energy Rate (Rs./Unit)</th></tr>
+              <tr><th style="border-left:1px solid var(--border)">Ashad-Kattik</th><th>Mangsir-Jestha</th></tr>
+              <tr><td>Up to 10 kVA</td><td style="border-left:1px solid var(--border)">1,100</td><td class="rate" style="border-left:1px solid var(--border)">10.50</td><td class="rate">11.50</td></tr>
+              <tr><td>Above 10 kVA</td><td style="border-left:1px solid var(--border)">1,800</td><td class="rate" style="border-left:1px solid var(--border)">10.50</td><td class="rate">11.50</td></tr>
+            </table></div>
+          </div>
+          <div class="r-section" style="margin-bottom:0;">
+            <div class="r-sec-title" style="font-size:1rem; margin-bottom:1rem;">1.3 Three-Phase Medium Voltage (33/11 kV)</div>
+            <div class="tscroll"><table>
+              <tr><th rowspan="2" style="vertical-align:middle">Category</th><th rowspan="2" style="vertical-align:middle; border-left:1px solid var(--border)">Min Charge (Rs.)</th><th colspan="2" style="text-align:center; border-left:1px solid var(--border)">Energy Rate (Rs./Unit)</th></tr>
+              <tr><th style="border-left:1px solid var(--border)">Ashad-Kattik</th><th>Mangsir-Jestha</th></tr>
+              <tr><td>Any Usage</td><td style="border-left:1px solid var(--border)">10,000</td><td class="rate" style="border-left:1px solid var(--border)">10.50</td><td class="rate">11.00</td></tr>
+            </table></div>
+          </div>
         </div>
 
         <div class="r-section">
-          <div class="r-sec-tag">Category 2</div>
-          <div class="r-sec-title">Non-Domestic / Commercial Tariff</div>
+          <div class="r-sec-tag">2. Other Consumers</div>
+          <div class="r-sec-title">2.1 Low Voltage Level (230/400 Volt)</div>
           <div class="tscroll"><table>
-            <tr><th>Consumption Slab</th><th>Energy Rate (Rs./kWh)</th><th>Fixed Charge (Rs./month)</th></tr>
-            <tr><td>0 – 50 units</td><td class="rate-hi">10.00</td><td>100</td></tr>
-            <tr><td>51 – 150 units</td><td class="rate-hi">11.50</td><td>125</td></tr>
-            <tr><td>151 – 400 units</td><td class="rate-hi">12.00</td><td>200</td></tr>
-            <tr><td>Above 400 units</td><td class="rate-hi">13.00</td><td>250</td></tr>
+            <tr><th>Consumer Category</th><th>Demand/Min Charge (Rs. / kVA / Month)</th><th>Energy Rate (Rs. / Unit)</th></tr>
+            <tr><td colspan="3" style="background:var(--surface2); font-weight:600; font-size:0.75rem;">1. Industrial</td></tr>
+            <tr><td>a. Rural and Cottage Industry</td><td>60</td><td class="rate">7.80</td></tr>
+            <tr><td>b. Small Industry</td><td>110</td><td class="rate">9.60</td></tr>
+            <tr><td style="font-weight:600">2. Commercial</td><td>325</td><td class="rate">11.20</td></tr>
+            <tr><td style="font-weight:600">3. Non-Commercial</td><td>215</td><td class="rate">12.00</td></tr>
+            <tr><td style="font-weight:600">4. Irrigation</td><td>0</td><td class="rate">2.25</td></tr>
+            <tr><td colspan="3" style="background:var(--surface2); font-weight:600; font-size:0.75rem;">5. Water Supply</td></tr>
+            <tr><td>a. Community Water Supply</td><td>0</td><td class="rate">4.20</td></tr>
+            <tr><td>b. Other Water Supply</td><td>160</td><td class="rate">7.20</td></tr>
+            <tr><td colspan="3" style="background:var(--surface2); font-weight:600; font-size:0.75rem;">6. Transport (Including Charging Stations)</td></tr>
+            <tr><td>a. Public Transport</td><td>200</td><td class="rate">5.75</td></tr>
+            <tr><td>b. Other Transport</td><td>220</td><td class="rate">8.90</td></tr>
+            <tr><td style="font-weight:600">7. Religious Places</td><td>0</td><td class="rate">6.10</td></tr>
+            <tr><td colspan="3" style="background:var(--surface2); font-weight:600; font-size:0.75rem;">8. Street Light</td></tr>
+            <tr><td>a. Meter Installed</td><td>0</td><td class="rate">7.30</td></tr>
+            <tr><td>b. Meter Not Installed</td><td>2,475</td><td class="rate">0.00</td></tr>
+            <tr><td style="font-weight:600">9. Temporary Connection</td><td>0</td><td class="rate">19.80</td></tr>
+            <tr><td style="font-weight:600">10. Non-Domestic</td><td>350</td><td class="rate">13.00</td></tr>
+            <tr><td style="font-weight:600">11. Entertainment Business</td><td>350</td><td class="rate">14.00</td></tr>
           </table></div>
         </div>
+
         <div class="r-section">
-          <div class="r-sec-tag">Category 3 &amp; 4</div>
-          <div class="r-sec-title">Industrial, EV Charging &amp; Special Tariff</div>
-          <div class="r-data-grid-2" style="margin-bottom:1.25rem;">
-            <div class="r-stat-card">
-              <div class="r-stat-card-title">Industrial (LT — Low Tension)</div>
-              <div class="r-row"><span class="k">Energy charge (all slabs)</span><span class="v accent">NPR 9.00 – 11.00/kWh</span></div>
-              <div class="r-row"><span class="k">Power factor penalty</span><span class="v red">If PF &lt; 0.9: surcharge applies</span></div>
-              <div class="r-row"><span class="k">Night rebate (11PM–5AM)</span><span class="v green">25% rebate</span></div>
-            </div>
-            <div class="r-stat-card">
-              <div class="r-stat-card-title">HT Industrial / Bulk Supply (11 kV+)</div>
-              <div class="r-row"><span class="k">Energy charge (off-peak)</span><span class="v accent">NPR 8.50/kWh</span></div>
-              <div class="r-row"><span class="k">Peak hour charge (6–10AM, 5–11PM)</span><span class="v red">NPR 11.00/kWh</span></div>
-              <div class="r-row"><span class="k">Demand charge</span><span class="v">NPR 400–600/kVA/month</span></div>
-            </div>
-          </div>
-          <div class="r-data-grid-2">
-            <div class="r-stat-card">
-              <div class="r-stat-card-title">EV Charging Stations (Commercial)</div>
-              <div class="r-row"><span class="k">EV charging rate</span><span class="v accent">NPR 10.00/kWh</span></div>
-              <div class="r-row"><span class="k">Residential EV charging</span><span class="v">Normal domestic slab applies</span></div>
-              <div class="r-row"><span class="k">Night rebate (11PM–5AM)</span><span class="v green">25% rebate</span></div>
-            </div>
-            <div class="r-stat-card">
-              <div class="r-stat-card-title">Irrigation &amp; Community Cooperatives</div>
-              <div class="r-row"><span class="k">Irrigation pump (seasonal)</span><span class="v accent">NPR 7.00/kWh</span></div>
-              <div class="r-row"><span class="k">Community bulk supply</span><span class="v">NPR 6.50–8.00/kWh</span></div>
-              <div class="r-row"><span class="k">Night rebate (11PM–5AM)</span><span class="v green">25% rebate</span></div>
-            </div>
-          </div>
+          <div class="r-sec-title">2.2 Medium & High Voltage Level</div>
+          <div class="tscroll"><table>
+            <tr><th>Consumer Category</th><th>Demand Charge (Rs. / kVA / Month)</th><th>Energy Rate (Rs. / Unit)</th></tr>
+            <tr><td colspan="3" style="background:var(--surface2); font-weight:700; color:var(--gold);">A. High Voltage</td></tr>
+            <tr><td>1. Industrial (132 kV)</td><td>230</td><td class="rate">8.20</td></tr>
+            <tr><td>2. Industrial (66 kV)</td><td>240</td><td class="rate">8.30</td></tr>
+            
+            <tr><td colspan="3" style="background:var(--surface2); font-weight:700; color:var(--gold);">B. Medium Voltage (33 kV)</td></tr>
+            <tr><td>1. Industrial</td><td>255</td><td class="rate">8.40</td></tr>
+            <tr><td>2. Commercial</td><td>315</td><td class="rate">10.80</td></tr>
+            <tr><td>3. Non-Commercial</td><td>240</td><td class="rate">11.40</td></tr>
+            <tr><td>4. Irrigation</td><td>0</td><td class="rate">2.50</td></tr>
+            <tr><td>5a. Community Water Supply</td><td>0</td><td class="rate">4.60</td></tr>
+            <tr><td>5b. Other Water Supply</td><td>160</td><td class="rate">6.60</td></tr>
+            <tr><td>6a. Transport (Public)</td><td>230</td><td class="rate">5.60</td></tr>
+            <tr><td>6b. Transport (Other)</td><td>255</td><td class="rate">8.60</td></tr>
+            <tr><td>7. Non-Domestic</td><td>350</td><td class="rate">12.55</td></tr>
+            <tr><td>8. Entertainment Business</td><td>350</td><td class="rate">13.50</td></tr>
+
+            <tr><td colspan="3" style="background:var(--surface2); font-weight:700; color:var(--gold);">C. Medium Voltage (11 kV)</td></tr>
+            <tr><td>1. Industrial</td><td>255</td><td class="rate">8.60</td></tr>
+            <tr><td>2. Commercial</td><td>315</td><td class="rate">11.10</td></tr>
+            <tr><td>3. Non-Commercial</td><td>240</td><td class="rate">11.50</td></tr>
+            <tr><td>4. Irrigation</td><td>0</td><td class="rate">2.60</td></tr>
+            <tr><td>5a. Community Water Supply</td><td>0</td><td class="rate">4.80</td></tr>
+            <tr><td>5b. Other Water Supply</td><td>150</td><td class="rate">6.80</td></tr>
+            <tr><td>6a. Transport (Public)</td><td>230</td><td class="rate">5.60</td></tr>
+            <tr><td>6b. Transport (Other)</td><td>255</td><td class="rate">8.80</td></tr>
+            <tr><td>7. Religious Places</td><td>220</td><td class="rate">9.90</td></tr>
+            <tr><td>8. Temporary Connection</td><td>330</td><td class="rate">12.00</td></tr>
+            <tr><td>9. Non-Domestic</td><td>350</td><td class="rate">12.90</td></tr>
+            <tr><td>10. Entertainment Business</td><td>350</td><td class="rate">13.90</td></tr>
+          </table></div>
         </div>
+
+        <div class="r-section">
+          <div class="r-sec-tag">3. Time of Day (ToD) Tariff</div>
+          <div class="r-sec-title">3.1 Summer Season (Baishakh to Mangsir)</div>
+          <div class="tscroll"><table>
+            <tr>
+              <th rowspan="2" style="vertical-align:middle">Consumer Category</th>
+              <th rowspan="2" style="vertical-align:middle; border-left:1px solid var(--border)">Demand Charge (Rs.)</th>
+              <th colspan="3" style="text-align:center; border-left:1px solid var(--border)">Energy Rate (Rs. / Unit)</th>
+            </tr>
+            <tr>
+              <th style="border-left:1px solid var(--border)">Peak (17:00 - 23:00)</th>
+              <th>Off-Peak (23:00 - 05:00)</th>
+              <th>Normal (05:00 - 17:00)</th>
+            </tr>
+            
+            <tr><td colspan="5" style="background:var(--surface2); font-weight:700; color:var(--gold);">A. High Voltage</td></tr>
+            <tr><td>1. Industrial (132 kV)</td><td style="border-left:1px solid var(--border)">230</td><td class="rate" style="border-left:1px solid var(--border)">10.00</td><td class="rate-hi">4.65</td><td class="rate">8.20</td></tr>
+            <tr><td>2. Industrial (66 kV)</td><td style="border-left:1px solid var(--border)">240</td><td class="rate" style="border-left:1px solid var(--border)">10.10</td><td class="rate-hi">4.75</td><td class="rate">8.30</td></tr>
+            
+            <tr><td colspan="5" style="background:var(--surface2); font-weight:700; color:var(--gold);">B. Medium Voltage (33 kV)</td></tr>
+            <tr><td>1. Industrial</td><td style="border-left:1px solid var(--border)">250</td><td class="rate" style="border-left:1px solid var(--border)">10.20</td><td class="rate-hi">5.25</td><td class="rate">8.40</td></tr>
+            <tr><td>2. Commercial</td><td style="border-left:1px solid var(--border)">315</td><td class="rate" style="border-left:1px solid var(--border)">12.30</td><td class="rate-hi">6.75</td><td class="rate">10.80</td></tr>
+            <tr><td>3. Non-Commercial</td><td style="border-left:1px solid var(--border)">240</td><td class="rate" style="border-left:1px solid var(--border)">13.20</td><td class="rate-hi">7.00</td><td class="rate">12.00</td></tr>
+            <tr><td>4. Irrigation</td><td style="border-left:1px solid var(--border)">0</td><td class="rate" style="border-left:1px solid var(--border)">6.30</td><td class="rate-hi">2.00</td><td class="rate">3.00</td></tr>
+            <tr><td>5a. Community Water</td><td style="border-left:1px solid var(--border)">0</td><td class="rate" style="border-left:1px solid var(--border)">6.20</td><td class="rate-hi">3.10</td><td class="rate">4.60</td></tr>
+            <tr><td>5b. Other Water Supply</td><td style="border-left:1px solid var(--border)">150</td><td class="rate" style="border-left:1px solid var(--border)">10.20</td><td class="rate-hi">5.25</td><td class="rate">8.40</td></tr>
+            <tr><td>6a. Transport (Charging Station)</td><td style="border-left:1px solid var(--border)">230</td><td class="rate" style="border-left:1px solid var(--border)">7.00</td><td class="rate-hi">3.70</td><td class="rate">5.50</td></tr>
+            <tr><td>6b. Transport (Other)</td><td style="border-left:1px solid var(--border)">255</td><td class="rate" style="border-left:1px solid var(--border)">9.35</td><td class="rate-hi">3.70</td><td class="rate">8.40</td></tr>
+            <tr><td>7. Street Light</td><td style="border-left:1px solid var(--border)">80</td><td class="rate" style="border-left:1px solid var(--border)">8.40</td><td class="rate-hi">3.50</td><td class="rate">4.20</td></tr>
+
+            <tr><td colspan="5" style="background:var(--surface2); font-weight:700; color:var(--gold);">C. Medium Voltage (11 kV)</td></tr>
+            <tr><td>1. Industrial</td><td style="border-left:1px solid var(--border)">250</td><td class="rate" style="border-left:1px solid var(--border)">10.50</td><td class="rate-hi">5.40</td><td class="rate">8.55</td></tr>
+            <tr><td>2. Commercial</td><td style="border-left:1px solid var(--border)">315</td><td class="rate" style="border-left:1px solid var(--border)">12.60</td><td class="rate-hi">6.90</td><td class="rate">11.10</td></tr>
+            <tr><td>3. Non-Commercial</td><td style="border-left:1px solid var(--border)">240</td><td class="rate" style="border-left:1px solid var(--border)">13.50</td><td class="rate-hi">7.15</td><td class="rate">12.25</td></tr>
+            <tr><td>4. Irrigation</td><td style="border-left:1px solid var(--border)">0</td><td class="rate" style="border-left:1px solid var(--border)">6.40</td><td class="rate-hi">2.00</td><td class="rate">3.10</td></tr>
+            <tr><td>5a. Community Water</td><td style="border-left:1px solid var(--border)">0</td><td class="rate" style="border-left:1px solid var(--border)">6.30</td><td class="rate-hi">3.40</td><td class="rate">4.70</td></tr>
+            <tr><td>5b. Other Water Supply</td><td style="border-left:1px solid var(--border)">150</td><td class="rate" style="border-left:1px solid var(--border)">10.50</td><td class="rate-hi">5.40</td><td class="rate">8.50</td></tr>
+            <tr><td>6a. Transport (Charging Station)</td><td style="border-left:1px solid var(--border)">230</td><td class="rate" style="border-left:1px solid var(--border)">7.15</td><td class="rate-hi">4.20</td><td class="rate">5.60</td></tr>
+            <tr><td>6b. Transport (Other)</td><td style="border-left:1px solid var(--border)">255</td><td class="rate" style="border-left:1px solid var(--border)">9.65</td><td class="rate-hi">4.20</td><td class="rate">8.50</td></tr>
+            <tr><td>7. Street Light</td><td style="border-left:1px solid var(--border)">80</td><td class="rate" style="border-left:1px solid var(--border)">8.80</td><td class="rate-hi">3.75</td><td class="rate">4.40</td></tr>
+            <tr><td>8. Religious Places</td><td style="border-left:1px solid var(--border)">220</td><td class="rate" style="border-left:1px solid var(--border)">11.30</td><td class="rate-hi">5.15</td><td class="rate">9.10</td></tr>
+            <tr><td>9. Temporary Connection</td><td style="border-left:1px solid var(--border)">330</td><td class="rate" style="border-left:1px solid var(--border)">14.40</td><td class="rate-hi">6.60</td><td class="rate">11.75</td></tr>
+
+            <tr><td colspan="5" style="background:var(--surface2); font-weight:700; color:var(--gold);">D. Low Voltage (230/400 Volt)</td></tr>
+            <tr><td>1a. Transport (Charging Station)</td><td style="border-left:1px solid var(--border)">200</td><td class="rate" style="border-left:1px solid var(--border)">7.25</td><td class="rate-hi">4.30</td><td class="rate">5.75</td></tr>
+            <tr><td>1b. Transport (Other)</td><td style="border-left:1px solid var(--border)">220</td><td class="rate" style="border-left:1px solid var(--border)">9.75</td><td class="rate-hi">4.30</td><td class="rate">8.60</td></tr>
+          </table></div>
+        </div>
+
+        <div class="r-section">
+          <div class="r-sec-title">3.2 Winter Season (Poush to Chaitra)</div>
+          <div class="tscroll"><table>
+            <tr>
+              <th rowspan="2" style="vertical-align:middle">Consumer Category</th>
+              <th rowspan="2" style="vertical-align:middle; border-left:1px solid var(--border)">Demand Charge (Rs.)</th>
+              <th colspan="2" style="text-align:center; border-left:1px solid var(--border)">Energy Rate (Rs. / Unit)</th>
+            </tr>
+            <tr>
+              <th style="border-left:1px solid var(--border)">Peak (17:00 - 23:00)</th>
+              <th>Other Times (23:00 - 17:00 Next Day)</th>
+            </tr>
+            
+            <tr><td colspan="4" style="background:var(--surface2); font-weight:700; color:var(--gold);">A. High Voltage</td></tr>
+            <tr><td>1. Industrial (132 kV)</td><td style="border-left:1px solid var(--border)">230</td><td class="rate" style="border-left:1px solid var(--border)">10.00</td><td class="rate">8.20</td></tr>
+            <tr><td>2. Industrial (66 kV)</td><td style="border-left:1px solid var(--border)">240</td><td class="rate" style="border-left:1px solid var(--border)">10.10</td><td class="rate">8.30</td></tr>
+            
+            <tr><td colspan="4" style="background:var(--surface2); font-weight:700; color:var(--gold);">B. Medium Voltage (33 kV)</td></tr>
+            <tr><td>1. Industrial</td><td style="border-left:1px solid var(--border)">250</td><td class="rate" style="border-left:1px solid var(--border)">10.20</td><td class="rate">8.40</td></tr>
+            <tr><td>2. Commercial</td><td style="border-left:1px solid var(--border)">315</td><td class="rate" style="border-left:1px solid var(--border)">12.30</td><td class="rate">10.80</td></tr>
+            <tr><td>3. Non-Commercial</td><td style="border-left:1px solid var(--border)">240</td><td class="rate" style="border-left:1px solid var(--border)">13.20</td><td class="rate">12.00</td></tr>
+            <tr><td>4. Irrigation</td><td style="border-left:1px solid var(--border)">0</td><td class="rate" style="border-left:1px solid var(--border)">6.30</td><td class="rate">3.00</td></tr>
+            <tr><td>5a. Community Water</td><td style="border-left:1px solid var(--border)">0</td><td class="rate" style="border-left:1px solid var(--border)">6.20</td><td class="rate">4.60</td></tr>
+            <tr><td>5b. Other Water Supply</td><td style="border-left:1px solid var(--border)">150</td><td class="rate" style="border-left:1px solid var(--border)">10.20</td><td class="rate">8.40</td></tr>
+            <tr><td>6a. Transport (Charging Station)</td><td style="border-left:1px solid var(--border)">230</td><td class="rate" style="border-left:1px solid var(--border)">7.00</td><td class="rate">5.50</td></tr>
+            <tr><td>6b. Transport (Other)</td><td style="border-left:1px solid var(--border)">255</td><td class="rate" style="border-left:1px solid var(--border)">9.35</td><td class="rate">8.40</td></tr>
+            <tr><td>7. Street Light</td><td style="border-left:1px solid var(--border)">80</td><td class="rate" style="border-left:1px solid var(--border)">8.40</td><td class="rate">4.20</td></tr>
+
+            <tr><td colspan="4" style="background:var(--surface2); font-weight:700; color:var(--gold);">C. Medium Voltage (11 kV)</td></tr>
+            <tr><td>1. Industrial</td><td style="border-left:1px solid var(--border)">250</td><td class="rate" style="border-left:1px solid var(--border)">10.50</td><td class="rate">8.55</td></tr>
+            <tr><td>2. Commercial</td><td style="border-left:1px solid var(--border)">315</td><td class="rate" style="border-left:1px solid var(--border)">12.60</td><td class="rate">11.10</td></tr>
+            <tr><td>3. Non-Commercial</td><td style="border-left:1px solid var(--border)">240</td><td class="rate" style="border-left:1px solid var(--border)">13.50</td><td class="rate">12.25</td></tr>
+            <tr><td>4. Irrigation</td><td style="border-left:1px solid var(--border)">0</td><td class="rate" style="border-left:1px solid var(--border)">6.40</td><td class="rate">3.10</td></tr>
+            <tr><td>5a. Community Water</td><td style="border-left:1px solid var(--border)">0</td><td class="rate" style="border-left:1px solid var(--border)">6.30</td><td class="rate">4.70</td></tr>
+            <tr><td>5b. Other Water Supply</td><td style="border-left:1px solid var(--border)">150</td><td class="rate" style="border-left:1px solid var(--border)">10.50</td><td class="rate">8.50</td></tr>
+            <tr><td>6a. Transport (Charging Station)</td><td style="border-left:1px solid var(--border)">230</td><td class="rate" style="border-left:1px solid var(--border)">7.15</td><td class="rate">5.60</td></tr>
+            <tr><td>6b. Transport (Other)</td><td style="border-left:1px solid var(--border)">255</td><td class="rate" style="border-left:1px solid var(--border)">9.65</td><td class="rate">8.50</td></tr>
+            <tr><td>7. Street Light</td><td style="border-left:1px solid var(--border)">80</td><td class="rate" style="border-left:1px solid var(--border)">8.80</td><td class="rate">4.40</td></tr>
+            <tr><td>8. Religious Places</td><td style="border-left:1px solid var(--border)">220</td><td class="rate" style="border-left:1px solid var(--border)">11.30</td><td class="rate">9.10</td></tr>
+            <tr><td>9. Temporary Connection</td><td style="border-left:1px solid var(--border)">330</td><td class="rate" style="border-left:1px solid var(--border)">14.40</td><td class="rate">11.75</td></tr>
+
+            <tr><td colspan="4" style="background:var(--surface2); font-weight:700; color:var(--gold);">D. Low Voltage (230/400 Volt)</td></tr>
+            <tr><td>1a. Transport (Charging Station)</td><td style="border-left:1px solid var(--border)">200</td><td class="rate" style="border-left:1px solid var(--border)">7.25</td><td class="rate">5.75</td></tr>
+            <tr><td>1b. Transport (Other)</td><td style="border-left:1px solid var(--border)">220</td><td class="rate" style="border-left:1px solid var(--border)">9.75</td><td class="rate">8.60</td></tr>
+          </table></div>
+          <div class="table-note"><strong>Note:</strong> Public transport (charging stations) can add a maximum premium of 20% over the standard tariff above when billing their customers. Valid for trolley buses, electric buses/minibuses, safa tempos, and battery charging operations.</div>
+        </div>
+
+        <div class="r-section">
+          <div class="r-sec-tag">4. Community Wholesale</div>
+          <div class="r-sec-title">Community Wholesale Consumers</div>
+          <div class="tscroll"><table>
+            <tr><th>Voltage Level</th><th>Monthly Minimum Charge (Rs.)</th><th>Energy Rate (Rs. / Unit)</th></tr>
+            <tr><td colspan="3" style="background:var(--surface2); font-weight:600; font-size:0.75rem;">A. Medium Voltage (11 kV / 33 kV)</td></tr>
+            <tr><td>N x 20 Units (Monthly)</td><td>N x 30</td><td class="rate">0.00</td></tr>
+            <tr><td>Above N x 20 Units (Monthly)</td><td>-</td><td class="rate">6.00</td></tr>
+            <tr><td colspan="3" style="background:var(--surface2); font-weight:600; font-size:0.75rem;">B. Low Voltage (230/400 Volt)</td></tr>
+            <tr><td>N x 20 Units (Monthly)</td><td>N x 30</td><td class="rate">0.00</td></tr>
+            <tr><td>Above N x 20 Units (Monthly)</td><td>-</td><td class="rate">6.25</td></tr>
+          </table></div>
+          <div class="table-note"><strong>N =</strong> Total number of consumers under the respective community wholesale group.</div>
+        </div>
+
+        <div class="r-section">
+          <div class="r-sec-tag">5. Service Fees</div>
+          <div class="r-sec-title">Administrative &amp; Other Service Charges</div>
+          <div class="tscroll"><table>
+            <tr><th>Service Description</th><th>Rate (Rs.)</th></tr>
+            <tr><td colspan="2" style="background:var(--surface2); font-weight:600;">1. Application Form</td></tr>
+            <tr><td>a) Domestic</td><td class="rate">100</td></tr>
+            <tr><td>b) Other Customers</td><td class="rate">200</td></tr>
+            <tr><td>c) Application for other purposes</td><td class="rate">10</td></tr>
+            <tr><td colspan="2" style="background:var(--surface2); font-weight:600;">2. Fuse Service</td></tr>
+            <tr><td>a) Single Phase</td><td class="rate">100</td></tr>
+            <tr><td>b) Three Phase</td><td class="rate">200</td></tr>
+            <tr><td colspan="2" style="background:var(--surface2); font-weight:600;">3. Meter Sealing</td></tr>
+            <tr><td>a) Box Seal (On customer request)</td><td class="rate">200</td></tr>
+            <tr><td>a) Box Seal (Discovered by Office)</td><td class="rate">500</td></tr>
+            <tr><td>b) Terminal Seal</td><td class="rate">400</td></tr>
+            <tr><td>c) Reading Seal</td><td class="rate">1000</td></tr>
+            <tr><td>d) CT/PT Seal</td><td class="rate">1000</td></tr>
+            <tr><td colspan="2" style="background:var(--surface2); font-weight:600;">4. New Meter Installation (Energy Meter Capacity)</td></tr>
+            <tr><td>a) 5 Ampere</td><td class="rate">100</td></tr>
+            <tr><td>b) 15 Ampere</td><td class="rate">150</td></tr>
+            <tr><td>c) 30 Ampere</td><td class="rate">300</td></tr>
+            <tr><td>d) 60 Ampere</td><td class="rate">500</td></tr>
+            <tr><td>e) Three Phase</td><td class="rate">1000</td></tr>
+            <tr><td>f) Up to 10 kVA (Other Customer)</td><td class="rate">1000</td></tr>
+            <tr><td>g) Above 10 kVA (Other Customer)</td><td class="rate">1500</td></tr>
+            <tr><td>h) Time of Day (ToD) Meter</td><td class="rate">1500</td></tr>
+            <tr><td colspan="2" style="background:var(--surface2); font-weight:600;">5. Pole Installation (If Required)</td></tr>
+            <tr><td>a) Single Phase (per pole)</td><td class="rate">500</td></tr>
+            <tr><td>b) Three Phase (per pole)</td><td class="rate">1000</td></tr>
+            <tr><td colspan="2" style="background:var(--surface2); font-weight:600;">6. Meter Capacity Change</td></tr>
+            <tr><td>a) Capacity Upgrade (Single & Three Phase)</td><td class="rate">0</td></tr>
+            <tr><td>b) Capacity Downgrade (Single Phase)</td><td class="rate">300</td></tr>
+            <tr><td>c) Capacity Downgrade (Three Phase)</td><td class="rate">500</td></tr>
+            <tr><td colspan="2" style="background:var(--surface2); font-weight:600;">7. Electricity Supply Cut & Reconnect</td></tr>
+            <tr><td>a) Line Cut</td><td class="rate">250</td></tr>
+            <tr><td>b) Line Reconnect</td><td class="rate">500</td></tr>
+            <tr><td colspan="2" style="background:var(--surface2); font-weight:600;">8. Meter Relocation</td></tr>
+            <tr><td>a) Single Phase</td><td class="rate">700</td></tr>
+            <tr><td>b) Three Phase</td><td class="rate">1000</td></tr>
+            <tr><td colspan="2" style="background:var(--surface2); font-weight:600;">9. Ownership/Name Transfer</td></tr>
+            <tr><td>a) Domestic (Inheritance with written proof)</td><td class="rate">500</td></tr>
+            <tr><td>b) Domestic (House sale - mutual agreement)</td><td class="rate">1000</td></tr>
+            <tr><td>c) Domestic (Sale with public notice requirement)</td><td class="rate">1500</td></tr>
+            <tr><td>d) Industrial & Others</td><td class="rate">2000</td></tr>
+            <tr><td colspan="2" style="background:var(--surface2); font-weight:600;">10. Meter Testing</td></tr>
+            <tr><td>a) Single Phase</td><td class="rate">500</td></tr>
+            <tr><td>b) Three Phase</td><td class="rate">1000</td></tr>
+            <tr><td>c) ToD Meter</td><td class="rate">2000</td></tr>
+            <tr><td>d) Sub-meter</td><td class="rate">500</td></tr>
+            <tr><td>e) CT Meter</td><td class="rate">1500</td></tr>
+            <tr><td colspan="2" style="background:var(--surface2); font-weight:600;">11. De-registration (Lagat Kharej)</td></tr>
+            <tr><td>a) Single Phase</td><td class="rate">500</td></tr>
+            <tr><td>b) Three Phase</td><td class="rate">1000</td></tr>
+          </table></div>
+        </div>
+
         <div class="r-section">
           <div class="r-sec-tag">Billing &amp; Services</div>
           <div class="r-sec-title">NEA Online Billing &amp; Consumer Services</div>
@@ -1101,8 +1321,7 @@ const TARIFF_DATA = {
     { min: 31, max: 50, rate: 8.00, fixed: 50 },
     { min: 51, max: 100, rate: 9.50, fixed: 75 },
     { min: 101, max: 250, rate: 9.50, fixed: 100 },
-    { min: 251, max: 500, rate: 11.50, fixed: 150 },
-    { min: 501, max: Infinity, rate: 12.00, fixed: 175 }
+    { min: 251, max: Infinity, rate: 11.00, fixed: 150 }
   ],
   "15A":[
     { min: 0, max: 20, rate: 4.00, fixed: 50 },
@@ -1110,8 +1329,7 @@ const TARIFF_DATA = {
     { min: 31, max: 50, rate: 8.00, fixed: 75 },
     { min: 51, max: 100, rate: 9.50, fixed: 100 },
     { min: 101, max: 250, rate: 9.50, fixed: 125 },
-    { min: 251, max: 500, rate: 11.50, fixed: 175 },
-    { min: 501, max: Infinity, rate: 12.00, fixed: 200 }
+    { min: 251, max: Infinity, rate: 11.00, fixed: 175 }
   ],
   "30A":[
     { min: 0, max: 20, rate: 5.00, fixed: 75 },
@@ -1119,8 +1337,7 @@ const TARIFF_DATA = {
     { min: 31, max: 50, rate: 8.00, fixed: 100 },
     { min: 51, max: 100, rate: 9.50, fixed: 125 },
     { min: 101, max: 250, rate: 9.50, fixed: 150 },
-    { min: 251, max: 500, rate: 11.50, fixed: 200 },
-    { min: 501, max: Infinity, rate: 12.00, fixed: 225 }
+    { min: 251, max: Infinity, rate: 11.00, fixed: 200 }
   ],
   "60A":[
     { min: 0, max: 20, rate: 6.00, fixed: 125 },
@@ -1128,8 +1345,7 @@ const TARIFF_DATA = {
     { min: 31, max: 50, rate: 8.00, fixed: 125 },
     { min: 51, max: 100, rate: 9.50, fixed: 150 },
     { min: 101, max: 250, rate: 9.50, fixed: 200 },
-    { min: 251, max: 500, rate: 11.50, fixed: 250 },
-    { min: 501, max: Infinity, rate: 12.00, fixed: 275 }
+    { min: 251, max: Infinity, rate: 11.00, fixed: 250 }
   ]
 };
 
