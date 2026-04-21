@@ -1,3 +1,4 @@
+html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -536,10 +537,10 @@ html.dark #admin-sync-bar{background:rgba(200,169,110,.08);border-bottom:1px sol
               <div>
                 <label class="calc-label">Project Type Selection</label>
                 <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-                  <button class="calc-type-btn active" data-type="ROR" onclick="setPPAType('ROR')">ROR</button>
-                  <button class="calc-type-btn" data-type="PROR" onclick="setPPAType('PROR')">PROR</button>
-                  <button class="calc-type-btn" data-type="RESERVOIR" onclick="setPPAType('RESERVOIR')">RESERVOIR</button>
-                  <button class="calc-type-btn" data-type="SOLAR" onclick="setPPAType('SOLAR')">SOLAR</button>
+                  <button class="calc-type-btn active" id="btn-ppa-ror" onclick="setPPAType('ROR')">ROR</button>
+                  <button class="calc-type-btn" id="btn-ppa-pror" onclick="setPPAType('PROR')">PROR</button>
+                  <button class="calc-type-btn" id="btn-ppa-res" onclick="setPPAType('RESERVOIR')">RESERVOIR</button>
+                  <button class="calc-type-btn" id="btn-ppa-sol" onclick="setPPAType('SOLAR')">SOLAR</button>
                 </div>
               </div>
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem;">
@@ -743,10 +744,18 @@ html.dark #admin-sync-bar{background:rgba(200,169,110,.08);border-bottom:1px sol
           <h2 class="r-sec-title">NEA Electricity Bill Estimator</h2>
           <div class="calc-card calc-grid-2" style="align-items: flex-start;">
             <div>
+              <label class="calc-label">Connection Capacity (Amperes)</label>
+              <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom: 1.5rem;">
+                <button class="calc-type-btn active" id="btn-amp-5a" onclick="setAmpere('5A')">5A</button>
+                <button class="calc-type-btn" id="btn-amp-15a" onclick="setAmpere('15A')">15A</button>
+                <button class="calc-type-btn" id="btn-amp-30a" onclick="setAmpere('30A')">30A</button>
+                <button class="calc-type-btn" id="btn-amp-60a" onclick="setAmpere('60A')">60A</button>
+              </div>
+              
               <label class="calc-label">Monthly Consumption (Units / kWh)</label>
               <input type="number" id="calc-bill-units" class="calc-input" placeholder="Enter units..." value="120" oninput="updateBillCalculator()" style="font-size: 1.5rem; padding: 1rem 1.2rem; font-weight: 700; color:var(--gold);">
               <div style="margin-top:1.5rem; font-size:.7rem; color:var(--muted); font-family:'DM Mono',monospace; text-transform:uppercase; display:flex; align-items:center; gap:0.5rem;">
-                <span style="color:var(--teal)">⚡</span> 5A Single Phase Domestic Tariff Applied
+                <span style="color:var(--teal)">⚡</span> <span id="calc-amp-text">5A Single Phase Domestic</span>
               </div>
             </div>
             
@@ -771,18 +780,18 @@ html.dark #admin-sync-bar{background:rgba(200,169,110,.08);border-bottom:1px sol
 
         <div class="r-section">
           <div class="r-sec-tag">Tariff Structure</div>
-          <div class="r-sec-title">Domestic / Residential Tariff</div>
+          <div class="r-sec-title">Domestic / Residential Tariff <span style="font-size: 0.9rem; color: var(--muted); font-weight: normal;">(5 Ampere Base Example)</span></div>
           <div class="tscroll"><table>
             <tr><th>Consumption Slab</th><th>Energy Rate (Rs./kWh)</th><th>Fixed Charge (Rs./month)</th></tr>
             <tr><td>0 – 20 units</td><td class="rate">3.00</td><td>30</td></tr>
             <tr><td>21 – 30 units</td><td class="rate">6.50</td><td>50</td></tr>
-            <tr><td>31 – 50 units</td><td class="rate">8.00</td><td>75</td></tr>
-            <tr><td>51 – 100 units</td><td class="rate">9.50</td><td>100</td></tr>
-            <tr><td>101 – 250 units</td><td class="rate">10.50</td><td>125</td></tr>
+            <tr><td>31 – 50 units</td><td class="rate">8.00</td><td>50</td></tr>
+            <tr><td>51 – 100 units</td><td class="rate">9.50</td><td>75</td></tr>
+            <tr><td>101 – 250 units</td><td class="rate">9.50</td><td>100</td></tr>
             <tr><td>251 – 500 units</td><td class="rate">11.50</td><td>150</td></tr>
-            <tr><td>Above 500 units</td><td class="rate">12.00</td><td>200</td></tr>
+            <tr><td>Above 500 units</td><td class="rate">12.00</td><td>175</td></tr>
           </table></div>
-          <div class="table-note"><strong>Free electricity:</strong> Households with ≤5A single-phase consuming up to 15 units/month pay nothing. &nbsp;<strong>Night tariff:</strong> 25% rebate 11PM–5AM. &nbsp;Slab rates are cumulative.</div>
+          <div class="table-note"><strong>Free electricity:</strong> Households with ≤5A single-phase consuming up to 20 units/month pay 0 for energy (Rs. 30 minimum fixed charge still applies). &nbsp;<strong>Night tariff:</strong> 25% rebate 11PM–5AM. &nbsp;Slab rates are cumulative.</div>
         </div>
 
         <div class="r-section">
@@ -1080,36 +1089,87 @@ overlay.addEventListener('click',closeSidebar);
 /* ══ WRAP TABLES ══ */
 document.querySelectorAll('.pb table').forEach(function(t){if(t.closest('.tscroll'))return;var w=document.createElement('div');w.className='tscroll';t.parentNode.insertBefore(w,t);w.appendChild(t)});
 
+
 /* ══════════════════════════════════════════════
    NEA BILL CALCULATOR LOGIC (NATIVE JS PORT)
    ══════════════════════════════════════════════ */
-const TARIFF_DATA =[
-  { min: 0, max: 20, rate: 3.00, fixed: 30 },
-  { min: 21, max: 30, rate: 6.50, fixed: 50 },
-  { min: 31, max: 50, rate: 8.00, fixed: 75 },
-  { min: 51, max: 100, rate: 9.50, fixed: 100 },
-  { min: 101, max: 250, rate: 10.50, fixed: 125 },
-  { min: 251, max: 500, rate: 11.50, fixed: 150 },
-  { min: 501, max: Infinity, rate: 12.00, fixed: 200 },
-];
+let currentAmpere = '5A';
+
+const TARIFF_DATA = {
+  "5A":[
+    { min: 0, max: 20, rate: 3.00, fixed: 30 },
+    { min: 21, max: 30, rate: 6.50, fixed: 50 },
+    { min: 31, max: 50, rate: 8.00, fixed: 50 },
+    { min: 51, max: 100, rate: 9.50, fixed: 75 },
+    { min: 101, max: 250, rate: 9.50, fixed: 100 },
+    { min: 251, max: 500, rate: 11.50, fixed: 150 },
+    { min: 501, max: Infinity, rate: 12.00, fixed: 175 }
+  ],
+  "15A":[
+    { min: 0, max: 20, rate: 4.00, fixed: 50 },
+    { min: 21, max: 30, rate: 6.50, fixed: 75 },
+    { min: 31, max: 50, rate: 8.00, fixed: 75 },
+    { min: 51, max: 100, rate: 9.50, fixed: 100 },
+    { min: 101, max: 250, rate: 9.50, fixed: 125 },
+    { min: 251, max: 500, rate: 11.50, fixed: 175 },
+    { min: 501, max: Infinity, rate: 12.00, fixed: 200 }
+  ],
+  "30A":[
+    { min: 0, max: 20, rate: 5.00, fixed: 75 },
+    { min: 21, max: 30, rate: 6.50, fixed: 100 },
+    { min: 31, max: 50, rate: 8.00, fixed: 100 },
+    { min: 51, max: 100, rate: 9.50, fixed: 125 },
+    { min: 101, max: 250, rate: 9.50, fixed: 150 },
+    { min: 251, max: 500, rate: 11.50, fixed: 200 },
+    { min: 501, max: Infinity, rate: 12.00, fixed: 225 }
+  ],
+  "60A":[
+    { min: 0, max: 20, rate: 6.00, fixed: 125 },
+    { min: 21, max: 30, rate: 6.50, fixed: 125 },
+    { min: 31, max: 50, rate: 8.00, fixed: 125 },
+    { min: 51, max: 100, rate: 9.50, fixed: 150 },
+    { min: 101, max: 250, rate: 9.50, fixed: 200 },
+    { min: 251, max: 500, rate: 11.50, fixed: 250 },
+    { min: 501, max: Infinity, rate: 12.00, fixed: 275 }
+  ]
+};
+
+function setAmpere(amp) {
+  currentAmpere = amp;
+  document.getElementById('btn-amp-5a').classList.toggle('active', amp === '5A');
+  document.getElementById('btn-amp-15a').classList.toggle('active', amp === '15A');
+  document.getElementById('btn-amp-30a').classList.toggle('active', amp === '30A');
+  document.getElementById('btn-amp-60a').classList.toggle('active', amp === '60A');
+  
+  document.getElementById('calc-amp-text').innerText = amp + ' Single Phase Domestic';
+  updateBillCalculator();
+}
 
 function updateBillCalculator() {
   const unitsInput = document.getElementById('calc-bill-units');
   if(!unitsInput) return;
   const units = Math.max(0, parseInt(unitsInput.value) || 0);
-  let energyCharge = 0, appliedFixed = 0, remainingUnits = units, html = '';
-
-  if (units <= 15) {
-    appliedFixed = TARIFF_DATA[0].fixed; // 30
-    html = `<div style="display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid var(--border); font-size:0.8rem;">
-              <span style="font-weight:600; color:var(--text);">Below 15 Units Benefit</span>
+  
+  let energyCharge = 0;
+  let appliedFixed = 0;
+  let remainingUnits = units;
+  let html = '';
+  
+  const activeTariff = TARIFF_DATA[currentAmpere];
+  
+  // Rule for 5A: If <=20 units, energy rate is Rs 0 (lifeline benefit)
+  if (currentAmpere === '5A' && units <= 20) {
+    appliedFixed = activeTariff[0].fixed; // 30
+    html = `<div style="display:flex; justify-content:space-between; padding:0.5rem 0; font-size:0.8rem;">
+              <span style="font-weight:600; color:var(--text);">0-20 Units (Lifeline Benefit) <span style="font-size:0.7rem; color:var(--muted); font-weight:400; margin-left:0.4rem;">(${units}U × Rs. 0.00)</span></span>
               <span style="font-weight:700; color:var(--teal);">Rs. 0.00</span>
             </div>`;
+    energyCharge = 0;
   } else {
-    for (const slab of TARIFF_DATA) {
+    for (const slab of activeTariff) {
       if (units >= slab.min) appliedFixed = slab.fixed;
       
-      const slabCap = slab.min === 0 ? 20 : (slab.max - slab.min + 1);
+      const slabCap = slab.max === Infinity ? Infinity : (slab.max - slab.min + 1);
       const unitsInThisSlab = Math.min(remainingUnits, slabCap);
 
       if (unitsInThisSlab > 0) {
@@ -1117,7 +1177,7 @@ function updateBillCalculator() {
         energyCharge += cost;
         const maxLabel = slab.max === Infinity ? '+' : `-${slab.max}`;
         html += `<div style="display:flex; justify-content:space-between; padding:0.6rem 0; border-bottom:1px solid var(--border); font-size:0.8rem;">
-                  <span style="font-weight:600; color:var(--text);">${slab.min}${maxLabel} Units <span style="font-size:0.7rem; color:var(--muted); font-weight:400; margin-left:0.4rem;">(${unitsInThisSlab}U × Rs.${slab.rate.toFixed(2)})</span></span>
+                  <span style="font-weight:600; color:var(--text);">${slab.min}${maxLabel} Units <span style="font-size:0.7rem; color:var(--muted); font-weight:400; margin-left:0.4rem;">(${unitsInThisSlab}U × Rs. ${slab.rate.toFixed(2)})</span></span>
                   <span style="font-weight:700; color:var(--text);">Rs. ${cost.toFixed(2)}</span>
                 </div>`;
         remainingUnits -= unitsInThisSlab;
@@ -1126,7 +1186,7 @@ function updateBillCalculator() {
     }
   }
 
-  // Remove last border
+  // Remove trailing bottom border
   if(html) html = html.replace(/border-bottom:1px solid var\(--border\);(?!.*border-bottom:1px solid var\(--border\);)/, '');
 
   const total = energyCharge + appliedFixed;
@@ -1135,6 +1195,7 @@ function updateBillCalculator() {
   document.getElementById('calc-bill-fixed').innerText = 'Rs. ' + appliedFixed.toFixed(2);
   document.getElementById('calc-bill-breakdown').innerHTML = html;
 }
+
 
 /* ══════════════════════════════════════════════
    PPA CALCULATOR LOGIC (NATIVE JS PORT)
@@ -1149,9 +1210,10 @@ const PPA_RATES_MAP = {
 
 function setPPAType(type) {
   currentPPAType = type;
-  document.querySelectorAll('.calc-type-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.type === type);
-  });
+  document.getElementById('btn-ppa-ror').classList.toggle('active', type === 'ROR');
+  document.getElementById('btn-ppa-pror').classList.toggle('active', type === 'PROR');
+  document.getElementById('btn-ppa-res').classList.toggle('active', type === 'RESERVOIR');
+  document.getElementById('btn-ppa-sol').classList.toggle('active', type === 'SOLAR');
   
   const rates = PPA_RATES_MAP[type];
   document.getElementById('ppa-esc-info').innerText = rates.esc > 0 ? `3% p.a. for ${rates.esc} yrs` : 'Fixed (No Escalation)';
