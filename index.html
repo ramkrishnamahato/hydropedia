@@ -1169,7 +1169,7 @@ function updateBillCalculator() {
     for (const slab of activeTariff) {
       if (units >= slab.min) appliedFixed = slab.fixed;
       
-      const slabCap = slab.max === Infinity ? Infinity : (slab.max - slab.min + 1);
+      const slabCap = slab.max === Infinity ? Infinity : (slab.max - slab.min);
       const unitsInThisSlab = Math.min(remainingUnits, slabCap);
 
       if (unitsInThisSlab > 0) {
